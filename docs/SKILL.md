@@ -5,6 +5,8 @@ description: Find a link to the official source documentation for a pattern, pie
 
 Find the official source documentation backing the pattern, code, configuration, or directive in question.
 
+First determine the subject: if the arguments name something specific, that is the subject — don't default to whatever was last discussed. Only fall back to the current conversation context when no specific subject is given (e.g. "on this").
+
 Return a direct link to the specific page and section (not just the docs homepage) that documents the exact pattern or use case, along with a short quote or description of what that section says.
 
 ### Response format
