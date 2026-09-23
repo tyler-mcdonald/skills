@@ -6,3 +6,14 @@ description: Find a link to the official source documentation for a pattern, pie
 Find the official source documentation backing the pattern, code, configuration, or directive in question.
 
 Return a direct link to the specific page and section (not just the docs homepage) that documents the exact pattern or use case, along with a short quote or description of what that section says.
+
+### Response format
+
+URL Links
+
+- Provide the direct link url, do not provide your own wording over the link.
+- Prepend it with the link emoji
+- Example
+  - 🔗 https://react.dev/reference/react-dom/components/form#props
+
+Provide a very short, quoted summary of the applicable section.
