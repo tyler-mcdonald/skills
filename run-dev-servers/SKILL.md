@@ -17,7 +17,7 @@ If any step fails (e.g. Docker isn't running, a tool isn't installed, a server d
 
 2. **Check the ports.** Find both listeners and their working directories in one pass:
    `lsof -nP -iTCP:8000 -iTCP:3000 -sTCP:LISTEN -Fpn`, then `lsof -a -d cwd -Fpn -p <pid>,<pid>` for any pids found. For a taken port:
-   - Working directory inside this repo: it's already running this branch's code. Don't set up or start that app again; just report it.
+   - Working directory inside this repo: it's already running this branch's code, but not as a background shell this session can see or tail. Treat it as confirmed for restart (no AskUserQuestion needed, since it's this session's own repo/branch) so steps 3–5 relaunch it as a tracked background shell with visible logs.
    - Anywhere else (e.g. another worktree): it's serving a different branch's code. Worktrees can't run side by side because they share fixed ports, localhost cookies, and the Postgres container. Ask the user with a single AskUserQuestion that covers every conflicting port, naming the port, the owning worktree path, and its branch (`git -C <cwd> branch --show-current`, once per distinct worktree). Never stop a server without this confirmation, even if a previous run approved it. If the user declines, skip that app and report which ports are still held and by what.
 
 3. **Shut down the confirmed servers.** Kill all confirmed listener pids and wait for their ports to free in one command: `kill <pid>...; for i in $(seq 20); do lsof -nP -iTCP:<port> ... -sTCP:LISTEN >/dev/null || break; sleep 0.25; done`. Killing the listener is enough: its `uv`/`pnpm` parents exit on their own.
@@ -26,7 +26,7 @@ If any step fails (e.g. Docker isn't running, a tool isn't installed, a server d
 
 5. **Start each server as its own background shell.** Use the README's start command for each app as a separate `run_in_background` Bash command, so each server's logs and crashes are reported on their own.
 
-6. **Wait until they respond, then report.** Poll `http://localhost:8000/health/` (which also checks the database) and `http://localhost:3000` together in one loop for up to ~30 seconds. Then tell the user both URLs, which servers were started fresh versus already running, and any other worktree's servers that were shut down.
+6. **Wait until they respond, then report.** Poll `http://localhost:8000/health/` (which also checks the database) and `http://localhost:3000` together in one loop for up to ~30 seconds. Then tell the user both URLs, which servers were freshly started versus restarted as tracked background shells, and any other worktree's servers that were shut down.
 
 ## Stopping
 
