@@ -22,7 +22,7 @@ If any step fails (e.g. Docker isn't running, a tool isn't installed, a server d
 
 3. **Shut down the confirmed servers.** Kill all confirmed listener pids and wait for their ports to free in one command: `kill <pid>...; for i in $(seq 20); do lsof -nP -iTCP:<port> ... -sTCP:LISTEN >/dev/null || break; sleep 0.25; done`. Killing the listener is enough: its `uv`/`pnpm` parents exit on their own.
 
-4. **Run setup for each app being started.** Follow the README's setup steps in each app's directory, as parallel Bash calls. Run them every time: they're idempotent and pick up new dependencies and migrations from the current branch. For the frontend's `.env`, use `cp -n .env.example .env` so an existing file isn't overwritten (`make setup` already handles this for the backend).
+4. **Run setup for each app being started.** Run the README's per-app setup target from the repo root (e.g. `make setup-backend`, `make setup-web`), as parallel Bash calls. Run them every time: they're idempotent, never overwrite an existing `.env`, and pick up new dependencies and migrations from the current branch.
 
 5. **Start each server as its own background shell.** Use the README's start command for each app as a separate `run_in_background` Bash command, so each server's logs and crashes are reported on their own.
 
