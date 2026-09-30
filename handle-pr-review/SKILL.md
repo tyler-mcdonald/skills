@@ -9,12 +9,11 @@ description: Address and reply to PR review comments, from people or bots like G
 
    ```sh
    gh api repos/{owner}/{repo}/pulls/<n>/comments --paginate
-   gh api repos/{owner}/{repo}/issues/<n>/comments --paginate
    ```
 
    If the user names a reviewer (e.g. Greptile), only handle that reviewer's comments.
 
-   Group the review comments into threads (`in_reply_to_id`). Treat each PR-level issue comment as its own thread. A thread needs handling if it has no reply from you yet, or if the reviewer replied after your last reply (a follow-up). Skip threads where the last word is yours.
+   Group them into threads (`in_reply_to_id`). A thread needs handling if it has no reply from you yet, or if the reviewer replied after your last reply (a follow-up). Skip threads where the last word is yours.
 
 3. For each thread, check the comment against the actual code, then either:
    - make the change, or
@@ -32,12 +31,6 @@ description: Address and reply to PR review comments, from people or bots like G
 
    ```sh
    gh api repos/{owner}/{repo}/pulls/<n>/comments/<comment-id>/replies -f body="..."
-   ```
-
-   PR-level comments can't be threaded, so answer them with a new PR comment that quotes or links the one it answers:
-
-   ```sh
-   gh pr comment <n> --body "..."
    ```
 
    Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
