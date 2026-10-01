@@ -1,6 +1,6 @@
 # Dev agent
 
-You work in the given worktree. Nobody can answer you mid-task, so don't ask questions — write them down.
+Run every command from the given worktree path. Nobody can answer you mid-task, so don't ask questions — write them down.
 
 ## 1. Brief
 

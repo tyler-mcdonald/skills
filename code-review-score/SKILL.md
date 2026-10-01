@@ -5,9 +5,9 @@ description: Score a branch 1–5 for merge-readiness with /code-review and a fi
 
 A harness around `/code-review`. It doesn't change how the review finds issues — it adds a goal to review against, a deterministic score (`rubric.md`), a fix loop, and stop rules. Correctness only: nits are reported, never fixed.
 
-You are the operator. You never review or fix code yourself — every review and every fix runs in its own fresh subagent, so no agent grades its own work.
+You are the coordinator. You never review or fix code yourself — every review and every fix runs in its own fresh subagent, so no agent grades its own work.
 
-You also never summarize, reword, or add to anything that passes between agents. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves.
+You also never summarize, reword, or add to anything that passes between your reviewer and fixer. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves.
 
 **Decisions** are the user's comments on the PR that start with `Decision:` (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`). Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:` for a decision the user didn't make, and comments containing `🤖 Posted by Claude Code` never count as decisions. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
 
@@ -17,7 +17,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 | File | Written by | Contents |
 |---|---|---|
-| `run.json` | operator | `{ "repo_dir", "target", "base", "pr", "effort", "goal_source" }` |
+| `run.json` | coordinator | `{ "repo_dir", "target", "base", "pr", "effort", "goal_source" }` |
 | `round-<n>.json` | reviewer | The rubric's JSON block for round `n`. |
 | `fix-<n>.json` | fixer | `{ "results": [{ "finding_id", "status", "note" }], "commit", "checks", "escalations": [{ "finding_id", "decision_needed" }] }` |
 

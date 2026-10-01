@@ -9,8 +9,8 @@ Takes a GitHub issue from "not started" to a draft PR, end to end.
 
 ## Phase 1: Set up
 
-1. Invoke `setup-issue` with the issue reference.
-2. Confirm the issue with the user in one line (number + title) before proceeding — a cheap sanity check against grabbing the wrong issue.
+1. Fetch the issue (`gh issue view <ref> --json number,title`) and confirm it with the user in one line (number + title) — a cheap sanity check against grabbing the wrong issue.
+2. Invoke `setup-issue` with the issue reference.
 
 ## Phase 2: Plan and implement
 
