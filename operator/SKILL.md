@@ -1,6 +1,6 @@
 ---
 name: operator
-description: Take a GitHub issue to a ready-for-review PR hands-off — sets up a worktree, has a dev subagent implement it, runs code-review-score, then syncs the target branch and marks the PR ready. Use when asked to run the operator or the software factory on an issue.
+description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the operator on an issue.
 ---
 
 # Operator
