@@ -25,9 +25,9 @@ Read these yourself — don't rely on anyone's summary of them:
    - `verify`: args `<effort> <round n-1 head_sha>..<fix commit>`. Keep only findings in that diff or in code it changes the behavior of.
 3. Check the diff against the goal: each acceptance criterion as met / unmet / partly met, with evidence. In `verify` mode, re-check only the criteria the fix commit could affect, and carry the rest forward from `round-<n-1>.json`.
 4. From round 2 on, check the previous fix stayed in its lane: compare `git show --stat <commit>` and its diff against the findings `fix-<n-1>.json` claims to fix. Changes none of those findings needed are a scope-creep finding.
-5. In `verify` mode, check each scored finding from `round-<n-1>.json`:
+5. In `verify` mode, check each `fix: true` finding from `round-<n-1>.json`:
    - `fixed` in `fix-<n-1>.json` and its root cause is resolved in the fix commit → drop it.
    - Anything else → carry it forward unchanged.
 6. Apply `~/.claude/skills/code-review-score/rubric.md` exactly: decide which findings count, merge shared root causes, assign verdicts, answer the severity questions, and compute the score. Show the arithmetic. In `verify` mode, score the carried-forward findings plus the new ones.
 7. Write the rubric's JSON block to `<run_dir>/round-<n>.json`.
-8. Reply with the acceptance-criteria check, a findings table (id, file:line, summary, root cause, verdict, how/where/when, severity), the checks, the arithmetic, the score, and any finding where the rubric forced a judgment call. In `verify` mode, also list each previous finding as dropped or carried forward.
+8. Reply with the acceptance-criteria check, a findings table (id, file:line, summary, root cause, verdict, how/where/when, severity, fix), the checks, the arithmetic, the score, and any finding where the rubric forced a judgment call. In `verify` mode, also list each previous finding as dropped or carried forward.
