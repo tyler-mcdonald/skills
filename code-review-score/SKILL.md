@@ -33,13 +33,12 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
 
-2. **Review round** (max 3). Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
+2. **Review round** (max 2). Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
 3. **Stop check**, in order:
    1. Score is 5 → stop: `score_5`.
-   2. This was round 3 → stop: `max_rounds`.
-   3. Round ≥ 2 and neither the score went up nor the number of scored findings went down → stop: `no_progress`.
-   4. Every scored finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
+   2. This was round 2 → stop: `max_rounds`.
+   3. Every scored finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
 
    The loop always ends on a review, so the final score reflects the last fix.
 
