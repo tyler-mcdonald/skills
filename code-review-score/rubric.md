@@ -7,6 +7,8 @@ Score 1–5. 5 means ready to merge.
 - **In the diff only.** A finding counts if it's on lines the branch adds or changes, or is directly caused by the branch's change. Anything else is **pre-existing**: report it separately, don't score or fix it.
 - **One root cause, one finding.** Merge findings that share a cause; list each symptom under it. The merged finding takes the most severe symptom's severity.
 - **Nits** — style, naming preference, duplication with no behavioral effect — are reported but not scored or fixed.
+- **Accepted.** A finding whose root cause matches a user decision is reported as `accepted` with the decision's reason, not scored or fixed. If the finding shows something the decision didn't cover, score that part as a new finding.
+- **Goal gaps.** Each acceptance criterion from the goal that the branch doesn't meet is a finding: unmet → **Major**, partly met → **Minor**. Skip the severity questions for these.
 
 ## 2. Verdict
 
@@ -33,7 +35,7 @@ Then:
 
 Special cases:
 
-- **Intended fail-fast.** A failure that is the branch's stated purpose, is documented, and has an error naming the fix is `friction`.
+- **Intended fail-fast.** A failure that is the goal's stated purpose, is documented, and has an error naming the fix is `friction`.
 - **Untested behavior.** A changed behavior with no test is **Major** if it could fail `silent` in `prod`; otherwise **Minor**.
 
 Levels, high to low: Blocker → Major → Minor → Nit.
@@ -55,6 +57,10 @@ End the report with:
 {
   "target": { "base": "main", "head": "<branch>", "head_sha": "<sha>" },
   "effort": "high",
+  "goal": {
+    "source": "#123",
+    "criteria": [{ "criterion": "...", "status": "met" }]
+  },
   "score": 4,
   "checks": { "tests": "pass", "lint": "pass", "typecheck": "pass" },
   "counts": { "blocker": 0, "major": 0, "minor": 2, "nit": 1, "pre_existing": 0 },
@@ -74,6 +80,7 @@ End the report with:
       "judgment_call": null
     }
   ],
+  "accepted": [{ "finding_id": "F3", "reason": "..." }],
   "pre_existing": [],
   "rounds": [],
   "stop_reason": null,
