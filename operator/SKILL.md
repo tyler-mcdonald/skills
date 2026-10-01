@@ -19,7 +19,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    3. Run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
-5. **Report.** Brief: where it stopped and why, or the final score, plus the PR's full URL.
+5. **Greptile.** Watch Greptile's check with `gh pr checks <pr> --watch`. Once it finishes, if it posted findings, invoke `handle-pr-review` with the PR number — once only; don't wait for or handle a second Greptile pass.
+
+6. **Report.** Brief: where it stopped and why, or the final score, plus the PR's full URL.
 
 ## Spawn message
 
