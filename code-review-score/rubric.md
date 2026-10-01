@@ -4,11 +4,17 @@ Score 1–5. 5 means ready to merge.
 
 ## 1. Which findings count
 
-- **In the diff only.** A finding counts if it's on lines the branch adds or changes, or is directly caused by the branch's change. Anything else is **pre-existing**: report it separately, don't score or fix it.
+- **Scoped to the goal, not the diff.** A changed line isn't enough. A finding is scored only if it:
+  - puts an acceptance criterion at risk, or
+  - is a regression: something that worked on the base branch and now fails or behaves worse, other than changes the goal intends.
+
+  Anything else is **beyond the goal**: report it with a one-line follow-up suggestion, but don't score or fix it.
+- **Scope creep is a finding.** Code the diff adds that no acceptance criterion needs is one **Minor**, and its fix is to remove that code. Don't score edge cases inside that code separately — they go away with it.
+- **Pre-existing.** Issues in code the branch didn't change, and that it doesn't make worse, are reported separately, not scored or fixed.
 - **One root cause, one finding.** Merge findings that share a cause; list each symptom under it. The merged finding takes the most severe symptom's severity.
 - **Nits** — style, naming preference, duplication with no behavioral effect — are reported but not scored or fixed.
 - **Accepted.** A finding whose root cause matches a user decision is reported as `accepted` with the decision's reason, not scored or fixed. If the finding shows something the decision didn't cover, score that part as a new finding.
-- **Goal gaps.** Each acceptance criterion from the goal that the branch doesn't meet is a finding: unmet → **Major**, partly met → **Minor**. Skip the severity questions for these.
+- **Goal gaps.** Each acceptance criterion from the goal that the branch doesn't meet is a finding: unmet → **Major**, partly met → **Minor**. Skip the severity questions for these. Judge each criterion by the outcome it states, not the strictest reading of its wording. Items the goal lists as nice-to-have or out of scope aren't graded.
 
 ## 2. Verdict
 
@@ -81,6 +87,7 @@ End the report with:
     }
   ],
   "accepted": [{ "finding_id": "F3", "reason": "..." }],
+  "beyond_goal": [{ "summary": "...", "follow_up": "..." }],
   "pre_existing": [],
   "rounds": [],
   "stop_reason": null,
