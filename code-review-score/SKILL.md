@@ -9,7 +9,7 @@ You are the operator. You never review or fix code yourself — every review and
 
 You also never summarize, reword, or add to anything that passes between agents. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves.
 
-**Decisions** are the user's comments on the PR that start with `Decision:` (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`). Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:`, and comments containing `🤖 Posted by Claude Code` never count as decisions. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
+**Decisions** are the user's comments on the PR that start with `Decision:` (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`). Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:` for a decision the user didn't make, and comments containing `🤖 Posted by Claude Code` never count as decisions. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
 
 ## Run directory
 
@@ -31,7 +31,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
    If the caller asks you to draft the issue, state acceptance criteria as outcomes ("prod can't boot local settings"), not mechanisms ("every error names the variable"), list anything extra under out of scope, and get the caller's approval before creating it.
 
-1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
+1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them, unless the caller is the `operator` skill relaying a user's decision.
 
 2. **Review round** (max 2). Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
