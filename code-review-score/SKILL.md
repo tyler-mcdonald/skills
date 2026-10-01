@@ -44,7 +44,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of scored findings (Blocker, Major, Minor) that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2.
 
-5. **Report** to the caller, built from the run files: goal source, final score, stop reason, one line per round (score, commit), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the last `round-<n>.json`, with `rounds`, `stop_reason`, and `escalations` filled in from the whole run.
+5. **Report** to the caller, built from the run files. Keep it brief: goal source, final score, stop reason, a summary table with one row per round (score, commit, what changed), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the PR's full URL. Fill in `rounds`, `stop_reason`, and `escalations` from the whole run in the last `round-<n>.json`, but don't include the JSON in the report.
 
 ## Spawn messages
 
