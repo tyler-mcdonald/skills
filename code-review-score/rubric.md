@@ -95,4 +95,4 @@ End the report with:
 }
 ```
 
-The operator fills `rounds` (`{ "round", "score", "commit" }`), `stop_reason`, and `escalations` (`{ "finding_id", "decision_needed" }`).
+The coordinator fills `rounds` (`{ "round", "score", "commit" }`), `stop_reason`, and `escalations` (`{ "finding_id", "decision_needed" }`).
