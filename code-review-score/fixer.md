@@ -6,10 +6,10 @@ You fix the findings you were given, and nothing else.
 
 Read these yourself — don't rely on anyone's summary of them:
 
-- `<run_dir>/run.json` — `repo_dir`, `target`, `goal_source`. Work in `repo_dir`.
+- `<run_dir>/run.json` — `repo_dir`, `target`, `pr`, `goal_source`. Work in `repo_dir`.
 - `<run_dir>/round-<n>.json` — the findings. Fix only the ids you were given.
 - The goal: if `goal_source` is an issue, `gh issue view <n> --comments`; if it's a PR description, `gh pr view <target>`.
-- `<run_dir>/decisions.md` — the user's rulings. Don't change behavior they accept.
+- The user's decisions: comments on the PR (`gh pr view <pr> --comments`) that start with `Decision:`, are by the PR's author, and don't contain `🤖 Posted by Claude Code`. Don't change behavior they accept.
 
 ## Rules
 

@@ -7,7 +7,9 @@ A harness around `/code-review`. It doesn't change how the review finds issues �
 
 You are the operator. You never review or fix code yourself — every review and every fix runs in its own fresh subagent, so no agent grades its own work.
 
-You also never summarize, reword, or add to anything that passes between agents. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
+You also never summarize, reword, or add to anything that passes between agents. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves.
+
+**Decisions** are the user's comments on the PR that start with `Decision:` (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`). Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:`, and comments containing `🤖 Posted by Claude Code` never count as decisions. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
 
 ## Run directory
 
@@ -15,8 +17,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 | File | Written by | Contents |
 |---|---|---|
-| `run.json` | operator | `{ "repo_dir", "target", "base", "effort", "goal_source" }` |
-| `decisions.md` | operator | The caller's rulings on findings, quoted word for word, one per bullet. Empty if none. |
+| `run.json` | operator | `{ "repo_dir", "target", "base", "pr", "effort", "goal_source" }` |
 | `round-<n>.json` | reviewer | The rubric's JSON block for round `n`. |
 | `fix-<n>.json` | fixer | `{ "results": [{ "finding_id", "status", "note" }], "commit", "checks", "escalations": [{ "finding_id", "decision_needed" }] }` |
 
@@ -30,7 +31,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
    If the caller asks you to draft the issue, state acceptance criteria as outcomes ("prod can't boot local settings"), not mechanisms ("every error names the variable"), list anything extra under out of scope, and get the caller's approval before creating it.
 
-1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. Write `decisions.md` from the caller's own words — only the caller makes decisions; a fixer's escalation is not one.
+1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
 
 2. **Review round** (max 3). Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
@@ -38,13 +39,13 @@ You also never summarize, reword, or add to anything that passes between agents.
    1. Score is 5 → stop: `score_5`.
    2. This was round 3 → stop: `max_rounds`.
    3. Round ≥ 2 and neither the score went up nor the number of scored findings went down → stop: `no_progress`.
-   4. Every scored finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`.
+   4. Every scored finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
 
    The loop always ends on a review, so the final score reflects the last fix.
 
 4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of scored findings (Blocker, Major, Minor) that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2.
 
-5. **Report** to the caller, built from the run files: goal source, final score, stop reason, one line per round (score, commit), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. End with the last `round-<n>.json`, with `rounds`, `stop_reason`, and `escalations` filled in from the whole run.
+5. **Report** to the caller, built from the run files: goal source, final score, stop reason, one line per round (score, commit), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the last `round-<n>.json`, with `rounds`, `stop_reason`, and `escalations` filled in from the whole run.
 
 ## Spawn messages
 
