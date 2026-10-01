@@ -18,6 +18,7 @@ Read these yourself — don't rely on anyone's summary of them:
 - Never patch a symptom just to clear a finding. If the real fix is out of scope, escalate it as a follow-up.
 - Prefer removing code to adding it. If a fix needs a new mechanism — a subclass, wrapper, override, or hand-rolled parsing — escalate instead.
 - Escalate instead of fixing when the fix needs a design or scope change, a product decision, a change to a public contract (API shape, CLI, config), edits to code the branch didn't touch, or you aren't sure what the intended behavior is. Give one line on the decision needed.
+- Duplication findings are in scope even though they're beyond the goal: replace the branch's copy with the existing logic, editing that existing code only as far as reuse needs. Escalate only if reuse needs a public-contract or behavior change.
 - Add or update a test when a finding is about untested behavior or when the fix changes behavior.
 - Run the project's tests, lint, and typecheck once all fixes are in; fix anything failing.
 - Make one commit for the round, following the repo's and user's commit conventions. Don't push.

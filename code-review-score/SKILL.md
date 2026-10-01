@@ -33,16 +33,16 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
 
-2. **Review round** (max 2). Round 1's mode is `full`. Round 2's mode is `verify` if round 1 scored 4, otherwise `full`. Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
+2. **Review round** (max 2). Round 1's mode is `full`. Round 2's mode is `verify` if round 1 scored 4 or 5, otherwise `full`. Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
 3. **Stop check**, in order:
-   1. Score is 5 → if any `fix: true` finding isn't escalated, run one fix round (step 4) and don't review again. Then stop: `score_5`.
+   1. Score is 5 and every `fix: true` finding is escalated (or there are none) → stop: `score_5`. A 5 with unescalated duplication goes on to a fix round, so duplication is fixed in the first fix round and that fix is reviewed.
    2. This was round 2 → stop: `max_rounds`.
    3. Every `fix: true` finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
 
-   The loop ends on a review, so the final score reflects the last fix. The one exception is a fix round after a 5: it keeps the score and reports the fix's checks from `fix-<n>.json`.
+   The loop always ends on a review, so the final score reflects the last fix.
 
-4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2 (unless step 3.1 sent you here).
+4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2.
 
 5. **Report** to the caller, built from the run files. Keep it brief: goal source, final score, stop reason, a summary table with one row per round (score, commit, what changed), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the PR's full URL. Fill in `rounds`, `stop_reason`, and `escalations` from the whole run in the last `round-<n>.json`, but don't include the JSON in the report.
 
