@@ -1,9 +1,9 @@
 ---
 name: code-review-score
-description: Score a branch 1–5 for merge-readiness with /code-review and a fixed rubric, then fix correctness findings in a loop of fresh subagents until it scores 5 or a stop rule fires. Use when asked to score, grade, or rank a code review, or to review-and-fix a branch until it's ready to merge.
+description: Score a branch 1–5 for merge-readiness with /code-review and a fixed rubric, then fix the findings the rubric marks for fixing in a loop of fresh subagents until it scores 5 or a stop rule fires. Use when asked to score, grade, or rank a code review, or to review-and-fix a branch until it's ready to merge.
 ---
 
-A harness around `/code-review`. It doesn't change how the review finds issues — it adds a goal to review against, a deterministic score (`rubric.md`), a fix loop, and stop rules. Correctness only: nits are reported, never fixed.
+A harness around `/code-review`. It doesn't change how the review finds issues — it adds a goal to review against, a deterministic score (`rubric.md`), a fix loop, and stop rules. `rubric.md` decides which findings are fixed (`"fix": true`).
 
 You are the coordinator. You never review or fix code yourself — every review and every fix runs in its own fresh subagent, so no agent grades its own work.
 
@@ -36,13 +36,13 @@ You also never summarize, reword, or add to anything that passes between agents.
 2. **Review round** (max 2). Round 1's mode is `full`. Round 2's mode is `verify` if round 1 scored 4, otherwise `full`. Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
 3. **Stop check**, in order:
-   1. Score is 5 → stop: `score_5`.
+   1. Score is 5 → if any `fix: true` finding isn't escalated, run one fix round (step 4) and don't review again. Then stop: `score_5`.
    2. This was round 2 → stop: `max_rounds`.
-   3. Every scored finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
+   3. Every `fix: true` finding matches, by root cause, an escalation in an earlier `fix-<n>.json` → stop: `needs_decision`. The caller answers with `Decision:` comments, then re-runs.
 
-   The loop always ends on a review, so the final score reflects the last fix.
+   The loop ends on a review, so the final score reflects the last fix. The one exception is a fix round after a 5: it keeps the score and reports the fix's checks from `fix-<n>.json`.
 
-4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of scored findings (Blocker, Major, Minor) that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2.
+4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated. When it returns, read `fix-<n>.json`, then go back to step 2 (unless step 3.1 sent you here).
 
 5. **Report** to the caller, built from the run files. Keep it brief: goal source, final score, stop reason, a summary table with one row per round (score, commit, what changed), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the PR's full URL. Fill in `rounds`, `stop_reason`, and `escalations` from the whole run in the last `round-<n>.json`, but don't include the JSON in the report.
 

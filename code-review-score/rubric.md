@@ -8,12 +8,12 @@ Score 1–5. 5 means ready to merge.
   - puts an acceptance criterion at risk, or
   - is a regression: something that worked on the base branch and now fails or behaves worse, other than changes the goal intends.
 
-  Anything else is **beyond the goal**: report it with a one-line follow-up suggestion, but don't score or fix it.
+  Anything else is **beyond the goal**: report it with a one-line follow-up suggestion, but don't score it.
 - **Scope creep is a finding.** Code the diff adds that no acceptance criterion needs is one **Minor**, and its fix is to remove that code. Don't score edge cases inside that code separately — they go away with it.
-- **Pre-existing.** Issues in code the branch didn't change, and that it doesn't make worse, are reported separately, not scored or fixed.
+- **Pre-existing.** Issues in code the branch didn't change, and that it doesn't make worse, are reported separately, not scored.
 - **One root cause, one finding.** Merge findings that share a cause; list each symptom under it. The merged finding takes the most severe symptom's severity.
-- **Nits** — style, naming preference, duplication with no behavioral effect — are reported but not scored or fixed.
-- **Accepted.** A finding whose root cause matches a user decision is reported as `accepted` with the decision's reason, not scored or fixed. If the finding shows something the decision didn't cover, score that part as a new finding.
+- **Nits** — style, naming preference, duplication with no behavioral effect — are reported but not scored.
+- **Accepted.** A finding whose root cause matches a user decision is reported as `accepted` with the decision's reason, not scored. If the finding shows something the decision didn't cover, score that part as a new finding.
 - **Goal gaps.** Each acceptance criterion from the goal that the branch doesn't meet is a finding: unmet → **Major**, partly met → **Minor**. Skip the severity questions for these. Judge each criterion by the outcome it states, not the strictest reading of its wording. Items the goal lists as nice-to-have or out of scope aren't graded.
 
 ## 2. Verdict
@@ -55,7 +55,16 @@ Levels, high to low: Blocker → Major → Minor → Nit.
 
 The score has roughly ±1 run-to-run variance because the review doesn't find identical issues every time. Always compare scores taken at the same effort level.
 
-## 5. JSON block
+## 5. Which findings get fixed
+
+This section is the only fix policy. Set `"fix"` on every finding:
+
+- `true` — scored findings (Blocker, Major, Minor), and duplication at any severity: code the branch adds that duplicates logic, a rule, or a query already elsewhere.
+- `false` — everything else: other Nits, accepted, beyond the goal, pre-existing.
+
+Fixing never changes a finding's severity or the score.
+
+## 6. JSON block
 
 End the report with:
 
@@ -83,6 +92,7 @@ End the report with:
       "where": "dev",
       "when": "default",
       "severity": "minor",
+      "fix": true,
       "judgment_call": null
     }
   ],
