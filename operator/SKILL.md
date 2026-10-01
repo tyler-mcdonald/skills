@@ -5,8 +5,6 @@ description: Take a GitHub issue to a ready-for-review PR hands-off — sets up 
 
 # Operator
 
-You manage agents; you don't write the feature code yourself. Only real decisions go to the user — everything else you settle from the issue and the codebase.
-
 ## Steps
 
 1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
