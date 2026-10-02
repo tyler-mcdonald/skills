@@ -9,7 +9,7 @@ You run in one of two modes:
 
 ## Inputs
 
-Read the inputs in `~/.claude/skills/code-review-score/inputs.md`. The goal's acceptance criteria and out-of-scope list are what you review against. Findings matching a decision are `accepted`: report them, don't score them, but flag anything the decision didn't cover. Also read:
+Read the inputs in `inputs.md`, next to this file. The goal's acceptance criteria and out-of-scope list are what you review against. Findings matching a decision are `accepted`: report them, don't score them, but flag anything the decision didn't cover. Also read:
 
 - From round 2 on, `<run_dir>/fix-<n-1>.json` — the previous fix round.
 - In `verify` mode, `<run_dir>/round-<n-1>.json` — the previous review round.
@@ -25,6 +25,6 @@ Read the inputs in `~/.claude/skills/code-review-score/inputs.md`. The goal's ac
 5. In `verify` mode, check each `fix: true` finding from `round-<n-1>.json`:
    - `fixed` in `fix-<n-1>.json` and its root cause is resolved in the fix commit → drop it.
    - Anything else → carry it forward unchanged.
-6. Apply `~/.claude/skills/code-review-score/rubric.md` exactly: decide which findings count, merge shared root causes, assign verdicts, answer the severity questions, and compute the score. Show the arithmetic. In `verify` mode, score the carried-forward findings plus the new ones.
+6. Apply `rubric.md`, next to this file, exactly: decide which findings count, merge shared root causes, assign verdicts, answer the severity questions, and compute the score. Show the arithmetic. In `verify` mode, score the carried-forward findings plus the new ones.
 7. Write the rubric's JSON block to `<run_dir>/round-<n>.json` with the Write tool, not a shell redirect.
 8. Reply in one line: the file written, the score, and the number of judgment calls.
