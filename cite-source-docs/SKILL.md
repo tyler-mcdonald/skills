@@ -1,5 +1,5 @@
 ---
-name: docs
+name: cite-source-docs
 description: Find a link to the official source documentation for a pattern, piece of code, configuration, or directive that's been implemented, pointing to the exact section rather than a docs homepage. Use when the user asks where something came from in the docs, or wants a citation for a pattern/config/directive that was used.
 ---
 
