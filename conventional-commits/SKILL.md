@@ -1,9 +1,9 @@
 ---
 name: conventional-commits
 description: >
-  Conventional Commits cheatsheet (types, examples, reminders). Use only in repos whose own
-  instructions (e.g. project CLAUDE.md) require Conventional Commits for commit messages and/or
-  PR titles — do not apply elsewhere.
+  Conventional Commits cheatsheet (types, examples, reminders). Use for PR titles (see open-pr),
+  and for commit messages only in repos whose own instructions (e.g. project CLAUDE.md) require
+  Conventional Commits.
 ---
 
 Reference: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
