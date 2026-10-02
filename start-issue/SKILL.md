@@ -1,6 +1,6 @@
 ---
 name: start-issue
-description: Start end-to-end work on a GitHub issue — creates an isolated git worktree named after the issue, plans the change and sharpens it via grill-me, implements it, then opens a draft PR linked to the issue once the work is done. Use when the user gives a GitHub issue (number, URL, or "owner/repo#N") and asks to start, pick up, tackle, or work on it.
+description: Start end-to-end work on a GitHub issue — creates an isolated git worktree named after the issue, plans the change and sharpens it via grilling, implements it, then opens a draft PR linked to the issue once the work is done. Use when the user gives a GitHub issue (number, URL, or "owner/repo#N") and asks to start, pick up, tackle, or work on it.
 ---
 
 # Start Issue
@@ -17,8 +17,8 @@ Takes a GitHub issue from "not started" to a draft PR, end to end.
 Do this directly rather than delegating to a planning/implementation skill.
 
 1. Explore the codebase enough to understand how this issue's area is currently built (relevant files, existing patterns, conventions) and draft a concrete implementation plan.
-2. `grill-me` cannot be invoked via the Skill tool — its frontmatter sets `disable-model-invocation: true`, reserved for the user typing `/grill-me` themselves. So: present the drafted plan, then explicitly ask the user to run `/grill-me` on it before you proceed (they may also choose to skip this step). Pause and wait for them to do so, or to tell you to move on.
-3. If they run it, incorporate what surfaces — revise the plan, or push back with reasoning, rather than ignoring findings. Then confirm the (possibly revised) plan with the user and wait for explicit approval before writing any code. Do not skip or short-circuit this.
+2. Present the drafted plan, then invoke `grilling` on it.
+3. Incorporate what surfaces — revise the plan, or push back with reasoning, rather than ignoring findings. Then confirm the (possibly revised) plan with the user and wait for explicit approval before writing any code. Do not skip or short-circuit this.
 4. Implement the approved plan, then do a quality-review pass over the diff before moving to Phase 3.
 
 ## Phase 3: Commit, push, open the PR
