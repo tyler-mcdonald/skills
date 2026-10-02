@@ -5,15 +5,15 @@ description: Address and reply to PR review comments, from people or bots like G
 
 1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
 
-2. Fetch the review comments:
+2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
    ```sh
-   gh api repos/{owner}/{repo}/pulls/<n>/comments --paginate
+   ~/.claude/skills/handle-pr-review/fetch-threads.sh <n>
    ```
 
-   If the user names a reviewer (e.g. Greptile), only handle that reviewer's comments.
+   Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
 
-   Group them into threads (`in_reply_to_id`). A thread needs handling if it has no reply from you yet, or if the reviewer replied after your last reply (a follow-up). Skip threads where the last word is yours.
+   If the last comment is the user's own (posted by hand, without the footer), judge from context whether it's an instruction to you or a reply to the reviewer; ask the user if unsure.
 
 3. For each thread, check the comment against the actual code, then either:
    - make the change, or
@@ -33,4 +33,4 @@ description: Address and reply to PR review comments, from people or bots like G
    gh api repos/{owner}/{repo}/pulls/<n>/comments/<comment-id>/replies -f body="..."
    ```
 
-   Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
+   `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
