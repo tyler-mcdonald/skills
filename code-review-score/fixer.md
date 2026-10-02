@@ -25,7 +25,7 @@ Read these yourself — don't rely on anyone's summary of them:
 
 ## Output
 
-Write `<run_dir>/fix-<n>.json`:
+Write `<run_dir>/fix-<n>.json` with the Write tool, not a shell redirect:
 
 ```json
 {
@@ -36,4 +36,4 @@ Write `<run_dir>/fix-<n>.json`:
 }
 ```
 
-Then reply with each finding id → status (with the decision needed or why not reproducible), the commit SHA, and the check results.
+Then reply in one line: the file written, each finding id → status, and the commit SHA.

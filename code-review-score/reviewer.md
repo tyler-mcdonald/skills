@@ -29,5 +29,5 @@ Read these yourself — don't rely on anyone's summary of them:
    - `fixed` in `fix-<n-1>.json` and its root cause is resolved in the fix commit → drop it.
    - Anything else → carry it forward unchanged.
 6. Apply `~/.claude/skills/code-review-score/rubric.md` exactly: decide which findings count, merge shared root causes, assign verdicts, answer the severity questions, and compute the score. Show the arithmetic. In `verify` mode, score the carried-forward findings plus the new ones.
-7. Write the rubric's JSON block to `<run_dir>/round-<n>.json`.
-8. Reply with the acceptance-criteria check, a findings table (id, file:line, summary, root cause, verdict, how/where/when, severity, fix), the checks, the arithmetic, the score, and any finding where the rubric forced a judgment call. In `verify` mode, also list each previous finding as dropped or carried forward.
+7. Write the rubric's JSON block to `<run_dir>/round-<n>.json` with the Write tool, not a shell redirect.
+8. Reply in one line: the file written, the score, and the number of judgment calls.
