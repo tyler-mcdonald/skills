@@ -5,6 +5,8 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 # Operator
 
+External reviewer: `greptile` — the review bot's login prefix, used as `<reviewer>` below.
+
 ## Steps
 
 1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
@@ -21,7 +23,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip to 4. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
-6. **Greptile.** Wait for the checks with `gh pr checks <pr> --watch > /dev/null` — unredirected, it reprints the whole table on every refresh. Then count Greptile's review comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("greptile"))] | length'`. If there are any, spawn a subagent with the Greptile message and wait for its reply — once only; don't wait for or handle a second Greptile pass.
+6. **External review.** Wait for the checks with `gh pr checks <pr> --watch > /dev/null` — unredirected, it reprints the whole table on every refresh. Then count the reviewer's comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("<reviewer>"))] | length'`. If there are any, spawn a subagent with the external review message and wait for its reply — once only; don't wait for or handle a second review pass.
 
 7. **Report.** Brief: where it stopped and why, or the final score, plus the PR's full URL.
 
@@ -31,9 +33,9 @@ Simplify:
 
 > Invoke `simplify` on this branch's changes against `origin/<target>`, where target is PR `<pr>`'s base branch. Work in `<worktree path>`. If it changed anything, run the project's checks (tests, lint) and fix any failures it caused, then commit and `git push` (never force-push). Reply with one line: the commit you pushed, or "no changes".
 
-Greptile:
+External review:
 
-> Invoke `handle-pr-review` with `<pr>`, handling only Greptile's comments. Work in `<worktree path>`. Reply with one line: how many threads you handled, and the commits you pushed.
+> Invoke `handle-pr-review` with `<pr>`, handling only `<reviewer>`'s comments. Work in `<worktree path>`. Reply with one line: how many threads you handled, and the commits you pushed.
 
 Dev:
 
