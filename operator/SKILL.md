@@ -21,9 +21,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip to 4. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
-6. **Greptile.** Wait for the checks with `gh pr checks <pr> --watch > /dev/null` — unredirected, it reprints the whole table on every refresh. Then count Greptile's review comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("greptile"))] | length'`. If there are any, spawn a subagent with the Greptile message and wait for its reply — once only; don't wait for or handle a second Greptile pass.
+6. **Greptile.** Wait for the checks by running `gh pr checks <pr> --watch > /dev/null` with `run_in_background` — Greptile can outlast a foreground call's timeout, and unredirected, it reprints the whole table on every refresh. When it exits, note any failing checks for the report and carry on either way. Then count Greptile's review comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("greptile"))] | length'`. If there are any, spawn a subagent with the Greptile message and wait for its reply — once only; don't wait for or handle a second Greptile pass.
 
-7. **Report.** Brief: where it stopped and why, or the final score, plus the PR's full URL.
+7. **Report.** Brief: where it stopped and why, or the final score, plus any failing checks and the PR's full URL.
 
 ## Spawn messages
 
