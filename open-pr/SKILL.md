@@ -1,6 +1,6 @@
 ---
 name: open-pr
-description: Open a pull request with the user's PR conventions — draft, Conventional Commit title, minimal body. Use whenever opening a PR, yourself or as directed by the user, including as the final step of another workflow.
+description: Open a pull request. Use whenever opening a PR, including as the final step of another workflow.
 ---
 
 # Open PR
