@@ -5,15 +5,35 @@ description: Address and reply to PR review comments, from people or bots like G
 
 1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
 
-2. Fetch the review comments:
+2. Fetch the threads that need handling — unresolved, with the last word not yours (no reply from you yet, or a reviewer follow-up after your last reply):
 
    ```sh
-   gh api repos/{owner}/{repo}/pulls/<n>/comments --paginate
+   gh api graphql -F owner={owner} -F repo={repo} -F pr=<n> -f query='
+   query($owner: String!, $repo: String!, $pr: Int!) {
+     viewer { login }
+     repository(owner: $owner, name: $repo) {
+       pullRequest(number: $pr) {
+         reviewThreads(first: 100) {
+           nodes {
+             isResolved
+             isOutdated
+             path
+             line
+             comments(first: 50) {
+               nodes { databaseId author { login } body }
+             }
+           }
+         }
+       }
+     }
+   }' --jq '.data.viewer.login as $me
+     | [.data.repository.pullRequest.reviewThreads.nodes[]
+        | select(.isResolved | not)
+        | select(.comments.nodes[-1].author.login != $me)
+        | {path, line, isOutdated, comments: [.comments.nodes[] | {id: .databaseId, author: .author.login, body}]}]'
    ```
 
-   If the user names a reviewer (e.g. Greptile), only handle that reviewer's comments.
-
-   Group them into threads (`in_reply_to_id`). A thread needs handling if it has no reply from you yet, or if the reviewer replied after your last reply (a follow-up). Skip threads where the last word is yours.
+   Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
 
 3. For each thread, check the comment against the actual code, then either:
    - make the change, or
@@ -33,4 +53,4 @@ description: Address and reply to PR review comments, from people or bots like G
    gh api repos/{owner}/{repo}/pulls/<n>/comments/<comment-id>/replies -f body="..."
    ```
 
-   Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
+   `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
