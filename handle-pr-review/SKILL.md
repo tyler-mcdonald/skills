@@ -21,7 +21,7 @@ description: Address and reply to PR review comments, from people or bots like G
 
    A follow-up may or may not need a code change. If you're unsure what the reviewer wants, ask the user.
 
-4. Commit by concern as you go: generally one commit per review change. Don't lump everything into a single commit. Don't run checks between commits. Once all changes are in, run tests, typecheck, and lint once, fix anything failing, then push.
+4. Commit by concern as you go: generally one commit per review change. Don't lump everything into a single commit. Don't run checks between commits. Once all changes are in, run tests, typecheck, and lint once, fix anything failing, then push. If you made no commits, skip the checks and the push — the code is unchanged.
 
 5. Reply in each thread, briefly. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`. Every reply ends with this footer:
 

@@ -16,15 +16,19 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 4. **Sync and ready.**
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
-   3. Run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
+   3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip to 4. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
-5. **Greptile.** Watch Greptile's check with `gh pr checks <pr> --watch`. Once it finishes, if it posted findings, invoke `handle-pr-review` with the PR number — once only; don't wait for or handle a second Greptile pass.
+5. **Greptile.** Wait for the checks with `gh pr checks <pr> --watch > /dev/null` — unredirected, it reprints the whole table on every refresh. Then count Greptile's review comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("greptile"))] | length'`. If there are any, spawn a subagent with the Greptile message and wait for its reply — once only; don't wait for or handle a second Greptile pass.
 
 6. **Report.** Brief: where it stopped and why, or the final score, plus the PR's full URL.
 
-## Spawn message
+## Spawn messages
+
+Greptile:
+
+> Invoke `handle-pr-review` with `<pr>`, handling only Greptile's comments. Work in `<worktree path>`. Reply with one line: how many threads you handled, and the commits you pushed.
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
