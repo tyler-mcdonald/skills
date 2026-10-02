@@ -31,7 +31,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
    If the caller asks you to draft the issue, state acceptance criteria as outcomes ("prod can't boot local settings"), not mechanisms ("every error names the variable"), list anything extra under out of scope, and get the caller's approval before creating it.
 
-1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json`. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
+1. **Set up the run.** Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch. Effort is `high` unless the argument names another, and stays the same for every round. Write `run.json` with the Write tool, not a shell redirect. If the caller makes a ruling in chat, ask them to post it as a `Decision:` comment on the PR — don't post it for them.
 
 2. **Review round** (max 2). Round 1's mode is `full`. Round 2's mode is `verify` if round 1 scored 4 or 5, otherwise `full`. Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
