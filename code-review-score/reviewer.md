@@ -20,10 +20,10 @@ Read these yourself — don't rely on anyone's summary of them:
 ## Steps
 
 1. Run the project's checks — tests, lint, typecheck — using the commands its CI, Makefile, package scripts, or CLAUDE.md define. Record pass/fail per check.
-2. Invoke the `code-review` skill (no `--fix`, no `--comment`). Wait for its completion notification; don't sleep or poll for it. If it reports via a findings tool, also include every finding in your reply.
-   - `full`: args `<effort>`.
+2. Run `git fetch origin`, then invoke the `code-review` skill (no `--fix`, no `--comment`). Wait for its completion notification; don't sleep or poll for it. If it reports via a findings tool, also include every finding in your reply.
+   - `full`: args `<effort> origin/<base>...HEAD` — never a local base branch, which may be stale.
    - `verify`: args `<effort> <round n-1 head_sha>..<fix commit>`. Keep only findings in that diff or in code it changes the behavior of.
-3. Check the diff against the goal: each acceptance criterion as met / unmet / partly met, with evidence. In `verify` mode, re-check only the criteria the fix commit could affect, and carry the rest forward from `round-<n-1>.json`.
+3. Check the branch against the goal: each acceptance criterion as met / unmet / partly met, with evidence. `code-review` already reads the full diff, so don't print it yourself — use `git diff --stat origin/<base>...HEAD` and read only the files you need. In `verify` mode, re-check only the criteria the fix commit could affect, and carry the rest forward from `round-<n-1>.json`.
 4. From round 2 on, check the previous fix stayed in its lane: compare `git show --stat <commit>` and its diff against the findings `fix-<n-1>.json` claims to fix. Changes none of those findings needed are a scope-creep finding.
 5. In `verify` mode, check each `fix: true` finding from `round-<n-1>.json`:
    - `fixed` in `fix-<n-1>.json` and its root cause is resolved in the fix commit → drop it.
