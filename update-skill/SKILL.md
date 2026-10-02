@@ -8,5 +8,5 @@ description: Create a new skill or change an existing one in the skills repo (~/
 1. From `~/Projects/skills`, invoke `setup-worktree` with a short title for the change (e.g. "Add update-skill"). Stay in that worktree for every step.
 2. Make the changes. Each skill lives in `<skill-name>/SKILL.md` with `name` and `description` frontmatter; match the style of the existing skills.
 3. Commit with a short, single-line message.
-4. `git push -u origin HEAD`, then `gh pr create --base main --fill`.
+4. `git push -u origin HEAD`, then open the PR into main with the `open-pr` skill.
 5. Return the PR URL.
