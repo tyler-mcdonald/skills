@@ -27,11 +27,7 @@ Only after implementation + quality-review are done and the user is satisfied wi
 
 1. Stage and commit the changes with a short, single-line descriptive commit message (no co-author trailer — follow this user's global git conventions).
 2. `git push -u origin <branch>`
-3. Open a draft PR, linked to the issue, with no generated description — title only, body is just the closing keyword:
-   ```
-   gh pr create --draft --title "<title>" --body "Closes #<issue number>"
-   ```
-   This user has a standing preference against Claude writing PR summaries/descriptions — leave the body at just the linking keyword and let them fill in the rest if they want to.
+3. Open the PR with the `open-pr` skill, linked to the issue.
 4. Report the PR URL back to the user and stop. Do not merge, or take any further action — that's the user's call.
 
 ## Notes
