@@ -8,26 +8,7 @@ description: Address and reply to PR review comments, from people or bots like G
 2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
    ```sh
-   gh api graphql -F owner='{owner}' -F repo='{repo}' -F pr=<n> -f query='
-   query($owner: String!, $repo: String!, $pr: Int!) {
-     repository(owner: $owner, name: $repo) {
-       pullRequest(number: $pr) {
-         reviewThreads(first: 100) {
-           nodes {
-             isResolved
-             path
-             line
-             comments(first: 50) {
-               nodes { databaseId author { login } body }
-             }
-           }
-         }
-       }
-     }
-   }' --jq '[.data.repository.pullRequest.reviewThreads.nodes[]
-     | select(.isResolved | not)
-     | select(.comments.nodes[-1].body | contains("🤖 Posted by Claude Code") | not)
-     | {path, line, comments: [.comments.nodes[] | {id: .databaseId, author: .author.login, body}]}]'
+   ~/.claude/skills/handle-pr-review/fetch-threads.sh <n>
    ```
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
