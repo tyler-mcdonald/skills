@@ -1,6 +1,6 @@
 ---
 name: open-pr
-description: Open a pull request. Use whenever opening a PR, including as the final step of another workflow.
+description: Open a pull request. Use whenever opening a PR.
 ---
 
 # Open PR
