@@ -4,7 +4,7 @@ You fix the findings you were given, and nothing else.
 
 ## Inputs
 
-Read the inputs in `~/.claude/skills/code-review-score/inputs.md`. Don't change behavior the user's decisions accept. Also read:
+Read the inputs in `inputs.md`, next to this file. Don't change behavior the user's decisions accept. Also read:
 
 - `<run_dir>/round-<n>.json` — the findings. Fix only the ids you were given.
 

@@ -11,7 +11,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 2. **Implement.** Spawn a dev subagent with the dev message and wait for the PR URL.
 
-3. **Review.** Invoke `code-review-score` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 4 — its report is not the end of your run.
+3. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 4 — its report is not the end of your run.
 
 4. **Sync and ready.**
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.

@@ -1,6 +1,6 @@
 ---
-name: code-review-score
-description: Score a branch 1–5 for merge-readiness with /code-review and a fixed rubric, then fix the findings the rubric marks for fixing in a loop of fresh subagents until it scores 5 or a stop rule fires. Use when asked to score, grade, or rank a code review, or to review-and-fix a branch until it's ready to merge.
+name: code-review-cycle
+description: Run a review-and-fix cycle on a branch: score it 1–5 for merge-readiness with /code-review and a fixed rubric, then fix the findings the rubric marks for fixing in a loop of fresh subagents until it scores 5 or a stop rule fires. Use when asked to score, grade, or rank a code review, or to review-and-fix a branch until it's ready to merge.
 ---
 
 A harness around `/code-review`. It doesn't change how the review finds issues — it adds a goal to review against, a deterministic score (`rubric.md`), a fix loop, and stop rules. `rubric.md` decides which findings are fixed (`"fix": true`).
@@ -13,7 +13,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 ## Run directory
 
-`<run_dir>` is `code-review-score/<branch>/` under the session's temp dir (`$CLAUDE_JOB_DIR/tmp` if set, otherwise a new `mktemp -d`). It holds:
+`<run_dir>` is `code-review-cycle/<branch>/` under the session's temp dir (`$CLAUDE_JOB_DIR/tmp` if set, otherwise a new `mktemp -d`). It holds:
 
 | File | Written by | Contents |
 |---|---|---|
@@ -52,8 +52,8 @@ Use these exactly. Add nothing.
 
 Reviewer:
 
-> Read and follow `~/.claude/skills/code-review-score/reviewer.md`. Run directory: `<run_dir>`. Round: `<n>`. Mode: `<mode>`.
+> Read and follow `~/.claude/skills/code-review-cycle/reviewer.md`. Run directory: `<run_dir>`. Round: `<n>`. Mode: `<mode>`.
 
 Fixer:
 
-> Read and follow `~/.claude/skills/code-review-score/fixer.md`. Run directory: `<run_dir>`. Round: `<n>`. Finding ids: `<ids>`.
+> Read and follow `~/.claude/skills/code-review-cycle/fixer.md`. Run directory: `<run_dir>`. Round: `<n>`. Finding ids: `<ids>`.
