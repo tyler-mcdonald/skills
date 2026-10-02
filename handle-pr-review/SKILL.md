@@ -1,6 +1,7 @@
 ---
 name: handle-pr-review
 description: Address and reply to PR review comments, from people or bots like Greptile. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
+context: fork
 ---
 
 1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
@@ -33,4 +34,12 @@ description: Address and reply to PR review comments, from people or bots like G
    gh api repos/{owner}/{repo}/pulls/<n>/comments/<comment-id>/replies -f body="..."
    ```
 
-   `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads. The replies are the report — no need to summarize them back to the user.
+   `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads.
+
+6. Report back in a few lines the user can scan in seconds — the thread replies hold the detail:
+
+   ```
+   <file>:<line> — changed (abc1234) | answered | pushed back — <≤10 words on what>
+   ```
+
+   One line per thread, then a line only for what needs the user: an open question, a failing check, a conflict you resolved by judgment. Nothing else — don't restate the comments, itemize what a commit removed, confirm what you didn't do, or add a summary.
