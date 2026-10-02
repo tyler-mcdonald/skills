@@ -9,7 +9,7 @@ You are the coordinator. You never review or fix code yourself — every review 
 
 You also never summarize, reword, or add to anything that passes between agents. Everything travels as files in a run directory; subagents read the goal, decisions, and findings from their sources themselves.
 
-**Decisions** are the user's comments on the PR that start with `Decision:` (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`). Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:`, and comments containing `🤖 Posted by Claude Code` never count as decisions. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
+**Decisions** are the user's `Decision:` comments on the PR (e.g. `Decision: WSGI/ASGI stay env-only (twelve-factor).`), as `inputs.md` defines them. Subagents read them from the PR; nobody copies them anywhere. No agent ever posts a comment starting with `Decision:`. Your spawn messages are the fixed templates at the bottom, with only their parameters filled in.
 
 ## Run directory
 
