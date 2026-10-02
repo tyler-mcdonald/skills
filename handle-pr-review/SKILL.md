@@ -5,18 +5,16 @@ description: Address and reply to PR review comments, from people or bots like G
 
 1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
 
-2. Fetch the threads that need handling — unresolved, with the last word not yours (no reply from you yet, or a reviewer follow-up after your last reply):
+2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
    ```sh
-   gh api graphql -F owner={owner} -F repo={repo} -F pr=<n> -f query='
+   gh api graphql -F owner='{owner}' -F repo='{repo}' -F pr=<n> -f query='
    query($owner: String!, $repo: String!, $pr: Int!) {
-     viewer { login }
      repository(owner: $owner, name: $repo) {
        pullRequest(number: $pr) {
          reviewThreads(first: 100) {
            nodes {
              isResolved
-             isOutdated
              path
              line
              comments(first: 50) {
@@ -26,14 +24,15 @@ description: Address and reply to PR review comments, from people or bots like G
          }
        }
      }
-   }' --jq '.data.viewer.login as $me
-     | [.data.repository.pullRequest.reviewThreads.nodes[]
-        | select(.isResolved | not)
-        | select(.comments.nodes[-1].author.login != $me)
-        | {path, line, isOutdated, comments: [.comments.nodes[] | {id: .databaseId, author: .author.login, body}]}]'
+   }' --jq '[.data.repository.pullRequest.reviewThreads.nodes[]
+     | select(.isResolved | not)
+     | select(.comments.nodes[-1].body | contains("🤖 Posted by Claude Code") | not)
+     | {path, line, comments: [.comments.nodes[] | {id: .databaseId, author: .author.login, body}]}]'
    ```
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
+
+   If the last comment is the user's own (posted by hand, without the footer), judge from context whether it's an instruction to you or a reply to the reviewer; ask the user if unsure.
 
 3. For each thread, check the comment against the actual code, then either:
    - make the change, or
