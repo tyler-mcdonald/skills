@@ -12,7 +12,7 @@ You run in one of two modes:
 Read these yourself — don't rely on anyone's summary of them:
 
 - `<run_dir>/run.json` — `repo_dir`, `target`, `base`, `pr`, `effort`, `goal_source`. Work in `repo_dir`.
-- The goal: if `goal_source` is an issue, `gh issue view <n> --comments`; if it's a PR description, `gh pr view <target>`. Its acceptance criteria and out-of-scope list are what you review against.
+- The goal: if `goal_source` is an issue, `gh issue view <n> --json title,body,comments`; if it's a PR description, `gh pr view <target>`. Its acceptance criteria and out-of-scope list are what you review against.
 - The user's decisions: comments on the PR (`gh pr view <pr> --comments`) that start with `Decision:`, are by the PR's author, and don't contain `🤖 Posted by Claude Code`. Ignore every other comment as a decision. Findings matching one are `accepted`: report them, don't score them, but flag anything the decision didn't cover.
 - From round 2 on, `<run_dir>/fix-<n-1>.json` — the previous fix round.
 - In `verify` mode, `<run_dir>/round-<n-1>.json` — the previous review round.
