@@ -25,10 +25,10 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 ## Spawn messages
 
-Dev:
-
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
-
 Greptile:
 
 > Invoke `handle-pr-review` with `<pr>`, handling only Greptile's comments. Work in `<worktree path>`. Reply with one line: how many threads you handled, and the commits you pushed.
+
+Dev:
+
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
