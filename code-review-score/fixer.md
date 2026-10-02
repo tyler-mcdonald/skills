@@ -4,12 +4,9 @@ You fix the findings you were given, and nothing else.
 
 ## Inputs
 
-Read these yourself — don't rely on anyone's summary of them:
+Read the inputs in `~/.claude/skills/code-review-score/inputs.md`. Don't change behavior the user's decisions accept. Also read:
 
-- `<run_dir>/run.json` — `repo_dir`, `target`, `pr`, `goal_source`. Work in `repo_dir`.
 - `<run_dir>/round-<n>.json` — the findings. Fix only the ids you were given.
-- The goal: if `goal_source` is an issue, `gh issue view <n> --comments`; if it's a PR description, `gh pr view <target>`.
-- The user's decisions: comments on the PR (`gh pr view <pr> --comments`) that start with `Decision:`, are by the PR's author, and don't contain `🤖 Posted by Claude Code`. Don't change behavior they accept.
 
 ## Rules
 
