@@ -16,7 +16,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 4. **Sync and ready.**
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
-   3. Run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
+   3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip to 4. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
 5. **Greptile.** Watch Greptile's check with `gh pr checks <pr> --watch`. Once it finishes, if it posted findings, invoke `handle-pr-review` with the PR number — once only; don't wait for or handle a second Greptile pass.
