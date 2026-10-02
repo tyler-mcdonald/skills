@@ -27,4 +27,4 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When done, commit, `git push -u origin <branch>`, and open a draft PR: `gh pr create --draft --title "<title>" --body "Closes #<issue number>"`. Reply with the PR URL.
