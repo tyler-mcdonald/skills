@@ -1,6 +1,7 @@
 ---
 name: skill-cost
 description: Measure where a skill's tokens go across its recent runs — per agent, plus waste signals — and compare against a stored baseline. Use when asked how much a skill costs, where its tokens go, or whether a change to a skill cut its cost.
+disable-model-invocation: true
 ---
 
 # Skill cost
