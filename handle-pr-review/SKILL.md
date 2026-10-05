@@ -24,6 +24,8 @@ context: fork
 
 4. Commit by concern as you go: generally one commit per review change. Don't lump everything into a single commit. Don't run checks between commits. Once all changes are in, run tests, typecheck, and lint once, fix anything failing, then push. If you made no commits, skip the checks and the push — the code is unchanged.
 
+   After pushing, if the PR title no longer describes the diff, update it with `gh pr edit <n> --title`, following the `open-pr` skill's title rules. Leave a title that's still accurate alone.
+
 5. Reply in each thread, briefly. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`. Every reply ends with this footer:
 
    ```
@@ -42,4 +44,4 @@ context: fork
    <file>:<line> — changed (abc1234) | answered | pushed back — <≤10 words on what>
    ```
 
-   One line per thread, then a line only for what needs the user: an open question, a failing check, a conflict you resolved by judgment. Nothing else — don't restate the comments, itemize what a commit removed, confirm what you didn't do, or add a summary.
+   One line per thread, a `title — "<old>" → "<new>"` line if you retitled, then a line only for what needs the user: an open question, a failing check, a conflict you resolved by judgment. Nothing else — don't restate the comments, itemize what a commit removed, confirm what you didn't do, or add a summary.
