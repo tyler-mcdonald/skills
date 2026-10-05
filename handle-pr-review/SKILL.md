@@ -6,7 +6,7 @@ context: fork
 
 1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
 
-2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
+2. Fetch the threads that need handling — unresolved, and not last replied to by Claude. Only comments from the user IDs in `trusted-authors.txt` are returned; the rest are dropped before they reach you:
 
    ```sh
    ~/.claude/skills/handle-pr-review/fetch-threads.sh <n>
