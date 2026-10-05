@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+while [[ $# -gt 0 ]]; do
+  if [[ "$1" == "--jq" ]]; then
+    exec jq "$2" "$GH_FIXTURE"
+  fi
+  shift
+done
+cat "$GH_FIXTURE"
