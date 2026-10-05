@@ -5,8 +5,6 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 # Operator
 
-External reviewer: `greptile` — the review bot's login prefix, used as `<reviewer>` below.
-
 ## Steps
 
 1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
@@ -23,7 +21,7 @@ External reviewer: `greptile` — the review bot's login prefix, used as `<revie
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip to 4. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
    4. `git push` (never force-push), then `gh pr ready <pr>`.
 
-6. **External review.** Wait for the checks by running `gh pr checks <pr> --watch > /dev/null` with `run_in_background` — the reviewer can outlast a foreground call's timeout, and unredirected, it reprints the whole table on every refresh. When it exits, note any failing checks for the report and carry on either way. Then count the reviewer's comments: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.login | startswith("<reviewer>"))] | length'`. If there are any, invoke `handle-pr-review` with `<pr> — <reviewer>'s comments only` (it runs in its own subagent) and wait for its report — once only; don't wait for or handle a second review pass.
+6. **External review.** Wait for the checks by running `gh pr checks <pr> --watch > /dev/null` with `run_in_background` — a review bot can outlast a foreground call's timeout, and unredirected, it reprints the whole table on every refresh. When it exits, note any failing checks for the report and carry on either way. Then list the review bots that commented: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.type == "Bot") | .user.login] | unique'`. If there are any, invoke `handle-pr-review` with `<pr> — comments from <logins> only` (it runs in its own subagent) and wait for its report — once only; don't wait for or handle a second review pass.
 
 7. **Report.** Brief: where it stopped and why, or the final score, plus any failing checks and the PR's full URL.
 
