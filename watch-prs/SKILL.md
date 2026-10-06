@@ -18,7 +18,7 @@ One sweep per run. Drafts are never touched — the user keeps a PR in draft to 
 2. Set `PROJECTS_DIR` to `${WATCH_PRS_PROJECTS_DIR:-$HOME/Projects}`. For each PR, one at a time, from `$PROJECTS_DIR/<name>`, where `<name>` is the repo name without the owner:
    1. If the directory doesn't exist, `gh repo clone <repo> "$PROJECTS_DIR/<name>"` first. If it exists but its `origin` isn't `<repo>`, skip the PR.
    2. Get the branch: `gh pr view <url> --json headRefName,isCrossRepository`. If `isCrossRepository` is true, skip the PR — its branch isn't on `origin`. Run `git fetch origin`.
-   3. If `git worktree list` shows the branch checked out anywhere other than `.claude/worktrees/pr-<n>`, check that checkout: if `git status --porcelain` is empty and `git rev-list origin/<branch>..HEAD` is empty, it's idle — use it as the worktree for the remaining steps. Otherwise skip the PR — the user or another session is mid-work there.
+   3. If `git worktree list` shows the branch checked out anywhere other than `.claude/worktrees/pr-<n>`, check that checkout: if it's under `.claude/worktrees/`, `git status --porcelain` is empty, and `git rev-list origin/<branch>..HEAD` is empty, it's idle — use it as the worktree for the remaining steps. Otherwise skip the PR — the user or another session is mid-work there.
    4. Unless step 3 picked a worktree, use `.claude/worktrees/pr-<n>`, running `git worktree add .claude/worktrees/pr-<n> <branch>` if it doesn't exist. Then inside the worktree, `git checkout <branch>` and `git merge --ff-only origin/<branch>`. If either fails, skip the PR.
    5. Invoke `handle-pr-review` with:
 
