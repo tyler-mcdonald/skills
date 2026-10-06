@@ -4,12 +4,12 @@ description: Address and reply to PR review comments, from people or bots like G
 context: fork
 ---
 
-1. Find the PR: use the argument if given, otherwise the current branch's PR (`gh pr view`). Pull the branch so the code matches what was reviewed.
+1. Find the PR: use the argument (number or URL) if given, otherwise the current branch's PR (`gh pr view`). Note its number `<n>` and `<owner>/<repo>` from its URL. Pull the branch so the code matches what was reviewed.
 
 2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
    ```sh
-   ~/.claude/skills/handle-pr-review/fetch-threads.sh <n>
+   ~/.claude/skills/handle-pr-review/fetch-threads.sh <n> <owner>/<repo>
    ```
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
@@ -33,7 +33,7 @@ context: fork
    ```
 
    ```sh
-   gh api repos/{owner}/{repo}/pulls/<n>/comments/<comment-id>/replies -f body="..."
+   gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -f body="..."
    ```
 
    `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads.

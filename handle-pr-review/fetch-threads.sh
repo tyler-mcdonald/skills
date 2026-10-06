@@ -24,11 +24,14 @@ query($owner: String!, $repo: String!, $pr: Int!) {
           comments(first: 50) {
             nodes { databaseId author { login __typename } body }
           }
+          lastComment: comments(last: 1) {
+            nodes { body }
+          }
         }
       }
     }
   }
 }' --jq '[.data.repository.pullRequest.reviewThreads.nodes[]
   | select(.isResolved | not)
-  | select(.comments.nodes[-1].body | contains("🤖 Posted by Claude Code") | not)
+  | select(.lastComment.nodes[0].body | contains("🤖 Posted by Claude Code") | not)
   | {path, line, comments: [.comments.nodes[] | {id: .databaseId, author: .author.login, bot: (.author.__typename == "Bot"), body}]}]'
