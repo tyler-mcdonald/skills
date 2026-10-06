@@ -5,6 +5,10 @@ fetch="$(dirname "$0")/../handle-pr-review/fetch-threads.sh"
 projects="${WATCH_PRS_PROJECTS_DIR:-$HOME/Projects}"
 me=$(gh api user --jq .login)
 
+lock_is_held() {
+  [ -n "$(find "$1" -maxdepth 0 -mmin -30 2>/dev/null)" ]
+}
+
 emit() {
   jq -n --arg repo "$repo" --argjson n "$n" --arg url "$url" --arg dir "$dir" --arg lock "$lock" --arg status "$1" \
     '{repo: $repo, number: $n, url: $url, dir: $dir, lock: $lock, status: $status}'
@@ -15,7 +19,7 @@ gh search prs --author @me --state open --draft=false --json repository,number,u
 while read -r repo n url; do
   dir="$projects/${repo#*/}"
   lock="$dir/.claude/worktrees/pr-$n.lock"
-  if [ -n "$(find "$lock" -maxdepth 0 -mmin -30 2>/dev/null)" ]; then
+  if lock_is_held "$lock"; then
     emit "In Progress"
     continue
   fi
