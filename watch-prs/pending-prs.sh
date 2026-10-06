@@ -15,10 +15,11 @@ gh search prs --author @me --state open --draft=false --json repository,number,u
 while read -r repo n url; do
   dir="$projects/${repo#*/}"
   lock="$dir/.claude/worktrees/pr-$n.lock"
-  if [ -n "$(find "$lock" -mmin -30 2>/dev/null)" ]; then
+  if [ -n "$(find "$lock" -maxdepth 0 -mmin -30 2>/dev/null)" ]; then
     emit "In Progress"
     continue
   fi
+  rm -rf "$lock"
   if ! pending=$("$fetch" "$n" "$repo" | jq --arg me "$me" 'any(.[]; .last | .author == $me or .bot)'); then
     emit "Error"
     continue
