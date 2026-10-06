@@ -7,7 +7,7 @@ description: Sweep all of the user's open, non-draft PRs and handle review threa
 
 One sweep per run. Drafts are never touched — the user keeps a PR in draft to keep it out of reach.
 
-The user reads this like a log, not a chat. Print nothing except the result lines in step 3: no narration, no progress updates, no summary.
+The user reads this like a log, not a chat. Print nothing except the result lines in step 3: no narration, no progress updates, no summary, no explanation of why nothing was done. This applies whether running in the main agent or a subagent. With no result lines, end the turn with an empty response.
 
 1. Find the PRs with threads to handle:
 
@@ -15,7 +15,7 @@ The user reads this like a log, not a chat. Print nothing except the result line
    ~/.claude/skills/watch-prs/pending-prs.sh
    ```
 
-   It returns the user's open, non-draft PRs across all repos that have unresolved threads whose last comment is the user's or a bot's, skipping threads Claude replied to last. Each has its local clone `dir`, a `lock` path, and a `status`: `Ready`, or the reason to skip it. If it returns `[]`, stop.
+   It returns the user's open, non-draft PRs across all repos that have unresolved threads whose last comment is the user's or a bot's, skipping threads Claude replied to last. Each has its local clone `dir`, a `lock` path, and a `status`: `Ready`, or the reason to skip it. If it returns `[]`, stop without printing anything.
 
 2. For each `Ready` PR, one at a time, from its `dir`:
    1. If the directory doesn't exist, `gh repo clone <repo> <dir>` first. If it exists but its `origin` isn't `<repo>`, skip it as `Error`.
