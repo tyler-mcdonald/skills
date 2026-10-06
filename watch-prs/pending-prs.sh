@@ -6,14 +6,15 @@ projects="${WATCH_PRS_PROJECTS_DIR:-$HOME/Projects}"
 me=$(gh api user --jq .login)
 
 emit() {
-  jq -n --arg repo "$repo" --argjson n "$n" --arg url "$url" --arg status "$1" \
-    '{repo: $repo, number: $n, url: $url, status: $status}'
+  jq -n --arg repo "$repo" --argjson n "$n" --arg url "$url" --arg dir "$dir" --arg lock "$lock" --arg status "$1" \
+    '{repo: $repo, number: $n, url: $url, dir: $dir, lock: $lock, status: $status}'
 }
 
 gh search prs --author @me --state open --draft=false --json repository,number,url --limit 1000 \
   --jq '.[] | "\(.repository.nameWithOwner) \(.number) \(.url)"' |
 while read -r repo n url; do
-  lock="$projects/${repo#*/}/.claude/worktrees/pr-$n.lock"
+  dir="$projects/${repo#*/}"
+  lock="$dir/.claude/worktrees/pr-$n.lock"
   if [ -n "$(find "$lock" -mmin -30 2>/dev/null)" ]; then
     emit "In Progress"
     continue
