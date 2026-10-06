@@ -4,7 +4,7 @@ set -euo pipefail
 fetch="$(dirname "$0")/../handle-pr-review/fetch-threads.sh"
 me=$(gh api user --jq .login)
 
-gh search prs --author @me --state open --draft=false --json repository,number,url --limit 100 \
+gh search prs --author @me --state open --draft=false --json repository,number,url --limit 1000 \
   --jq '.[] | "\(.repository.nameWithOwner) \(.number) \(.url)"' |
 while read -r repo n url; do
   if ! pending=$("$fetch" "$n" "$repo" | jq --arg me "$me" 'any(.[]; .last | .author == $me or .bot)'); then
