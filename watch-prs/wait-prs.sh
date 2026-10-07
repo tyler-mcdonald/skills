@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -u
 
 interval=$1
-rerun="/watch-prs${2:+ $2}"
 pending="$(dirname "$0")/pending-prs.sh"
 pidfile="${TMPDIR:-/tmp}/watch-prs-wait.pid"
 max_failures=10
@@ -14,15 +13,13 @@ fi
 echo $$ > "$pidfile"
 trap 'rm -f "$pidfile"' EXIT
 
-baseline=""
 failures=0
 while :; do
   if out=$("$pending"); then
     failures=0
-    if [ -z "$baseline" ]; then
-      baseline=$out
-    elif [ "$out" != "$baseline" ]; then
-      echo "Changed: run $rerun"
+    baseline=${baseline-$out}
+    if [ "$out" != "$baseline" ]; then
+      echo "Changed"
       exit 0
     fi
   else

@@ -38,10 +38,10 @@ The user reads this like a log, not a chat. Print nothing except the result line
    <url>: Done - Failed | Asked | Changed | Replied
    ```
 
-4. Start the wait as a background Bash task, passing the interval in seconds and the original argument, if any:
+4. Start the wait as a background Bash task, passing the interval in seconds:
 
    ```sh
-   ~/.claude/skills/watch-prs/wait-prs.sh <seconds> [<argument>]
+   ~/.claude/skills/watch-prs/wait-prs.sh <seconds>
    ```
 
-   It checks at that interval and exits when the pending PRs change, which wakes you. On `Changed: run /watch-prs ...`, invoke that. On `Failed: ...`, print it and stop. On `Already waiting`, another wait is running: stop. To stop watching, stop the background task.
+   It checks at that interval and exits when the pending PRs change, which wakes you. On `Changed`, invoke `/watch-prs` again with the same argument. On `Failed: ...`, print it and stop. On `Already waiting`, another wait is running: stop. To stop watching, stop the background task.
