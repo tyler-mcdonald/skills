@@ -12,10 +12,10 @@ Pick one route from the first message, say it in one line (route, repo, issue if
 Only needed for the issue routes. Take the first that matches:
 
 1. An issue URL or `owner/repo#N` in the message.
-2. A project named in the message that matches a repo directory in `~/Projects`.
+2. A project named in the message that matches a local checkout of a repo.
 3. The current directory's repo.
 
-If none match, ask which repo. Work from that repo's checkout at `~/Projects/<repo>`.
+If none match, ask which repo. Work from that repo's local checkout.
 
 ## 2. Pick a route
 
