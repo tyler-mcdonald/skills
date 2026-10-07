@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-interval=$1
+interval=${1-}
+if ! [[ $interval =~ ^[1-9][0-9]*$ ]]; then
+  echo "Failed: interval must be a positive number of seconds"
+  exit 1
+fi
 pending="$(dirname "$0")/pending-prs.sh"
 lockdir="${TMPDIR:-/tmp}/watch-prs-wait.lock"
 max_failures=10
