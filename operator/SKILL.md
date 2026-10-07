@@ -30,7 +30,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 8. **External review.** Wait for the checks by running `gh pr checks <pr> --watch > /dev/null` with `run_in_background` — a review bot can outlast a foreground call's timeout, and unredirected, it reprints the whole table on every refresh. When it exits, note any failing checks for the report and carry on either way. Then list the review bots that commented: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.type == "Bot") | .user.login] | unique'`. If there are any, invoke `handle-pr-review` with `<pr> — comments from <logins> only` (it runs in its own subagent) and wait for its report — once only; don't wait for or handle a second review pass.
 
-9. **Report.** Brief: where it stopped and why, or the final score, plus any failing checks and the PR's full URL.
+9. **In review.** Invoke `set-issue-status` with the issue URL and `In review`.
+
+10. **Report.** Brief: where it stopped and why, or the final score, plus any failing checks and the PR's full URL.
 
 ## Spawn messages
 
