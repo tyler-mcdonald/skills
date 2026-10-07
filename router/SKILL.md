@@ -1,6 +1,6 @@
 ---
 name: router
-description: Route a new chat's first message to the right workflow — answer a question, create a GitHub issue, or start work on an existing issue via start-issue or operator. Use on the first message of every chat.
+description: Route a new chat's first message to the right workflow. Use on the first message of every chat.
 ---
 
 # Router
