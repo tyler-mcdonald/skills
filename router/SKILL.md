@@ -21,32 +21,5 @@ If none match, ask which repo. Work from that repo's checkout at `~/Projects/<re
 
 - **Question** — the message asks something rather than requesting work on an issue. Just answer it.
 - **New issue** — the message asks to create, file, or open an issue. Draft a title and body, confirm them with the user, then `gh issue create --repo <owner/repo>`.
-- **Existing issue** — the message references an issue to work on. Check whether it's planned (below): planned → invoke `operator`; not planned → invoke `start-issue`.
+- **Existing issue** — the message references an issue to work on. Invoke `start-issue`.
 
-## 3. Is the issue planned?
-
-Planned is defined per repo. Repos not listed here are never planned.
-
-| Repo | Planned when |
-| --- | --- |
-| `tyler-mcdonald/cardcase` | Its Status on the "Card Case" board is `Ready to work` |
-
-Read an issue's board statuses with:
-
-```sh
-gh api graphql -f url="<issue url>" -f query='
-  query($url: URI!) {
-    resource(url: $url) {
-      ... on Issue {
-        projectItems(first: 20) {
-          nodes {
-            project { title }
-            fieldValueByName(name: "Status") {
-              ... on ProjectV2ItemFieldSingleSelectValue { name }
-            }
-          }
-        }
-      }
-    }
-  }'
-```
