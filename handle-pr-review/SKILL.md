@@ -1,6 +1,6 @@
 ---
 name: handle-pr-review
-description: Address and reply to PR review comments, from people or bots like Greptile. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
+description: Address and reply to PR review comments, from people or review bots. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
 context: fork
 ---
 
@@ -12,7 +12,7 @@ context: fork
    ~/.claude/skills/handle-pr-review/fetch-threads.sh <n> <owner>/<repo>
    ```
 
-   Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. Greptile), only handle that reviewer's threads.
+   Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. a review bot), only handle that reviewer's threads.
 
    If the last comment is the user's own (posted by hand, without the footer), judge from context whether it's an instruction to you or a reply to the reviewer; ask the user if unsure.
 
