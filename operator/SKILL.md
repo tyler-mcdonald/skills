@@ -20,7 +20,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
-6. **QA.** Decide whether the change needs hands-on QA: it does if it changes behavior someone can see or exercise in the running app. Skip this step for docs, config, tests, or internal changes with no visible effect.
+6. **QA.** Decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip this step for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and the review cover those.
    1. Invoke `run` in the worktree to start the app.
    2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. Then wait for their pass or fail.
    3. On a fail, spawn a fresh subagent with the QA fix message, wait for its reply, then go back to 1.
