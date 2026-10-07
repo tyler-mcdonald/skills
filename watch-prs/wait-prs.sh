@@ -3,15 +3,23 @@ set -uo pipefail
 
 interval=$1
 pending="$(dirname "$0")/pending-prs.sh"
-pidfile="${TMPDIR:-/tmp}/watch-prs-wait.pid"
+lockdir="${TMPDIR:-/tmp}/watch-prs-wait.lock"
 max_failures=10
 
-if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
-  echo "Already waiting"
-  exit 0
+if ! mkdir "$lockdir" 2>/dev/null; then
+  pid=$(cat "$lockdir/pid" 2>/dev/null)
+  if [ -z "$pid" ] || kill -0 "$pid" 2>/dev/null; then
+    echo "Already waiting"
+    exit 0
+  fi
+  rm -rf "$lockdir"
+  if ! mkdir "$lockdir" 2>/dev/null; then
+    echo "Already waiting"
+    exit 0
+  fi
 fi
-echo $$ > "$pidfile"
-trap 'rm -f "$pidfile"' EXIT
+trap 'rm -rf "$lockdir"' EXIT
+echo $$ > "$lockdir/pid"
 
 failures=0
 while :; do
