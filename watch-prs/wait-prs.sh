@@ -7,27 +7,18 @@ if ! [[ $interval =~ ^[1-9][0-9]*$ ]]; then
   exit 1
 fi
 pending="$(dirname "$0")/pending-prs.sh"
-lockdir="${TMPDIR:-/tmp}/watch-prs-wait.lock"
+lockfile="${TMPDIR:-/tmp}/watch-prs-wait.flock"
 max_failures=10
 
-if ! mkdir "$lockdir" 2>/dev/null; then
-  pid=$(cat "$lockdir/pid" 2>/dev/null)
-  if [ -z "$pid" ] || kill -0 "$pid" 2>/dev/null; then
-    echo "Already waiting"
-    exit 0
-  fi
-  rm -rf "$lockdir"
-  if ! mkdir "$lockdir" 2>/dev/null; then
-    echo "Already waiting"
-    exit 0
-  fi
+exec 9>"$lockfile"
+if ! perl -MFcntl=:flock -e 'open(my $fh, ">&=", 9) or exit 2; flock($fh, LOCK_EX | LOCK_NB) or exit 1'; then
+  echo "Already waiting"
+  exit 0
 fi
-trap 'rm -rf "$lockdir"' EXIT
-echo $$ > "$lockdir/pid"
 
 failures=0
 while :; do
-  if out=$("$pending") && current=$(jq -r '.[] | "\(.url) \(.status)"' <<<"$out" | sort); then
+  if out=$("$pending" 9>&-) && current=$(jq -r '.[] | "\(.url) \(.status)"' <<<"$out" | sort); then
     failures=0
     previous=${previous-$current}
     if [ -n "$(comm -13 <(echo "$previous") <(echo "$current"))" ]; then
@@ -42,5 +33,5 @@ while :; do
       exit 1
     fi
   fi
-  sleep "$interval"
+  sleep "$interval" 9>&-
 done
