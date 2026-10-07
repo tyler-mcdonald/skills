@@ -5,9 +5,13 @@ description: Route a new chat's first message to the right workflow. Use on the 
 
 # Router
 
-Pick one route from the first message, say it in one line (route, repo, issue if any), then follow it. If the message fits none of them, or a route is already obvious from an explicit skill or slash command in the message, skip routing and just do what was asked.
+Pick one route from the first message, say it in one line, then follow it:
 
-## 1. Resolve the repo
+- **Plan an issue** — invoke `start-issue`.
+- **Implement an issue** — invoke `operator`.
+- **Question or chat** — just answer.
+
+## Resolve the repo
 
 Only needed for the issue routes. Take the first that matches:
 
@@ -16,10 +20,3 @@ Only needed for the issue routes. Take the first that matches:
 3. The current directory's repo.
 
 If none match, ask which repo. Work from that repo's local checkout.
-
-## 2. Pick a route
-
-- **Question** — the message asks something rather than requesting work on an issue. Just answer it.
-- **New issue** — the message asks to create, file, or open an issue. Draft a title and body, confirm them with the user, then `gh issue create --repo <owner/repo>`.
-- **Existing issue** — the message references an issue to work on. Invoke `start-issue`.
-
