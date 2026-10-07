@@ -34,3 +34,5 @@ description: Set a GitHub issue's Status on every project board it's in (e.g. "I
    ```sh
    gh project item-edit --id <item id> --project-id <project id> --field-id <field id> --single-select-option-id <option id>
    ```
+
+Only use a board's existing Status options, matched by exact name. Never create a board, add a Status option, or rename one. If a board has no option with that exact name, skip that board and say so.
