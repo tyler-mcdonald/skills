@@ -1,0 +1,6 @@
+reviews:
+  profile: chill
+  poem: false
+  review_status: false
+  auto_review:
+    enabled: false
