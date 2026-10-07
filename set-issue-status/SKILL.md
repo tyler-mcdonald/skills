@@ -5,10 +5,32 @@ description: Set a GitHub issue's Status on every project board it's in (e.g. "I
 
 # Set Issue Status
 
-Run:
+1. List the boards the issue is on, with each board's Status options:
 
-```sh
-~/.claude/skills/set-issue-status/set-issue-status.sh <issue url> "<status>"
-```
+   ```sh
+   gh api graphql -f url="<issue url>" -f query='
+     query($url: URI!) {
+       resource(url: $url) {
+         ... on Issue {
+           projectItems(first: 20) {
+             nodes {
+               id
+               project {
+                 id
+                 title
+                 field(name: "Status") {
+                   ... on ProjectV2SingleSelectField { id options { id name } }
+                 }
+               }
+             }
+           }
+         }
+       }
+     }'
+   ```
 
-The status must match the board's option name exactly. It prints one line per project it updated; no output means the issue isn't on a board with that status.
+2. For each board that has the status as an option, set it:
+
+   ```sh
+   gh project item-edit --id <item id> --project-id <project id> --field-id <field id> --single-select-option-id <option id>
+   ```
