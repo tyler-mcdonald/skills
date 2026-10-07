@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -u
+set -uo pipefail
 
 interval=$1
 pending="$(dirname "$0")/pending-prs.sh"
@@ -15,13 +15,14 @@ trap 'rm -f "$pidfile"' EXIT
 
 failures=0
 while :; do
-  if out=$("$pending"); then
+  if out=$("$pending") && current=$(jq -r '.[] | "\(.url) \(.status)"' <<<"$out" | sort); then
     failures=0
-    baseline=${baseline-$out}
-    if [ "$out" != "$baseline" ]; then
+    previous=${previous-$current}
+    if [ -n "$(comm -13 <(echo "$previous") <(echo "$current"))" ]; then
       echo "Changed"
       exit 0
     fi
+    previous=$current
   else
     failures=$((failures + 1))
     if [ "$failures" -ge "$max_failures" ]; then
