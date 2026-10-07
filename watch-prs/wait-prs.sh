@@ -11,10 +11,18 @@ lockfile="${TMPDIR:-/tmp}/watch-prs-wait.flock"
 max_failures=10
 
 exec 9>"$lockfile"
-if ! perl -MFcntl=:flock -e 'open(my $fh, ">&=", 9) or exit 2; flock($fh, LOCK_EX | LOCK_NB) or exit 1'; then
-  echo "Already waiting"
-  exit 0
-fi
+lock=$(perl -MFcntl=:flock -e 'open(my $fh, ">&=", 9) or die "$!\n"; if (flock($fh, LOCK_EX | LOCK_NB)) { print "locked" } elsif ($!{EWOULDBLOCK}) { print "busy" } else { die "$!\n" }')
+case $lock in
+  locked) ;;
+  busy)
+    echo "Already waiting"
+    exit 0
+    ;;
+  *)
+    echo "Failed: could not take the wait lock"
+    exit 1
+    ;;
+esac
 
 failures=0
 while :; do
