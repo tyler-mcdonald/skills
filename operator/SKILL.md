@@ -20,14 +20,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
-6. **Bot review.** The PR stays a draft until the review bot is done with it. Pick the bot by the config file in the repo root:
-
-   | Config | Bot login | Trigger comment |
-   | --- | --- | --- |
-   | `.coderabbit.yaml` | `coderabbitai[bot]` | `@coderabbitai review` |
-   | `.greptile/` | `greptile-apps[bot]` | `@greptileai` |
-
-   If none is there, skip to step 7 and note it for the report. Otherwise run up to 3 rounds:
+6. **Bot review.** The PR stays a draft until the review bot is done with it. Pick the bot by the config file in the repo root, using the table in `~/.claude/skills/operator/review-bots.md`. If none is there, skip to step 7 and note it for the report. Otherwise run up to 3 rounds:
    1. `git push` (never force-push). Note `git rev-parse HEAD` as the round's sha and `date -u +%Y-%m-%dT%H:%M:%SZ` as its start time, then `gh pr comment <pr> --body "<trigger comment>"`.
    2. Run `~/.claude/skills/operator/wait-bot-review.sh <pr> <bot login> <sha> <start time>` with `run_in_background` and wait for it. It prints the number of new threads the bot opened. If it exits non-zero, the bot didn't review within 20 minutes — stop here and leave the PR as a draft.
    3. Invoke `handle-pr-review` with `<pr> — comments from <bot login> only` (it runs in its own subagent) and wait for its report, then `git pull`.
