@@ -7,7 +7,7 @@ lock_ttl_minutes=30
 me=$(gh api user --jq .login)
 
 open_prs() {
-  gh search prs --author @me --state open --draft=false --json repository,number,url --limit 1000 \
+  gh search prs --author @me --state open --json repository,number,url --limit 1000 \
     --jq '.[] | "\(.repository.nameWithOwner) \(.number) \(.url)"'
 }
 

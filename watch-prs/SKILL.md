@@ -1,12 +1,12 @@
 ---
 name: watch-prs
-description: Watch all of the user's open, non-draft PRs and handle review threads last commented on by the user or a bot, sweeping again whenever they change. Use when asked to watch PRs (`/watch-prs [interval]`, e.g. `/watch-prs 30s`).
+description: Watch all of the user's open PRs, drafts included, and handle review threads last commented on by the user or a bot, sweeping again whenever they change. Use when asked to watch PRs (`/watch-prs [interval]`, e.g. `/watch-prs 30s`).
 disable-model-invocation: true
 ---
 
 # Watch PRs
 
-Sweep once, then wait in the background and sweep again whenever the pending PRs change. Drafts are never touched — the user keeps a PR in draft to keep it out of reach.
+Sweep once, then wait in the background and sweep again whenever the pending PRs change. Drafts are handled like any other PR.
 
 The argument is an optional check interval: `<N>s`, `<N>m`, or `<N>h`. Convert it to seconds. With no valid interval, pick one yourself each time you start the wait: around 30s right after handling threads, since reviewers often reply quickly, and 2–5m otherwise.
 
@@ -18,7 +18,7 @@ The user reads this like a log, not a chat. Print nothing except the result line
    ~/.claude/skills/watch-prs/pending-prs.sh
    ```
 
-   It returns the user's open, non-draft PRs across all repos that have unresolved threads whose last comment is the user's or a bot's, skipping threads Claude replied to last. Each has its local clone `dir`, a `lock` path, and a `status`: `Ready`, or the reason to skip it. If it returns `[]`, go to step 4 without printing anything.
+   It returns the user's open PRs across all repos that have unresolved threads whose last comment is the user's or a bot's, skipping threads Claude replied to last. Each has its local clone `dir`, a `lock` path, and a `status`: `Ready`, or the reason to skip it. If it returns `[]`, go to step 4 without printing anything.
 
 2. For each `Ready` PR, one at a time, from its `dir`:
    1. If the directory doesn't exist, `gh repo clone <repo> <dir>` first. If it exists but its `origin` isn't `<repo>`, skip it as `Error`.
