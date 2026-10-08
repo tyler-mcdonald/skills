@@ -7,7 +7,7 @@ description: Route a new chat's first message to the right workflow. Use on the 
 
 Pick one route from the first message, say it in one line, then follow it:
 
-- **Plan an issue** — invoke `start-issue`.
+- **Plan an issue** — invoke `plan-issue`.
 - **Implement an issue** — invoke `operator`.
 - **Question or chat** — just answer.
 
