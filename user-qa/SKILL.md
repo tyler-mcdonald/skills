@@ -1,6 +1,6 @@
 ---
 name: user-qa
-description: Have the user hands-on QA a change in the running app, fixing what fails until it passes. Use when asked to QA a change with the user, or as the QA step of a workflow.
+description: Start the app, have the user test a UI change by hand, and fix whatever they report failing until it passes. Use when asked to QA a change with the user, or as the QA step of a workflow.
 ---
 
 # User QA
