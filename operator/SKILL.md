@@ -20,19 +20,32 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
-6. **QA.** Decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip this step for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and the review cover those.
-   1. Invoke `run` in the worktree to start the app.
-   2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. Then wait for their pass or fail.
-   3. On a fail, spawn a fresh subagent with the QA fix message, wait for its reply, then go back to 1.
-   4. On a pass, stop the servers.
+6. **Bot review.** The PR stays a draft until the review bot is done with it. Pick the bot by the config file in the repo root:
 
-7. **Ready.** `git push` (never force-push), then `gh pr ready <pr>`.
+   | Config | Bot login | Trigger comment |
+   | --- | --- | --- |
+   | `.coderabbit.yaml` | `coderabbitai[bot]` | `@coderabbitai review` |
+   | `.greptile/` | `greptile-apps[bot]` | `@greptileai` |
 
-8. **External review.** Wait for the checks by running `gh pr checks <pr> --watch > /dev/null` with `run_in_background` — a review bot can outlast a foreground call's timeout, and unredirected, it reprints the whole table on every refresh. When it exits, note any failing checks for the report and carry on either way. Then list the review bots that commented: `gh api repos/{owner}/{repo}/pulls/<pr>/comments --jq '[.[] | select(.user.type == "Bot") | .user.login] | unique'`. If there are any, invoke `handle-pr-review` with `<pr> — comments from <logins> only` (it runs in its own subagent) and wait for its report — once only; don't wait for or handle a second review pass.
+   If none is there, skip to step 7 and note it for the report. Otherwise run up to 3 rounds:
+   1. `git push` (never force-push). Note `git rev-parse HEAD` as the round's sha and `date -u +%Y-%m-%dT%H:%M:%SZ` as its start time, then `gh pr comment <pr> --body "<trigger comment>"`.
+   2. Run `~/.claude/skills/operator/wait-bot-review.sh <pr> <bot login> <sha> <start time>` with `run_in_background` and wait for it. It prints the number of new threads the bot opened. If it exits non-zero, the bot didn't review within 20 minutes — stop here and leave the PR as a draft.
+   3. Invoke `handle-pr-review` with `<pr> — comments from <bot login> only` (it runs in its own subagent) and wait for its report, then `git pull`.
+   4. If the bot opened no new threads, or HEAD is still the round's sha, the bot is done — go to step 7. If this was round 3, stop and leave the PR as a draft, listing the bot's open threads for the report. Otherwise start the next round.
+
+7. **Re-sync.** `git fetch origin`. If `git merge-base --is-ancestor origin/<target> HEAD` succeeds, skip this. Otherwise repeat step 5's merge, resolve, and checks.
+
+8. **Ready.** `git push` (never force-push), then `gh pr ready <pr>`.
 
 9. **In review.** Invoke `set-issue-status` with the issue URL and `In review`.
 
-10. **Report.** Brief: where it stopped and why, or the final score, plus any failing checks and the PR's full URL.
+10. **QA.** Decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip this step for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and the review cover those.
+    1. Invoke `run` in the worktree to start the app.
+    2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. Then wait for their pass or fail.
+    3. On a fail, spawn a fresh subagent with the QA fix message, wait for its reply, then go back to 1. Don't trigger the review bot for QA fixes.
+    4. On a pass, stop the servers.
+
+11. **Report.** Brief: where it stopped and why, or the final score, plus the number of bot review rounds, any failing checks in `gh pr checks <pr>`, and the PR's full URL.
 
 ## Spawn messages
 
@@ -42,7 +55,7 @@ Simplify:
 
 QA fix:
 
-> Fix these QA findings on PR `<pr>`: `<findings>`. Work in `<worktree path>`. Run the project's checks (tests, lint) and fix any failures, then commit. Don't push. Reply with one line: the commit you made.
+> Fix these QA findings on PR `<pr>`: `<findings>`. Work in `<worktree path>`. Before committing, invoke `code-review` with `--fix` on your uncommitted changes. Run the project's checks (tests, lint) and fix any failures, then commit and `git push` (never force-push). Reply with one line: the commit you pushed.
 
 Dev:
 
