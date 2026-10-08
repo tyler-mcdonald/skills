@@ -1,9 +1,9 @@
 ---
-name: update-skill
+name: manage-skills
 description: Create a new skill or change an existing one in the skills repo (~/Projects/skills), via an isolated worktree and a PR into main. Use whenever the user wants to add, edit, rename, or remove a skill.
 ---
 
-# Update Skill
+# Manage Skills
 
 1. From `~/Projects/skills`, invoke `setup-worktree` with a short title for the change (e.g. "Add update-skill"). Stay in that worktree for every step.
 2. Make the changes. Each skill lives in `<skill-name>/SKILL.md` with `name` and `description` frontmatter; match the style of the existing skills.
