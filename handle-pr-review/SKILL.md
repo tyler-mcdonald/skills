@@ -1,8 +1,10 @@
 ---
 name: handle-pr-review
-description: Address and reply to PR review comments, from people or review bots. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
+description: Address and reply to PR review comments, from people or review bots. Runs unattended in CI. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
 context: fork
 ---
+
+This runs unattended in CI, where `gh` posts as `claude[bot]`. Never ask the user: when unsure, reply in the thread with a clarifying question instead.
 
 1. Find the PR: use the argument (number or URL) if given, otherwise the current branch's PR (`gh pr view`). Note its number `<n>` and `<owner>/<repo>` from its URL. Pull the branch so the code matches what was reviewed.
 
@@ -14,23 +16,19 @@ context: fork
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. a review bot), only handle that reviewer's threads.
 
-   If the last comment is the user's own (posted by hand, without the footer), judge from context whether it's an instruction to you or a reply to the reviewer; ask the user if unsure.
+   If the last comment is the user's own, judge from context whether it's an instruction to you or a reply to the reviewer.
 
 3. For each thread, check the comment against the actual code, then either:
    - make the change, or
    - answer the question or push back with the reason, leaving the code alone.
 
-   A follow-up may or may not need a code change. If you're unsure what the reviewer wants, ask the user.
+   A follow-up may or may not need a code change. If you're unsure what the reviewer wants, reply with a clarifying question and leave the code alone.
 
 4. Commit by concern as you go: generally one commit per review change. Don't lump everything into a single commit. Don't run checks between commits. Once all changes are in, run tests, typecheck, and lint once, fix anything failing, then push. If you made no commits, skip the checks and the push — the code is unchanged.
 
    After pushing, if the PR title no longer describes the diff, update it with `gh pr edit <n> --title`, following the `open-pr` skill's title rules. Leave a title that's still accurate alone.
 
-5. Reply in each thread, briefly. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`. Every reply ends with this footer:
-
-   ```
-   🤖 Posted by Claude Code
-   ```
+5. Reply in every thread you handle, briefly, even when nothing needs doing, so it isn't handled again. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`.
 
    ```sh
    gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -f body="..."
