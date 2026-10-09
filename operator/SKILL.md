@@ -20,11 +20,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
-6. **QA.** Decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip this step for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and the review cover those.
-   1. Invoke `run` in the worktree to start the app.
-   2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. Then wait for their pass or fail.
-   3. On a fail, spawn a fresh subagent with the QA fix message, wait for its reply, then go back to 1.
-   4. On a pass, stop the servers.
+6. **QA.** Invoke `user-qa` in the worktree and wait for it to finish.
 
 7. **Ready.** `git push` (never force-push), then `gh pr ready <pr>`.
 
@@ -39,10 +35,6 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 Simplify:
 
 > Invoke `simplify` on this branch's changes against `origin/<target>`, where target is PR `<pr>`'s base branch. Work in `<worktree path>`. If it changed anything, run the project's checks (tests, lint) and fix any failures it caused, then commit and `git push` (never force-push). Reply with one line: the commit you pushed, or "no changes".
-
-QA fix:
-
-> Fix these QA findings on PR `<pr>`: `<findings>`. Work in `<worktree path>`. Run the project's checks (tests, lint) and fix any failures, then commit. Don't push. Reply with one line: the commit you made.
 
 Dev:
 
