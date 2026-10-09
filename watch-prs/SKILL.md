@@ -29,7 +29,7 @@ The user reads this like a log, not a chat. Print nothing except the result line
    6. Invoke `sync-branch` with `<base>`. On `Needs Decision`, comment on the PR with what conflicts and what needs deciding (`gh pr comment <url>`, unless an earlier one already covers it), and skip it as `Merge Conflict`. On `Failed`, skip it as `Error`.
    7. Invoke `handle-pr-review` with:
 
-      > `<url>` — work in `<absolute worktree path>`. Only handle threads whose last comment is from `<user login>` or a bot. Running unattended: never ask the user — when unsure what a comment wants, reply in the thread with a clarifying question instead. Reply in every thread you handle, even when nothing needs doing, so the next sweep skips it. Report only one word, the first that applies: `Failed` (a check, the push, or a reply failed), `Asked` (you posted a clarifying question), `Changed` (you pushed code changes), `Replied`.
+      > `<url>` — work in `<absolute worktree path>`. Only handle threads whose last comment is from `<user login>` or a bot. Running unattended: never ask the user — when unsure what a comment wants, reply in the thread with a clarifying question instead. Reply in every thread you handle, even when nothing needs doing, so the next sweep skips it. Report only one word, the first that applies: `Failed` (the push or a reply failed), `Asked` (you posted a clarifying question), `Changed` (you pushed code changes), `Replied`.
 
       Wait for its report.
 
