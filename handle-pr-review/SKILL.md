@@ -26,7 +26,7 @@ context: fork
 
    After pushing, if the PR title no longer describes the diff, update it with `gh pr edit <n> --title`, following the `open-pr` skill's title rules. Leave a title that's still accurate alone.
 
-5. Reply in every thread you handle, briefly, even when nothing needs doing, so it isn't handled again. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`.
+5. Reply in each thread, briefly. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`.
 
    ```sh
    gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -f body="..."
