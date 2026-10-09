@@ -1,6 +1,6 @@
 ---
 name: operator
-description: Take a GitHub issue to a reviewed PR handed to the review bot, hands-off. Use when asked to run the operator on an issue.
+description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the operator on an issue.
 ---
 
 # Operator
@@ -24,7 +24,7 @@ description: Take a GitHub issue to a reviewed PR handed to the review bot, hand
 
 7. **In review.** Invoke `set-issue-status` with the issue URL and `In review`.
 
-8. **Bot review.** `git push` (never force-push). Pick the review bot by the config file in the repo root, using the table in `~/.claude/skills/operator/review-bots.md`. If there is one, `gh pr comment <pr> --body "<trigger comment>"` and leave the PR as a draft — `watch-prs` handles the bot's threads from here. If none is there, `gh pr ready <pr>` and note it for the report.
+8. **Bot review.** `git push` (never force-push). Pick the review bot by the config file in the repo root, using the table in `~/.claude/skills/operator/review-bots.md`. If there is one, `gh pr comment <pr> --body "<trigger comment>"` — `watch-prs` handles the bot's threads from here. Then `gh pr ready <pr>`.
 
 9. **Report.** Brief: where it stopped and why, or the final score, plus the review bot triggered (or that there was none) and the PR's full URL. Then stop — don't wait for the bot.
 
