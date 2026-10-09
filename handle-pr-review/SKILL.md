@@ -1,6 +1,6 @@
 ---
 name: handle-pr-review
-description: Address and reply to PR review comments, from people or review bots. Runs unattended in CI. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
+description: Address and reply to PR review comments, from people or review bots. Use when asked to handle, address, fix, or respond to a PR review, its comments, or its findings.
 context: fork
 ---
 
