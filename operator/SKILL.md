@@ -29,7 +29,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
    1. Run the thread check. If it returns nothing, go to step 9.
    2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here, leave the PR as a draft, and report that the bot's threads need handling by hand.
-   3. `gh pr comment <pr> --body "@claude"` — exactly that body. Note the comment's `created_at` (`gh api repos/<owner>/<repo>/issues/comments/<comment-id> --jq .created_at`).
+   3. `gh api repos/<owner>/<repo>/issues/<pr>/comments -f body="@claude" --jq .created_at` — exactly that body. Note the `created_at` it prints.
    4. Wait for the `Handle review` run that comment started, then for it to finish (up to 35 minutes). Every PR comment, review, and review comment starts a run with that name, so pick it by all of:
       - listed by `gh run list --workflow "Handle review" --event issue_comment --created ">=<created_at>" --json databaseId,status,conclusion` (these runs report branch `main`, so don't filter by the PR branch);
       - in `gh run view <run-id> --json jobs`, the job whose name ends in `gate` has finished and the one whose name ends in `handle` is not `skipped`.
