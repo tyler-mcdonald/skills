@@ -1,12 +1,10 @@
 ---
 name: watch-prs
-description: Retired — do not run. Review threads are handled in CI by the handle-review workflow. Kept for reference only.
+description: Watch all of the user's open PRs, drafts included, and handle review threads last commented on by the user or a bot, sweeping again whenever they change. Use when asked to watch PRs (`/watch-prs [interval]`, e.g. `/watch-prs 30s`).
 disable-model-invocation: true
 ---
 
 # Watch PRs
-
-**Retired.** If invoked, do nothing: reply that `watch-prs` is retired and that the `handle-review` CI workflow handles review threads, then stop. The steps below are kept for reference only.
 
 Sweep once, then wait in the background and sweep again whenever the pending PRs change. Drafts are handled like any other PR.
 
