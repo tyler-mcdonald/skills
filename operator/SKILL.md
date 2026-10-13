@@ -27,14 +27,14 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
    - `timed out`: stop here and leave the PR as a draft.
 
 8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
-   1. Run the thread check. If it returns nothing, go to step 9.
+   1. Run the thread check. If it prints `[]`, go to step 9.
    2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here, leave the PR as a draft, and report that the bot's threads need handling by hand.
    3. `gh api repos/<owner>/<repo>/issues/<pr>/comments -f body="@claude" --jq .created_at` — exactly that body. Note the `created_at` it prints.
    4. Wait for the `Handle review` run that comment started, then for it to finish (up to 35 minutes). Every PR comment, review, and review comment starts a run with that name, so pick it by all of:
       - listed by `gh run list --workflow "Handle review" --event issue_comment --created ">=<created_at>" --json databaseId,status,conclusion` (these runs report branch `main`, so don't filter by the PR branch);
       - in `gh run view <run-id> --json jobs`, the job whose name ends in `gate` has finished and the one whose name ends in `handle` is not `skipped`.
    5. If that run's `handle` job fails or times out, stop here and leave the PR as a draft.
-   6. Run the thread check again. If it returns anything, stop here and leave the PR as a draft.
+   6. Run the thread check again. If it prints anything but `[]`, stop here and leave the PR as a draft.
    7. `git pull` so the worktree matches the PR.
 
 9. **Ready.** `gh pr ready <pr>`, then invoke `set-issue-status` with the issue URL and `In review`.
@@ -47,7 +47,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 ~/.claude/skills/operator/unhandled-bot-threads.sh <pr> "<bot login>" <owner>/<repo>
 ```
 
-Returns the unresolved review threads the bot opened that have no reply from Claude. `<bot login>` is the active row's login in `trigger-bot-review/review-bots.md`.
+Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the active row's login in `trigger-bot-review/review-bots.md`.
+
+If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there and leave the PR as a draft.
 
 ## Spawn messages
 
