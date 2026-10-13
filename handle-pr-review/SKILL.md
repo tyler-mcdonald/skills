@@ -14,6 +14,8 @@ context: fork
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. a review bot), only handle that reviewer's threads.
 
+   The arguments may also carry the comment that asked for this run. A review thread comment is already among the fetched threads. A PR comment outside the review threads (a conversation comment or a review summary) is one more item to handle: do what it asks, or if it's only a mention, take it as the request to handle the threads.
+
    If the last comment is the user's own, judge from context whether it's an instruction to you or a reply to the reviewer.
 
 3. For each thread, check the comment against the actual code, then either:
@@ -26,13 +28,19 @@ context: fork
 
    After pushing, if the PR title no longer describes the diff, update it with `gh pr edit <n> --title`, following the `open-pr` skill's title rules. Leave a title that's still accurate alone.
 
-5. Reply in each thread, briefly. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`.
+5. Reply in every thread you handled, briefly, whether or not you changed code. When a code change was made, end the reply with the commit that made it, e.g. `(abc1234)`.
 
    ```sh
    gh api repos/<owner>/<repo>/pulls/<n>/comments/<comment-id>/replies -f body="..."
    ```
 
    `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads.
+
+   If you were given a PR comment outside the review threads, always reply to it as well, with a PR comment: what you did for its request, or if it was only a mention, the step 6 report lines.
+
+   ```sh
+   gh pr comment <n> --repo <owner>/<repo> --body "..."
+   ```
 
 6. Report back in a few lines the user can scan in seconds — the thread replies hold the detail:
 
