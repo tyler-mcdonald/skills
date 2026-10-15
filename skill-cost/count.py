@@ -2,7 +2,12 @@ import json
 import sys
 from pathlib import Path
 
-USAGE_KEYS = ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens")
+USAGE_KEYS = (
+    "input_tokens",
+    "cache_creation_input_tokens",
+    "cache_read_input_tokens",
+    "output_tokens",
+)
 
 
 def first_prompt(records):
@@ -10,7 +15,9 @@ def first_prompt(records):
         if r.get("type") == "user":
             content = r["message"]["content"]
             if isinstance(content, list):
-                content = " ".join(c.get("text", "") for c in content if isinstance(c, dict))
+                content = " ".join(
+                    c.get("text", "") for c in content if isinstance(c, dict)
+                )
             return " ".join(content.split())[:80]
     return ""
 
@@ -46,17 +53,23 @@ def usage_totals(records):
 
 def main(session_path, until=None):
     session = Path(session_path)
-    files = [session] + sorted((session.parent / session.stem / "subagents").glob("*.jsonl"))
+    files = [session] + sorted(
+        (session.parent / session.stem / "subagents").glob("*.jsonl")
+    )
     rows = []
     for f in files:
         records = load(f, until if f == session else None)
         totals = usage_totals(records)
         largest = max(tool_result_sizes(records), default=(0, ""))
-        rows.append((f.name, sum(totals.values()), totals, largest[0], first_prompt(records)))
+        rows.append(
+            (f.name, sum(totals.values()), totals, largest[0], first_prompt(records))
+        )
     grand = sum(r[1] for r in rows) or 1
     print(f"total {grand:,}")
     for name, total, totals, largest, prompt in sorted(rows, key=lambda r: -r[1]):
-        print(f"{total:>12,} {100 * total / grand:5.1f}%  out={totals['output_tokens']:,}  largest_tool_result={largest:,}ch  {name}  {prompt}")
+        print(
+            f"{total:>12,} {100 * total / grand:5.1f}%  out={totals['output_tokens']:,}  largest_tool_result={largest:,}ch  {name}  {prompt}"
+        )
 
 
 if __name__ == "__main__":
