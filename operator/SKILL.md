@@ -22,11 +22,31 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 6. **QA.** Invoke `user-qa` in the worktree and wait for it to finish.
 
-7. **In review.** Invoke `set-issue-status` with the issue URL and `In review`.
+7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
+   1. If it replies `none`, go to step 9.
+   2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here and leave the PR as a draft.
+   3. Wait for the "Done when" signal, checking once a minute for up to 15 minutes. Only count what the bot posted or edited after the trigger comment. If it never comes, stop here and leave the PR as a draft.
 
-8. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
+8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
+   1. Run the thread check. If it prints `[]`, go to step 9.
+   2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here, leave the PR as a draft, and report that the bot's threads need handling by hand.
+   3. `gh pr comment <pr> --body "@claude"`.
+   4. Rerun the thread check once a minute for up to 35 minutes, until it prints `[]`. If it never does, stop here and leave the PR as a draft.
+   5. `git pull` so the worktree matches the PR.
 
-9. **Report.** Brief: where it stopped and why, or the final score, plus the review bot triggered (or that there was none) and the PR's full URL. Then stop — don't wait for the bot.
+9. **Ready.** `gh pr ready <pr>`, then invoke `set-issue-status` with the issue URL and `In review`.
+
+10. **Report.** Brief: where it stopped and why, or the final score, plus the bot outcome, the CI outcome, and the PR's full URL.
+
+## Thread check
+
+```sh
+~/.claude/skills/operator/unhandled-bot-threads.py <pr> "<bot login>" <owner>/<repo>
+```
+
+Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
+
+If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there and leave the PR as a draft.
 
 ## Spawn messages
 
