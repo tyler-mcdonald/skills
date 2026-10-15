@@ -14,7 +14,7 @@ context: fork
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. a review bot), only handle that reviewer's threads.
 
-   The arguments may also carry the comment that asked for this run. A review thread comment is already among the fetched threads. A PR comment outside the review threads (a conversation comment or a review summary) is one more item to handle: do what it asks, or if it's only a mention, take it as the request to handle the threads.
+   If a PR comment or review summary triggered this run, handle it too: do what it asks, or if it only mentions you, handle the threads. (A triggering review thread comment needs nothing extra — it's already in the fetched threads.)
 
    If the last comment is the user's own, judge from context whether it's an instruction to you or a reply to the reviewer.
 
@@ -36,7 +36,7 @@ context: fork
 
    `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads.
 
-   If you were given a PR comment outside the review threads, always reply to it as well, with a PR comment: what you did for its request, or if it was only a mention, the step 6 report lines.
+   If a PR comment or review summary triggered this run, reply to it too, with a PR comment: what you did for its request, or if it only mentioned you, the step 6 report lines.
 
    ```sh
    gh pr comment <n> --repo <owner>/<repo> --body "..."
