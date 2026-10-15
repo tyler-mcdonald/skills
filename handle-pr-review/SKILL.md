@@ -36,12 +36,6 @@ context: fork
 
    `<comment-id>` is the `id` of the thread's first comment. Don't resolve the threads.
 
-   If a PR comment or review summary triggered this run, reply to it too, with a PR comment: what you did for its request, or if it only mentioned you, the step 6 report lines.
-
-   ```sh
-   gh pr comment <n> --repo <owner>/<repo> --body "..."
-   ```
-
 6. Report back in a few lines the user can scan in seconds — the thread replies hold the detail:
 
    ```
