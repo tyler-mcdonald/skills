@@ -23,8 +23,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 6. **QA.** Invoke `user-qa` in the worktree and wait for it to finish.
 
 7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
-   - `none`: go to step 9.
-   - `timed out`: stop here and leave the PR as a draft.
+   1. If it replies `none`, go to step 9.
+   2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here and leave the PR as a draft.
+   3. Wait for the "Done when" signal, checking once a minute for up to 15 minutes. Only count what the bot posted or edited after the trigger comment. If it never comes, stop here and leave the PR as a draft.
 
 8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
    1. Run the thread check. If it prints `[]`, go to step 9.
@@ -43,7 +44,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 ~/.claude/skills/operator/unhandled-bot-threads.sh <pr> "<bot login>" <owner>/<repo>
 ```
 
-Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the active row's login in `trigger-bot-review/review-bots.md`.
+Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
 
 If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there and leave the PR as a draft.
 
