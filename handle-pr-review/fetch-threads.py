@@ -35,12 +35,18 @@ def is_claude(author):
 
 
 def fetch(pr, repo):
+    # gh fills in {owner}/{repo} from the current checkout when no repo is given.
     owner, name = repo.split("/", 1) if repo else ("{owner}", "{repo}")
-    out = subprocess.run(
-        ["gh", "api", "graphql", "-F", f"owner={owner}", "-F", f"repo={name}", "-F", f"pr={pr}", "-f", f"query={QUERY}"],
-        check=True, capture_output=True, text=True,
-    ).stdout
-    return json.loads(out)["data"]["repository"]["pullRequest"]["reviewThreads"]["nodes"]
+    cmd = [
+        "gh", "api", "graphql",
+        "-F", f"owner={owner}",
+        "-F", f"repo={name}",
+        "-F", f"pr={pr}",
+        "-f", f"query={QUERY}",
+    ]
+    result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+    data = json.loads(result.stdout)["data"]
+    return data["repository"]["pullRequest"]["reviewThreads"]["nodes"]
 
 
 def threads_to_handle(threads):
