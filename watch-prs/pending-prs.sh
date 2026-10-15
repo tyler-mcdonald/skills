@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-fetch_threads="$(dirname "$0")/../handle-pr-review/fetch-threads.sh"
+fetch_threads="$(dirname "$0")/../handle-pr-review/fetch-threads.py"
 projects="${WATCH_PRS_PROJECTS_DIR:-$HOME/Projects}"
 lock_ttl_minutes=30
 me=$(gh api user --jq .login)
