@@ -41,7 +41,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 ## Thread check
 
 ```sh
-~/.claude/skills/operator/unhandled-bot-threads.sh <pr> "<bot login>" <owner>/<repo>
+~/.claude/skills/operator/unhandled-bot-threads.py <pr> "<bot login>" <owner>/<repo>
 ```
 
 Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
