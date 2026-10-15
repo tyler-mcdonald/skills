@@ -1,0 +1,6 @@
+target-version = "py313"
+
+[lint]
+# Ruff's defaults (pyflakes + pycodestyle errors) plus import sorting,
+# pyupgrade, and bugbear.
+extend-select = ["I", "UP", "B"]
