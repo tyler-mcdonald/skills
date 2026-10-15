@@ -34,7 +34,7 @@ def is_claude(author):
     return is_bot(author) and author.get("login") == "claude"
 
 
-def fetch(pr, repo):
+def fetch_review_thread_nodes(pr, repo):
     # gh fills in {owner}/{repo} from the current checkout when no repo is given.
     owner, name = repo.split("/", 1) if repo else ("{owner}", "{repo}")
     cmd = [
@@ -82,5 +82,5 @@ def threads_to_handle(threads):
 if __name__ == "__main__":
     pr = sys.argv[1]
     repo = sys.argv[2] if len(sys.argv) > 2 else ""
-    json.dump(list(threads_to_handle(fetch(pr, repo))), sys.stdout)
+    json.dump(list(threads_to_handle(fetch_review_thread_nodes(pr, repo))), sys.stdout)
     print()
