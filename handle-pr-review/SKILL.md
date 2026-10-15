@@ -9,7 +9,7 @@ context: fork
 2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
    ```sh
-   ~/.claude/skills/handle-pr-review/fetch-threads.sh <n> <owner>/<repo>
+   ~/.claude/skills/handle-pr-review/fetch-threads.py <n> <owner>/<repo>
    ```
 
    Don't fetch the full comment list — this is the whole input. If the user names a reviewer (e.g. a review bot), only handle that reviewer's threads.
