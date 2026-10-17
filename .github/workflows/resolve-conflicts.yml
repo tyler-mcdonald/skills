@@ -1,0 +1,82 @@
+name: Resolve conflicts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  find:
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      prs: ${{ steps.find.outputs.prs }}
+    steps:
+      - name: Find conflicting PRs
+        id: find
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          fields=number,url,mergeable,isCrossRepository,headRefName,baseRefName
+          for _ in 1 2 3 4 5 6; do
+            if [ -n "$PR" ]; then
+              prs=$(gh pr view "$PR" --json "$fields" --jq '[.]')
+            else
+              prs=$(gh pr list --state open --limit 100 --json "$fields")
+            fi
+            jq -e 'any(.[]; .mergeable == "UNKNOWN")' <<< "$prs" > /dev/null || break
+            sleep 10
+          done
+          echo "prs=$(jq -c '[.[] | select(.mergeable == "CONFLICTING" and (.isCrossRepository | not))]' <<< "$prs")" >> "$GITHUB_OUTPUT"
+
+  resolve:
+    needs: find
+    if: needs.find.outputs.prs != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        pr: ${{ fromJSON(needs.find.outputs.prs) }}
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: agent-pr-${{ matrix.pr.number }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ matrix.pr.headRefName }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/checkout@v7
+        with:
+          repository: tyler-mcdonald/skills
+          path: .skills-src
+          persist-credentials: false
+
+      - run: mkdir -p ~/.claude && mv .skills-src ~/.claude/skills
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          bot_name: claude[bot]
+          bot_id: "209825114"
+          prompt: |
+            /sync-branch ${{ matrix.pr.baseRefName }}
+            This is PR ${{ matrix.pr.url }}, which has merge conflicts with its base branch.
+            If the result is `Needs Decision`, post one comment on the PR with `gh pr comment ${{ matrix.pr.number }}` listing each file and the decision the user needs to make, unless your latest comment on the PR already reports the same files and decisions.
+          claude_args: |
+            --max-turns 60
+            --model claude-opus-5-5
+            --permission-mode auto
