@@ -1,4 +1,4 @@
-# Inherits shared settings from tyler-mcdonald/coderabbit
+# Inherits shared settings from https://github.com/tyler-mcdonald/coderabbit/blob/main/.coderabbit.yaml
 inheritance: true
 reviews:
   high_level_summary: false
