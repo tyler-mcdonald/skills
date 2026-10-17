@@ -49,9 +49,7 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    concurrency:
-      group: agent-pr-${{ matrix.pr.number }}
-      cancel-in-progress: false
+    concurrency: agent-pr-${{ matrix.pr.number }}
     steps:
       - uses: actions/checkout@v7
         with:
