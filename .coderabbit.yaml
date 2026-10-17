@@ -1,3 +1,4 @@
+# Inherits shared settings from tyler-mcdonald/coderabbit
 inheritance: true
 reviews:
   high_level_summary: false
