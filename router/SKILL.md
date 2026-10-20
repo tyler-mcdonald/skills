@@ -15,7 +15,7 @@ Pick one route from the first message, say it in one line, then follow it:
 
 ## Resolve the repo
 
-Only needed for the issue and direct change routes. Take the first that matches:
+Only needed for the issue, dependency update, and direct change routes. Take the first that matches:
 
 1. An issue URL or `owner/repo#N` in the message.
 2. A project named in the message that matches a local checkout of a repo.
