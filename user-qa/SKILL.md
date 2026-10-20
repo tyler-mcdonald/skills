@@ -1,6 +1,6 @@
 ---
 name: user-qa
-description: Start the app, have the user test a UI change by hand, and fix whatever they report failing until it passes. Use when asked to QA a change with the user, or as the QA step of a workflow.
+description: Have the user test a UI change by hand and work through user feedback. Use when asked to QA a change with the user, or as the QA step of a workflow.
 argument-hint: "[force|skip]"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: setup-worktree
-description: Create or enter an isolated git worktree named after a short title. Use as the setup step before making changes on a new branch.
+description: Create or enter an isolated git worktree for a change. Use as the setup step before making changes on a new branch.
 ---
 
 # Setup Worktree
