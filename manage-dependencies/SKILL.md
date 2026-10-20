@@ -1,6 +1,6 @@
 ---
 name: manage-dependencies
-description: Bump a dependency or fix an audit in its own PR. Use when asked to fix a dependency audit or update a dependency.
+description: Bump a dependency or fix an audit in a separate PR off the base branch. Use when asked to fix a dependency audit or update a dependency.
 ---
 
 # Manage Dependencies
