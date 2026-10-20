@@ -9,12 +9,13 @@ Pick one route from the first message, say it in one line, then follow it:
 
 - **Plan an issue** — invoke `plan-issue`.
 - **Implement an issue** — the change has a GitHub issue: invoke `operator`.
+- **Dependency update** — bump a dependency or fix an audit (pip-audit, npm audit, an advisory): invoke `manage-dependencies`.
 - **Direct change** — a code change with no GitHub issue: follow [Direct change](#direct-change).
 - **Question or chat** — just answer.
 
 ## Resolve the repo
 
-Only needed for the issue and direct change routes. Take the first that matches:
+Only needed for the issue, dependency update, and direct change routes. Take the first that matches:
 
 1. An issue URL or `owner/repo#N` in the message.
 2. A project named in the message that matches a local checkout of a repo.
