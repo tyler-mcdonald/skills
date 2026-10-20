@@ -8,4 +8,5 @@ description: Resolve a GitHub issue and create an isolated git worktree named af
 1. Parse the issue reference from the args (bare number, full URL, or `owner/repo#N`).
 2. Fetch it: `gh issue view <ref> --json number,title,body,url`. If `gh` fails or the issue doesn't exist, stop and surface the exact error.
 3. Invoke `setup-worktree` with the issue title.
-4. Return the issue number, title, URL, branch, and worktree path.
+4. Invoke `set-issue-status` with the issue URL and `In Progress`.
+5. Return the issue number, title, URL, branch, and worktree path.
