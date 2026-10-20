@@ -1,6 +1,6 @@
 ---
 name: watch-prs
-description: Watch all of the user's open PRs, drafts included, and handle review threads last commented on by the user or a bot, sweeping again whenever they change. Use when asked to watch PRs (`/watch-prs [interval]`, e.g. `/watch-prs 30s`).
+description: Watch the user's open PRs and handle their review threads as they come in. Use when asked to watch PRs (`/watch-prs [interval]`, e.g. `/watch-prs 30s`).
 disable-model-invocation: true
 ---
 

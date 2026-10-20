@@ -1,6 +1,6 @@
 ---
 name: refactor-test-duplication
-description: Refactors duplicated steps in the tests changed in the current diff into readable helpers, favoring readable (DAMP) tests over DRY ones. Invoke manually with /refactor-test-duplication.
+description: Refactor duplicated steps in the current diff's tests into readable helpers. Invoke manually with /refactor-test-duplication.
 disable-model-invocation: true
 ---
 
