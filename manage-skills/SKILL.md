@@ -1,6 +1,6 @@
 ---
 name: manage-skills
-description: Create a new skill or change an existing one in the skills repo (~/Projects/skills). Use whenever the user wants to add, edit, rename, or remove a skill.
+description: Add, edit, or remove a skill. Use whenever the user wants to add, edit, rename, or remove a skill.
 ---
 
 # Manage Skills
