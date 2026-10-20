@@ -1,6 +1,6 @@
 ---
 name: setup-issue
-description: Start work on a GitHub issue in its own worktree. Use as the setup step before working on an issue, or when asked to set up a worktree for an issue.
+description: Resolve a GitHub issue and create an isolated git worktree named after it. Use as the setup step before working on an issue, or when asked to set up a worktree for an issue.
 ---
 
 # Setup Issue
