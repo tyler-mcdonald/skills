@@ -9,7 +9,7 @@ argument-hint: "[force|skip]"
 `force` always runs QA and `skip` never does. Without an argument, decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip it for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and review cover those. When skipping, reply "QA skipped" and stop.
 
 1. Invoke `run` in the worktree to start the app.
-2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. Then wait for their pass or fail.
+2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. End the message with `needs input: QA pass or fail` on its own line, then wait for their pass or fail.
 3. On a fail, spawn a fresh subagent with the fix message, wait for its reply, then go back to 1.
 4. On a pass, stop the servers and reply "QA passed".
 
