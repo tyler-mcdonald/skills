@@ -9,6 +9,7 @@ Pick one route from the first message, say it in one line, then follow it:
 
 - **Plan an issue** — invoke `plan-issue`.
 - **Implement an issue** — the change has a GitHub issue: invoke `operator`.
+- **Dependency update** — bump a dependency or fix an audit (pip-audit, npm audit, an advisory): invoke `manage-dependencies`.
 - **Direct change** — a code change with no GitHub issue: follow [Direct change](#direct-change).
 - **Question or chat** — just answer.
 
