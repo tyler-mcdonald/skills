@@ -1,6 +1,6 @@
 ---
 name: manage-dependencies
-description: Update dependencies or fix a dependency audit in its own PR off the base branch. Use when asked to fix pip-audit, npm audit, or a vulnerable package advisory, or to bump, upgrade, or pin a dependency — including when the failing audit is on a feature PR.
+description: Bump a dependency or fix an audit in its own PR. Use when asked to fix a dependency audit or update a dependency.
 ---
 
 # Manage Dependencies
