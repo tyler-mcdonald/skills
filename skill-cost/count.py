@@ -9,6 +9,15 @@ USAGE_KEYS = (
     "output_tokens",
 )
 
+ROLES = (
+    ("code-review-cycle/reviewer.md", "reviewer"),
+    ("code-review-cycle/fixer.md", "fixer"),
+    ("Invoke `simplify`", "simplify"),
+    ("Implement ", "dev"),
+    ("Review target:", "/code-review"),
+    ("Fix these QA findings", "QA fixer"),
+)
+
 
 def first_prompt(records):
     for r in records:
@@ -20,6 +29,13 @@ def first_prompt(records):
                 )
             return " ".join(content.split())[:80]
     return ""
+
+
+def role(prompt):
+    for marker, name in ROLES:
+        if marker in prompt:
+            return name
+    return "?"
 
 
 def tool_result_sizes(records):
@@ -47,8 +63,12 @@ def usage_totals(records):
     for r in records:
         msg = r.get("message", {})
         if r.get("type") == "assistant" and msg.get("usage"):
-            seen[msg.get("id") or r["uuid"]] = msg["usage"]
-    return {k: sum(u.get(k, 0) for u in seen.values()) for k in USAGE_KEYS}
+            u = seen.setdefault(msg.get("id") or r["uuid"], {})
+            for k in USAGE_KEYS:
+                u[k] = max(u.get(k, 0), msg["usage"].get(k) or 0)
+    totals = {k: sum(u[k] for u in seen.values()) for k in USAGE_KEYS}
+    totals["turns"] = len(seen)
+    return totals
 
 
 def main(session_path, until=None):
@@ -59,17 +79,20 @@ def main(session_path, until=None):
     rows = []
     for f in files:
         records = load(f, until if f == session else None)
-        totals = usage_totals(records)
+        prompt = first_prompt(records)
         largest = max(tool_result_sizes(records), default=(0, ""))
-        rows.append(
-            (f.name, sum(totals.values()), totals, largest[0], first_prompt(records))
-        )
-    grand = sum(r[1] for r in rows) or 1
-    print(f"total {grand:,}")
-    for name, total, totals, largest, prompt in sorted(rows, key=lambda r: -r[1]):
-        print(
-            f"{total:>12,} {100 * total / grand:5.1f}%  out={totals['output_tokens']:,}  largest_tool_result={largest:,}ch  {name}  {prompt}"
-        )
+        name = "main" if f == session else role(prompt)
+        rows.append((name, usage_totals(records), largest[0], f.name, prompt))
+    columns = ("input", "cache_write", "cache_read", "output", "turns")
+    keys = USAGE_KEYS + ("turns",)
+    print(f"{'agent':<14}" + "".join(f"{c:>13}" for c in columns))
+    for name, totals, largest, file, prompt in sorted(
+        rows, key=lambda r: -r[1]["cache_read_input_tokens"]
+    ):
+        cells = "".join(f"{totals[k]:>13,}" for k in keys)
+        print(f"{name:<14}{cells}  largest_tool_result={largest:,}ch  {file}  {prompt}")
+    grand = {k: sum(r[1][k] for r in rows) for k in keys}
+    print(f"{'total':<14}" + "".join(f"{grand[k]:>13,}" for k in keys))
 
 
 if __name__ == "__main__":
