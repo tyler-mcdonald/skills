@@ -37,8 +37,13 @@ def is_done(comments, bot, trigger, done_text):
 def await_bot_review(pr, bot, trigger, done_text, repo):
     deadline = time.monotonic() + TIMEOUT_SECONDS
     while True:
-        if is_done(fetch_comments(pr, repo), bot, trigger, done_text):
-            return "done"
+        try:
+            comments = fetch_comments(pr, repo)
+        except subprocess.CalledProcessError as error:
+            print(error.stderr, file=sys.stderr)
+        else:
+            if is_done(comments, bot, trigger, done_text):
+                return "done"
         if time.monotonic() + POLL_SECONDS > deadline:
             return "timeout"
         time.sleep(POLL_SECONDS)
