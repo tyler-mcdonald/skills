@@ -102,7 +102,7 @@ class IsDoneTest(unittest.TestCase):
 
 class AwaitBotReviewTest(unittest.TestCase):
     def run_polls(self, responses):
-        clock = [0.0]
+        self.clock = clock = [0.0]
 
         def sleep(seconds):
             clock[0] += seconds
@@ -139,6 +139,17 @@ class AwaitBotReviewTest(unittest.TestCase):
         result, calls = self.run_polls(lambda *_: pending)
         self.assertEqual(result, "timeout")
         self.assertEqual(calls, abr.TIMEOUT_SECONDS // abr.POLL_SECONDS + 1)
+
+    def test_final_poll_at_deadline_after_slow_fetches(self):
+        pending = [trigger("2026-01-01T00:00:00Z")]
+        done = pending + [comment("coderabbitai[bot]", DONE, "2026-01-01T00:00:08Z")]
+
+        def fetch(*_):
+            started = self.clock[0]
+            self.clock[0] += 45
+            return done if started >= abr.TIMEOUT_SECONDS else pending
+
+        self.assertEqual(self.run_polls(fetch)[0], "done")
 
 
 if __name__ == "__main__":

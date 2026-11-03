@@ -51,9 +51,10 @@ def await_bot_review(pr, bot, trigger, done_text, repo):
             fetched = True
             if is_done(comments, bot, trigger, done_text):
                 return "done"
-        if time.monotonic() + POLL_SECONDS > deadline:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
             return "timeout"
-        time.sleep(POLL_SECONDS)
+        time.sleep(min(POLL_SECONDS, remaining))
 
 
 if __name__ == "__main__":
