@@ -6,12 +6,15 @@ import time
 
 POLL_SECONDS = 60
 TIMEOUT_SECONDS = 15 * 60
+FETCH_TIMEOUT_SECONDS = 30
 
 
 def fetch_comments(pr, repo):
     path = f"repos/{repo or '{owner}/{repo}'}/issues/{pr}/comments"
     cmd = ["gh", "api", "--paginate", path, "--jq", ".[]"]
-    result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+    result = subprocess.run(
+        cmd, check=True, capture_output=True, text=True, timeout=FETCH_TIMEOUT_SECONDS
+    )
     return [json.loads(line) for line in result.stdout.splitlines() if line]
 
 
@@ -36,12 +39,16 @@ def is_done(comments, bot, trigger, done_text):
 
 def await_bot_review(pr, bot, trigger, done_text, repo):
     deadline = time.monotonic() + TIMEOUT_SECONDS
+    fetched = False
     while True:
         try:
             comments = fetch_comments(pr, repo)
-        except subprocess.CalledProcessError as error:
-            print(error.stderr, file=sys.stderr)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+            if not fetched:
+                sys.exit(f"{error}\n{error.stderr or ''}")
+            print(error, error.stderr or "", sep="\n", file=sys.stderr)
         else:
+            fetched = True
             if is_done(comments, bot, trigger, done_text):
                 return "done"
         if time.monotonic() + POLL_SECONDS > deadline:

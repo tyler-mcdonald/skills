@@ -117,12 +117,22 @@ class AwaitBotReviewTest(unittest.TestCase):
         return result, fetch.call_count
 
     def test_failed_fetch_retries_next_poll(self):
-        done = [
-            trigger("2026-01-01T00:00:00Z"),
-            comment("coderabbitai[bot]", DONE, "2026-01-01T00:00:08Z"),
-        ]
+        pending = [trigger("2026-01-01T00:00:00Z")]
+        done = pending + [comment("coderabbitai[bot]", DONE, "2026-01-01T00:00:08Z")]
         error = subprocess.CalledProcessError(1, "gh", stderr="HTTP 502")
-        self.assertEqual(self.run_polls([error, done]), ("done", 2))
+        self.assertEqual(self.run_polls([pending, error, done]), ("done", 3))
+
+    def test_hung_fetch_retries_next_poll(self):
+        pending = [trigger("2026-01-01T00:00:00Z")]
+        done = pending + [comment("coderabbitai[bot]", DONE, "2026-01-01T00:00:08Z")]
+        error = subprocess.TimeoutExpired("gh", abr.FETCH_TIMEOUT_SECONDS)
+        self.assertEqual(self.run_polls([pending, error, done]), ("done", 3))
+
+    def test_first_fetch_failure_exits(self):
+        error = subprocess.CalledProcessError(1, "gh", stderr="HTTP 404")
+        with self.assertRaises(SystemExit) as exit:
+            self.run_polls([error])
+        self.assertIn("HTTP 404", str(exit.exception.code))
 
     def test_timeout(self):
         pending = [trigger("2026-01-01T00:00:00Z")]
