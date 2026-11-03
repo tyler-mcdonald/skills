@@ -1,6 +1,6 @@
 ---
 name: plan-issue
-description: Plan a GitHub issue and write the agreed plan into the issue, so a separate agent can implement it. Planning only — no code, branch, or PR. Use when the user gives a GitHub issue (number, URL, or "owner/repo#N") and asks to plan, start, pick up, or tackle it.
+description: Plan a GitHub issue and write the plan into it, without implementing it. Use when a GitHub issue needs planning: planning explicitly mentioned by the user/agent, issue is categorized/labeled as unplanned, or the issue has no requirements.
 ---
 
 # Plan Issue
