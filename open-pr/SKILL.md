@@ -7,6 +7,7 @@ description: Open a pull request. Use whenever opening a PR.
 
 - Always open PRs as drafts (`gh pr create --draft`). Never mark a PR as ready for review.
 - The body is a short, concise description: one or two sentences on what the PR changes and why. No headings, lists, or test plan unless the user explicitly asks. If the PR resolves an issue, end the body with `Closes #<issue number>` on its own line.
+- Write the body at the level of behavior, not implementation: no file, function, command, or library names unless the change is about them. The diff shows how; the body says what and why.
 - After these rules, apply any PR conventions in the repo's CLAUDE.md (e.g. allowed scopes). They take precedence where they're more specific.
 
 ## PR title
