@@ -12,6 +12,7 @@ Takes a GitHub issue from "not started" to an agreed plan recorded on the issue.
 3. Draft a concrete implementation plan, present it, then invoke `grilling` on it.
 4. Incorporate what surfaces — revise the plan, or push back with reasoning, rather than ignoring findings. Then confirm the final plan with the user and wait for explicit approval. Do not skip or short-circuit this.
 5. Write the approved plan into the issue body (`gh issue edit <ref> --body-file <file>`), keeping any existing body text above it. Write it with the `write-issue` skill. It's the source of truth for an implementer who wasn't in the conversation, so include every decision made, and any manual rollout steps.
-6. Report the issue URL and stop. Do not implement, branch, commit, or open a PR, even if the plan looks small — that's the implementing agent's job.
+6. Set the Status of every issue written in step 5 (including any new sub-issues) to "Ready to work" with the `set-issue-status` skill.
+7. Report the issue URL and stop. Do not implement, branch, commit, or open a PR, even if the plan looks small — that's the implementing agent's job.
 
 If any `gh` command fails (auth, permissions, rate limit), surface the exact error instead of retrying blindly or guessing a workaround.
