@@ -25,7 +25,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
    1. If it replies `none`, go to step 9.
    2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here and leave the PR as a draft.
-   3. Wait for the "Done when" signal, checking once a minute for up to 15 minutes. Only count what the bot posted or edited after the trigger comment. If it never comes, stop here and leave the PR as a draft.
+   3. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here and leave the PR as a draft.
 
 8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
    1. Run the thread check. If it prints `[]`, go to step 9.
@@ -47,6 +47,14 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
 
 If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there and leave the PR as a draft.
+
+## Bot wait
+
+```sh
+~/.claude/skills/operator/await-bot-review.py <pr> "<bot login>" "<trigger comment>" "<done text>" <owner>/<repo>
+```
+
+Takes the trigger comment and the backticked text in "Done when" from the bot's row in `trigger-bot-review/review-bots.md`. Checks the PR's comments once a minute for up to 15 minutes, and prints `done` once a comment the bot posted or edited after the latest trigger comment contains the done text, or `timeout` if none does. Exits non-zero if the first check fails, since a wrong PR, repo, or gh auth won't fix itself; later failed checks are retried. It can outlast a foreground Bash call, so always run it with `run_in_background`.
 
 ## Spawn messages
 
