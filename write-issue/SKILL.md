@@ -5,7 +5,7 @@ description: Write a short, plain GitHub issue. Use whenever creating a GitHub i
 
 # Write Issue
 
-Write for a person skimming it, and keep it short. Use three parts, in this order:
+Write it for the agent that implements it, in plain language a person can read. Keep it short. Use three parts, in this order:
 
 1. **Overview:** one or two sentences on what this is.
 2. **Requirements:** bullets for the main requirements and the decisions made. One line each.
