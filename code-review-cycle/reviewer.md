@@ -16,7 +16,7 @@ Read the inputs in `inputs.md`, next to this file. The goal's acceptance criteri
 
 ## Steps
 
-1. Run the project's checks — tests, lint, typecheck — using the commands its CI, Makefile, package scripts, or CLAUDE.md define. Record pass/fail per check.
+1. Run the project's checks — tests, lint, typecheck — using the commands its CI, Makefile, package scripts, or CLAUDE.md define. Record pass/fail per check. From round 2 on, if HEAD is `fix-<n-1>.json`'s `commit` and every check there passed, record those results instead of re-running them.
 2. Run `git fetch origin`, then invoke the `code-review` skill (no `--fix`, no `--comment`). Wait for its completion notification; don't sleep or poll for it. If it reports via a findings tool, also include every finding in your reply.
    - `full`: args `<effort> origin/<base>...HEAD` — never a local base branch, which may be stale.
    - `verify`: args `<effort> <round n-1 head_sha>..<fix commit>`. Keep only findings in that diff or in code it changes the behavior of.
