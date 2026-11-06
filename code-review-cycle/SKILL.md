@@ -3,6 +3,8 @@ name: code-review-cycle
 description: Score a branch for merge-readiness and fix its review findings until it's ready to merge. Use when asked to score, grade, or rank a code review, or to review-and-fix a branch until it's ready to merge.
 ---
 
+# Code Review Cycle
+
 A harness around `/code-review`. It doesn't change how the review finds issues — it adds a goal to review against, a deterministic score (`rubric.md`), a fix loop, and stop rules. `rubric.md` decides which findings are fixed (`"fix": true`).
 
 You are the coordinator. You never review or fix code yourself — every review and every fix runs in its own fresh subagent, so no agent grades its own work.

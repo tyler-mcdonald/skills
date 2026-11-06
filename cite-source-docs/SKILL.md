@@ -3,6 +3,8 @@ name: cite-source-docs
 description: Find the official docs behind a pattern, piece of code, configuration, or directive that's been implemented. Use when the user asks where something came from in the docs, or wants a citation for a pattern/config/directive that was used.
 ---
 
+# Cite Source Docs
+
 Find the official source documentation backing the pattern, code, configuration, or directive in question.
 
 First determine the subject: if the arguments name something specific, that is the subject — don't default to whatever was last discussed. Only fall back to the current conversation context when no specific subject is given (e.g. "on this").
