@@ -3,7 +3,7 @@ name: review-component-state
 description: Review frontend components for state held at the wrong altitude and components that should be presentational. Use when the user asks to review component state or data flow.
 ---
 
-# Review component state
+# Review Component State
 
 Review frontend components for state held at the wrong altitude. State belongs in the
 lowest common parent of everything that uses it — no higher, no lower. Components

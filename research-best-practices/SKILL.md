@@ -3,6 +3,8 @@ name: research-best-practices
 description: Research the best practices for a library, framework, or language before implementing a pattern with it. Use when deciding how to set up or use something and no established project convention already covers it.
 ---
 
+# Research Best Practices
+
 Research the best practices for the library, framework, or language in question.
 
 1. Lean first on the official documentation. Prioritize simplicity — the basic, recommended setup — over anything advanced.
