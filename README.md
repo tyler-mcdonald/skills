@@ -26,7 +26,6 @@ Fixes issues flagged by external AI reviewer`"]
 ```
 
 - Runs on its own from issue to PR, and stops only when it needs human input.
-- Before the PR opens, a review agent scores the diff against the issue's requirements and a fix agent addresses what it finds.
 - Never merges or force-pushes. A human approves every merge.
 - Limits review rounds and wait times so cost and runtime stay predictable.
 
