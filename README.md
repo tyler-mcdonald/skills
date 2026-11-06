@@ -32,7 +32,7 @@ Fixes issues flagged by external AI reviewer`"]
 
 ## Other skills
 
-- [plan-issue](plan-issue/SKILL.md): writes an implementation plan into a GitHub issue
+- [router](router/SKILL.md): sends a new chat's first request to the right workflow
 - [code-review-cycle](code-review-cycle/SKILL.md): reviews a branch and fixes findings until it's ready to merge
 - [handle-pr-review](handle-pr-review/SKILL.md): addresses and replies to PR review comments
 
