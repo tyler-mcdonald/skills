@@ -25,7 +25,7 @@ Fixes issues flagged by external AI reviewer`"]
     G --> H([Ready for human review])
 ```
 
-- Runs on its own from issue to PR, and stops only when it needs a person.
+- Runs on its own from issue to PR, and stops only when it needs human input.
 - Separate agents check the code against the issue's requirements and fix problems before the PR is opened.
 - Never merges or force-pushes. A human approves every merge.
 - Limits review rounds and wait times so cost and runtime stay predictable.
