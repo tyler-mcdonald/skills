@@ -1,4 +1,4 @@
-# operator baseline
+# orchestrator baseline
 
 Measured 2026-10-01, before #10–#14. Runs in cardcase. Tokens = input + cache creation + cache read + output, each message id once, the user's turns after the final report excluded.
 

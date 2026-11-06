@@ -1,9 +1,9 @@
 ---
-name: operator
-description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the operator on an issue.
+name: orchestrator
+description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the orchestrator on an issue.
 ---
 
-# Operator
+# Orchestrator
 
 ## Steps
 
