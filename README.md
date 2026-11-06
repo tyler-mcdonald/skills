@@ -31,10 +31,6 @@ flowchart LR
 - [code-review-cycle](code-review-cycle/SKILL.md): reviews a branch and fixes findings until it's ready to merge
 - [handle-pr-review](handle-pr-review/SKILL.md): addresses and replies to PR review comments
 
-## Setup
-
-```sh
-git clone https://github.com/tyler-mcdonald/skills.git ~/.claude/skills
-```
+## Related
 
 Automated bot review in CI uses [agent-workflows](https://github.com/tyler-mcdonald/agent-workflows).
