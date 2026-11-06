@@ -9,14 +9,15 @@ Claude Code skills that plan, build, review, and ship code.
 Used to build [Cardcase](https://github.com/tyler-mcdonald/cardcase).
 
 ```mermaid
-flowchart LR
-    A[Issue] --> B[Dev agent]
+flowchart TD
+    A([GitHub issue]) --> B[Dev agent]
     B --> C[Refactor agent]
-    C --> D{Review + fix<br/>loop}
-    D -- fails --> X[Draft PR +<br/>notify user]
-    D -- passes --> E[QA<br/>optional]
-    E --> F[External AI review<br/>CodeRabbit]
-    F --> G[Ready for<br/>human review]
+    C --> D{Review + fix loop}
+    D -->|passes| E[QA, UI changes only]
+    D -.->|fails| X([Draft PR + notify user])
+    E --> F[CodeRabbit review]
+    F --> G[CI agent fixes comments]
+    G --> H([Ready for human review])
 ```
 
 - Runs on its own from issue to PR, and stops only when it needs a person.
