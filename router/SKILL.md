@@ -25,8 +25,6 @@ If none match, ask which repo. Work from that repo's local checkout.
 
 ## Direct change
 
-No orchestrator: no simplify, review cycle, QA, or bot review.
-
 1. Invoke `setup-worktree` with a short title for the change. Stay in that worktree for every step.
 2. Make the change and run the project's checks (tests, lint).
 3. Commit, `git push -u origin HEAD`, and open the PR with the `open-pr` skill.
