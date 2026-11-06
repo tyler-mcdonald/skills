@@ -4,7 +4,7 @@ AI agent skills to plan, build, review, and ship code.
 
 ## Orchestrator
 
-[Orchestrator](operator/SKILL.md) coordinates a team of agents to take a GitHub issue to a review-ready PR.
+[Orchestrator](orchestrator/SKILL.md) coordinates a team of agents to take a GitHub issue to a review-ready PR.
 
 Used to build [Cardcase](https://github.com/tyler-mcdonald/cardcase), a live full-stack app.
 
