@@ -10,13 +10,18 @@ Used to build [Cardcase](https://github.com/tyler-mcdonald/cardcase).
 
 ```mermaid
 flowchart TD
-    A([GitHub issue]) --> B[Dev agent]
-    B --> C[Refactor agent]
-    C --> D{Review + fix loop}
-    D -->|passes| E[QA, UI changes only]
+    A([GitHub issue]) --> B["`**Dev agent**
+Implements the issue`"]
+    B --> C["`**Refactor agent**
+Simplifies the diff`"]
+    C --> D{"`**Review + fix loop**`"}
+    D -->|scores at least 4/5| E["`**QA**
+UI changes only`"]
     D -.->|fails| X([Draft PR + notify user])
-    E --> F[CodeRabbit review]
-    F --> G[CI agent fixes comments]
+    E --> F["`**External AI review**
+CodeRabbit, Greptile, etc.`"]
+    F --> G["`**CI agent**
+Fixes issues flagged by external AI reviewer`"]
     G --> H([Ready for human review])
 ```
 
