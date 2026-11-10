@@ -7,7 +7,7 @@ description: Plan a GitHub issue and write the plan into it, without implementin
 
 Takes a GitHub issue from "not started" to an agreed plan recorded on the issue. The issue is the hand-off: a separate agent implements it from there.
 
-1. Fetch the issue (`gh issue view <ref> --json number,title,body,comments`) and confirm it with the user in one line (number + title) — a cheap sanity check against grabbing the wrong issue.
+1. Fetch the issue (`gh issue view <ref> --json number,title,body,comments`) and confirm it with the user in one line (number + title) — a cheap sanity check against grabbing the wrong issue. Then set its Status to "Planning" with the `set-issue-status` skill.
 2. Explore the repo's local checkout, read-only, enough to understand how this issue's area is currently built (relevant files, existing patterns, conventions). No worktree, no file changes.
 3. Draft a concrete implementation plan, present it, then invoke `grilling` on it.
 4. Incorporate what surfaces — revise the plan, or push back with reasoning, rather than ignoring findings. Then confirm the final plan with the user and wait for explicit approval. Do not skip or short-circuit this.
