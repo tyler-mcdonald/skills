@@ -13,11 +13,9 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan, present it, and invoke `grilling` on it.
    4. Address each finding: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
-3. **Write it.** With the `write-issue` skill, write the plan into the issue:
+3. **Write it.** With the `write-issue` skill, write the plan into the issue, including every decision and any manual rollout steps (the implementer wasn't in the conversation):
    - Existing issue: `gh issue edit <ref> --body-file <file>`, keeping any existing body text above the plan.
    - No issue: `gh issue create`.
-
-   Include every decision and any manual rollout steps; the implementer wasn't in the conversation.
 4. **Mark it ready.** Set every issue written in step 3, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
 5. **Report and stop.** Give the issue URL. Don't implement, branch, commit, or open a PR, even if the plan is small.
 
