@@ -43,7 +43,7 @@ Then:
 Special cases:
 
 - **Intended fail-fast.** A failure that is the goal's stated purpose, is documented, and has an error naming the fix is `friction`.
-- **Untested behavior.** A changed behavior with no test is **Major** if it could fail `silent` in `prod`; otherwise **Minor**.
+- **Untested behavior.** A changed behavior with no test is **Major** if it could fail `silent` in `prod`; otherwise **Minor**. Style-only changes (colors, spacing, CSS) aren't untested behavior; they get visual QA, not tests.
 
 Levels, high to low: Blocker → Major → Minor → Nit.
 
