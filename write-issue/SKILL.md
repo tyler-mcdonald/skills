@@ -28,5 +28,3 @@ Everything else already uses Mantine's color variables and should work as is.
 
 Mocks: <link>
 ```
-
-If the user agreed to the plan in this chat, set the new issue's Status to "Ready to work" with the `set-issue-status` skill.
