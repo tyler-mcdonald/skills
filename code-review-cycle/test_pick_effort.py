@@ -68,7 +68,7 @@ class PickEffortTest(unittest.TestCase):
         self.assertEqual(
             calls,
             [
-                ["git", "fetch", "origin", "main"],
+                ["git", "fetch", "origin", "+refs/heads/main:refs/remotes/origin/main"],
                 ["git", "diff", "--numstat", "-z", "origin/main...HEAD"],
             ],
         )
