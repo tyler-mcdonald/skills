@@ -55,7 +55,7 @@ def effort(lines):
 
 
 def pick_effort(base):
-    git("fetch", "origin")
+    git("fetch", "origin", base)
     return effort(changed_lines(git("diff", "--numstat", f"origin/{base}...HEAD")))
 
 
