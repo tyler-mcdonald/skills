@@ -22,25 +22,19 @@ def git(*args):
     ).stdout
 
 
-def new_path(path):
-    if "=>" not in path:
-        return path
-    if "{" in path:
-        prefix, rest = path.split("{", 1)
-        inner, suffix = rest.split("}", 1)
-        return prefix + inner.split("=>", 1)[1].strip() + suffix
-    return path.split("=>", 1)[1].strip()
-
-
 def changed_lines(numstat):
     total = 0
-    for line in numstat.splitlines():
-        if not line:
+    fields = iter(numstat.split("\0"))
+    for entry in fields:
+        if not entry:
             continue
-        added, deleted, path = line.split("\t", 2)
+        added, deleted, path = entry.split("\t", 2)
+        if not path:
+            next(fields)
+            path = next(fields)
         if added == "-" or deleted == "-":
             continue
-        if PurePosixPath(new_path(path)).name in LOCKFILES:
+        if PurePosixPath(path).name in LOCKFILES:
             continue
         total += int(added) + int(deleted)
     return total
@@ -56,7 +50,9 @@ def effort(lines):
 
 def pick_effort(base):
     git("fetch", "origin", base)
-    return effort(changed_lines(git("diff", "--numstat", f"origin/{base}...HEAD")))
+    return effort(
+        changed_lines(git("diff", "--numstat", "-z", f"origin/{base}...HEAD"))
+    )
 
 
 if __name__ == "__main__":

@@ -13,24 +13,28 @@ spec.loader.exec_module(pe)
 
 class ChangedLinesTest(unittest.TestCase):
     def test_sums_added_and_deleted(self):
-        self.assertEqual(pe.changed_lines("3\t2\ta.py\n10\t0\tdocs/b.md\n"), 15)
+        self.assertEqual(pe.changed_lines("3\t2\ta.py\x0010\t0\tdocs/b.md\x00"), 15)
 
     def test_skips_binary_files(self):
-        self.assertEqual(pe.changed_lines("-\t-\timage.png\n4\t1\ta.py\n"), 5)
+        self.assertEqual(pe.changed_lines("-\t-\timage.png\x004\t1\ta.py\x00"), 5)
 
     def test_skips_lockfiles_in_any_directory(self):
-        numstat = "".join(f"100\t100\tsub/{name}\n" for name in sorted(pe.LOCKFILES))
-        self.assertEqual(pe.changed_lines(numstat + "1\t1\ta.py\n"), 2)
+        numstat = "".join(f"100\t100\tsub/{name}\x00" for name in sorted(pe.LOCKFILES))
+        self.assertEqual(pe.changed_lines(numstat + "1\t1\ta.py\x00"), 2)
 
     def test_counts_similarly_named_files(self):
-        self.assertEqual(pe.changed_lines("5\t0\tyarn.lock.md\n"), 5)
+        self.assertEqual(pe.changed_lines("5\t0\tyarn.lock.md\x00"), 5)
 
     def test_skips_renamed_lockfile(self):
-        self.assertEqual(pe.changed_lines("7\t7\t{old => new}/uv.lock\n"), 0)
-        self.assertEqual(pe.changed_lines("7\t7\tuv.lock => sub/go.sum\n"), 0)
+        self.assertEqual(
+            pe.changed_lines("7\t7\t\x00old/uv.lock\x00new/uv.lock\x00"), 0
+        )
+        self.assertEqual(
+            pe.changed_lines("7\t7\t\x00tpl{x}/a/uv.lock\x00café/uv.lock\x00"), 0
+        )
 
     def test_counts_rename_away_from_lockfile_name(self):
-        self.assertEqual(pe.changed_lines("2\t1\tuv.lock => notes.txt\n"), 3)
+        self.assertEqual(pe.changed_lines("2\t1\t\x00uv.lock\x00notes.txt\x00"), 3)
 
     def test_empty_diff(self):
         self.assertEqual(pe.changed_lines(""), 0)
@@ -50,7 +54,7 @@ class PickEffortTest(unittest.TestCase):
 
         def run(cmd, **kwargs):
             calls.append(cmd)
-            stdout = "30\t30\ta.py\n" if cmd[1] == "diff" else ""
+            stdout = "30\t30\ta.py\x00" if cmd[1] == "diff" else ""
             return subprocess.CompletedProcess(cmd, 0, stdout=stdout)
 
         with mock.patch.object(pe.subprocess, "run", side_effect=run):
@@ -59,7 +63,7 @@ class PickEffortTest(unittest.TestCase):
             calls,
             [
                 ["git", "fetch", "origin", "main"],
-                ["git", "diff", "--numstat", "origin/main...HEAD"],
+                ["git", "diff", "--numstat", "-z", "origin/main...HEAD"],
             ],
         )
 
