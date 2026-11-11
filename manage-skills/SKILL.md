@@ -14,6 +14,7 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
 3. Spawn a fresh subagent given only the changed skill files and the repo's other skills. Ask for:
    - Cuts: lines an agent would get right without, and wording to shorten.
    - Existing skills: steps that redo another skill, to replace with invoking it.
+   - Plain wording: unnecessary direction to remove, and LLM-sounding wording to make simple and direct. A human should be able to follow what the skill does.
 
    Apply them, except any that drop something the user asked for.
 4. Commit with a short, single-line message.
