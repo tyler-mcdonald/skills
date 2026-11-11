@@ -52,7 +52,7 @@ def effort(lines):
     return "high"
 
 
-def pick_effort(base):
+def determine_code_review_effort(base):
     git("fetch", "origin", f"+refs/heads/{base}:refs/remotes/origin/{base}")
     return effort(
         changed_lines(git("diff", "--numstat", "-z", f"origin/{base}...HEAD"))
@@ -61,8 +61,8 @@ def pick_effort(base):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        sys.exit("usage: pick-effort.py <base>")
+        sys.exit("usage: determine-code-review-effort.py <base>")
     try:
-        print(pick_effort(sys.argv[1]))
+        print(determine_code_review_effort(sys.argv[1]))
     except subprocess.CalledProcessError as error:
         sys.exit(f"{error}\n{error.stderr or ''}")

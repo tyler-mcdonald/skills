@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 spec = importlib.util.spec_from_file_location(
-    "pick_effort", Path(__file__).with_name("pick-effort.py")
+    "determine_code_review_effort", Path(__file__).with_name("determine-code-review-effort.py")
 )
 pe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pe)
@@ -53,7 +53,7 @@ class EffortTest(unittest.TestCase):
                 self.assertEqual(pe.effort(lines), expected)
 
 
-class PickEffortTest(unittest.TestCase):
+class DetermineCodeReviewEffortTest(unittest.TestCase):
     def test_fetches_then_diffs_against_origin_base(self):
         calls = []
 
@@ -64,7 +64,7 @@ class PickEffortTest(unittest.TestCase):
             return subprocess.CompletedProcess(cmd, 0, stdout=stdout)
 
         with mock.patch.object(pe.subprocess, "run", side_effect=run):
-            self.assertEqual(pe.pick_effort("main"), "medium")
+            self.assertEqual(pe.determine_code_review_effort("main"), "medium")
         self.assertEqual(
             calls,
             [
@@ -79,7 +79,7 @@ class PickEffortTest(unittest.TestCase):
             mock.patch.object(pe.subprocess, "run", side_effect=error),
             self.assertRaises(subprocess.CalledProcessError),
         ):
-            pe.pick_effort("main")
+            pe.determine_code_review_effort("main")
 
 
 if __name__ == "__main__":
