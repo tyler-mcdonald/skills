@@ -1,19 +1,22 @@
 ---
 name: plan-issue
-description: Plan a GitHub issue and write the plan into it, without implementing it. Use when a GitHub issue needs planning: planning explicitly mentioned by the user/agent, issue is categorized/labeled as unplanned, or the issue has no requirements.
+description: Plan a GitHub issue and write the plan into it, without implementing it. Use when an issue needs planning (asked for, labeled unplanned, or no requirements), or to put a plan agreed in chat into an issue.
 ---
 
 # Plan Issue
 
-Takes a GitHub issue from "not started" to an agreed plan recorded on the issue. The issue is the hand-off: a separate agent implements it from there.
+Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent implements it from there.
 
-1. Fetch the issue (`gh issue view <ref> --json number,title,body,comments`) and confirm it with the user in one line (number + title) — a cheap sanity check against grabbing the wrong issue.
-2. Set the issue's Status to "Planning" with the `set-issue-status` skill.
-3. Explore the repo's local checkout, read-only, enough to understand how this issue's area is currently built (relevant files, existing patterns, conventions). No worktree, no file changes.
-4. Draft a concrete implementation plan, present it, then invoke `grilling` on it.
-5. Incorporate what surfaces — revise the plan, or push back with reasoning, rather than ignoring findings. Then confirm the final plan with the user and wait for explicit approval. Do not skip or short-circuit this.
-6. Write the approved plan into the issue body (`gh issue edit <ref> --body-file <file>`), keeping any existing body text above it. Write it with the `write-issue` skill. It's the source of truth for an implementer who wasn't in the conversation, so include every decision made, and any manual rollout steps.
-7. Set the Status of every issue written in step 6 (including any new sub-issues) to "Ready to work" with the `set-issue-status` skill.
-8. Report the issue URL and stop. Do not implement, branch, commit, or open a PR, even if the plan looks small — that's the implementing agent's job.
+1. **Get the issue.** If there is one, fetch it (`gh issue view <ref> --json number,title,body,comments`) and confirm its number and title with the user in one line. If there isn't, step 3 creates it.
+2. **Agree on a plan.** If the plan was already agreed in this chat, go to step 3. Otherwise:
+   1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
+   2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
+   3. Draft a concrete plan, present it, and invoke `grilling` on it.
+   4. Address each finding: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
+3. **Write it.** With the `write-issue` skill, write the plan into the issue, including every decision and any manual rollout steps (the implementer wasn't in the conversation):
+   - Existing issue: `gh issue edit <ref> --body-file <file>`, keeping any existing body text above the plan.
+   - No issue: `gh issue create`.
+4. **Mark it ready.** Set every issue written in step 3, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
+5. **Report and stop.** Give the issue URL. Don't implement, branch, commit, or open a PR, even if the plan is small.
 
-If any `gh` command fails (auth, permissions, rate limit), surface the exact error instead of retrying blindly or guessing a workaround.
+If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
