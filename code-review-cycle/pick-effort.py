@@ -18,7 +18,11 @@ MEDIUM_MAX = 400
 
 def git(*args):
     return subprocess.run(
-        ["git", *args], check=True, capture_output=True, text=True
+        ["git", *args],
+        check=True,
+        capture_output=True,
+        text=True,
+        errors="surrogateescape",
     ).stdout
 
 

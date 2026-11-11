@@ -33,6 +33,11 @@ class ChangedLinesTest(unittest.TestCase):
             pe.changed_lines("7\t7\t\x00tpl{x}/a/uv.lock\x00café/uv.lock\x00"), 0
         )
 
+    def test_skips_renamed_binary_file(self):
+        self.assertEqual(
+            pe.changed_lines("-\t-\t\x00old.png\x00new.png\x004\t1\ta.py\x00"), 5
+        )
+
     def test_counts_rename_away_from_lockfile_name(self):
         self.assertEqual(pe.changed_lines("2\t1\t\x00uv.lock\x00notes.txt\x00"), 3)
 
@@ -54,6 +59,7 @@ class PickEffortTest(unittest.TestCase):
 
         def run(cmd, **kwargs):
             calls.append(cmd)
+            self.assertEqual(kwargs.get("errors"), "surrogateescape")
             stdout = "30\t30\ta.py\x00" if cmd[1] == "diff" else ""
             return subprocess.CompletedProcess(cmd, 0, stdout=stdout)
 
