@@ -17,6 +17,7 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Plain wording: unnecessary direction to remove, and LLM-sounding wording to make simple and direct. A human should be able to follow what the skill does.
 
    Apply them, except any that drop something the user asked for.
-4. Commit with a short, single-line message.
-5. `git push -u origin HEAD`, then open the PR into main with the `open-pr` skill.
-6. Return the PR URL.
+4. Spawn another fresh subagent the same way, as a markdown expert. Ask only for markdown structure changes (headings vs lists, nesting, inline code, emphasis, paragraph breaks), and only where they make the file simpler, more readable, or better organized, not fancier. Wording and behavior stay the same. Apply them the same way.
+5. Commit with a short, single-line message.
+6. `git push -u origin HEAD`, then open the PR into main with the `open-pr` skill.
+7. Return the PR URL.
