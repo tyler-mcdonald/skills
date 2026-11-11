@@ -10,6 +10,12 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Description: a short, high-level summary of what the skill is for, then when to use it. It's what agents read to pick the skill, so leave the steps and internals to the body.
    - Body: open with a `#` title of the skill name in Title Case (e.g. `# Setup Worktree`), the only `#` heading in the file.
    - Renaming a skill: search the other skills for references to the old name and update them too, so names don't drift out of sync.
-3. Commit with a short, single-line message.
-4. `git push -u origin HEAD`, then open the PR into main with the `open-pr` skill.
-5. Return the PR URL.
+   - Writing: prefer brevity, simplicity, and readability. Be very concise.
+3. Spawn a fresh subagent given only the changed skill files and the repo's other skills. Ask for:
+   - Cuts: lines an agent would get right without, and wording to shorten.
+   - Existing skills: steps that redo another skill, to replace with invoking it.
+
+   Apply them, except any that drop something the user asked for.
+4. Commit with a short, single-line message.
+5. `git push -u origin HEAD`, then open the PR into main with the `open-pr` skill.
+6. Return the PR URL.
