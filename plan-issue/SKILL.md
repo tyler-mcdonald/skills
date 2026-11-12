@@ -1,6 +1,6 @@
 ---
 name: plan-issue
-description: Plan a GitHub issue and write the plan into it, without implementing it. Use when an issue needs planning (asked for, labeled unplanned, or no requirements), or to put a plan agreed in chat into an issue.
+description: Plan a GitHub issue and write the plan into it, without implementing it. Use when an issue needs planning (asked for, labeled unplanned, or no requirements), to put a plan agreed in chat into an issue, or to split an issue into sub-issues.
 ---
 
 # Plan Issue
