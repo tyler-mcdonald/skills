@@ -13,7 +13,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan, present it, and invoke `grilling` on it.
    4. Address each finding: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
-3. **Write it.** Write the plan into the issue with the `write-issue` skill.
+3. **Write it.** Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 4. **Stress-test.**
    1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
    2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round.
