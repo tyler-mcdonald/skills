@@ -7,10 +7,13 @@ description: Open a pull request. Use whenever opening a PR.
 
 - Always open PRs as drafts (`gh pr create --draft`). Never mark a PR as ready for review.
 - If the branch is stacked on another PR's branch, pass `--base <that branch>`.
+- After this skill's rules, apply any PR conventions in the repo's CLAUDE.md (e.g. allowed scopes). They take precedence where they're more specific.
+
+## PR body
+
 - The body is one sentence, two at most: what changes and why. No headings, lists, or test plan unless the user explicitly asks.
 - Omit how it works, what stays the same, edge cases, housekeeping like updated references or docs, and file, function, command, tool, model, or library names unless the change is about them.
 - If the PR resolves an issue, end the body with `Closes #<issue number>` on its own line.
-- After these rules, apply any PR conventions in the repo's CLAUDE.md (e.g. allowed scopes). They take precedence where they're more specific.
 
 ## PR title
 
