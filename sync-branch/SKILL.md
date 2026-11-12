@@ -1,6 +1,7 @@
 ---
 name: sync-branch
 description: Merge the base branch into the current branch, resolve conflicts, and push. Use when asked to sync a branch with main or resolve merge conflicts.
+model: sonnet
 ---
 
 # Sync Branch

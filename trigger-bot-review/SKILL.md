@@ -1,6 +1,9 @@
 ---
 name: trigger-bot-review
 description: Trigger the repo's review bot on a pushed PR. Use when asked to trigger a bot review on a PR.
+context: fork
+model: haiku
+background: false
 ---
 
 # Trigger Bot Review
