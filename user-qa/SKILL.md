@@ -10,7 +10,7 @@ argument-hint: "[force|skip]"
 
 1. Invoke `run` in the worktree to start the app.
 2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. End the message with `needs input: QA pass or fail` on its own line, then wait for their pass or fail.
-3. On a fail, spawn a fresh subagent with the fix message, wait for its reply, then go back to 1.
+3. On a fail, spawn a fresh Opus subagent with the fix message, wait for its reply, then go back to 1.
 4. On a pass, stop the servers and reply "QA passed".
 
 ## Fix message

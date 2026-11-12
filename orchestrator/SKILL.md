@@ -1,6 +1,7 @@
 ---
 name: orchestrator
 description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the orchestrator on an issue.
+model: sonnet
 ---
 
 # Orchestrator
@@ -9,9 +10,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
 
-2. **Implement.** Spawn a dev subagent with the dev message and wait for the PR URL.
+2. **Implement.** Spawn an Opus dev subagent with the dev message and wait for the PR URL.
 
-3. **Simplify.** Spawn a fresh subagent with the simplify message and wait for its reply.
+3. **Simplify.** Spawn a fresh Sonnet subagent with the simplify message and wait for its reply.
 
 4. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 5 — its report is not the end of your run.
 
