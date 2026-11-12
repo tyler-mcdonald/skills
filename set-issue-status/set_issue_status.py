@@ -4,10 +4,11 @@ import subprocess
 import sys
 
 QUERY = """
-query($url: URI!) {
+query($url: URI!, $cursor: String) {
   resource(url: $url) {
     ... on Issue {
-      projectItems(first: 20) {
+      projectItems(first: 100, after: $cursor) {
+        pageInfo { hasNextPage endCursor }
         nodes {
           id
           project {
@@ -32,9 +33,18 @@ def gh(*args):
 
 
 def project_items(url):
-    data = json.loads(gh("api", "graphql", "-f", f"url={url}", "-f", f"query={QUERY}"))
-    resource = data["data"]["resource"] or {}
-    return (resource.get("projectItems") or {}).get("nodes") or []
+    items, cursor = [], None
+    while True:
+        args = ["api", "graphql", "-f", f"url={url}", "-f", f"query={QUERY}"]
+        if cursor:
+            args += ["-f", f"cursor={cursor}"]
+        resource = json.loads(gh(*args))["data"]["resource"] or {}
+        page = resource.get("projectItems") or {}
+        items += page.get("nodes") or []
+        info = page.get("pageInfo") or {}
+        if not info.get("hasNextPage"):
+            return items
+        cursor = info["endCursor"]
 
 
 def find_option(field, status):

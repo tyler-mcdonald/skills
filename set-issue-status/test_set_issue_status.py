@@ -30,17 +30,25 @@ def board(item_id, project_id, title, options):
     }
 
 
-def graphql(nodes):
-    return json.dumps({"data": {"resource": {"projectItems": {"nodes": nodes}}}})
+def graphql(nodes, end_cursor=None):
+    page_info = {"hasNextPage": end_cursor is not None, "endCursor": end_cursor}
+    return json.dumps(
+        {
+            "data": {
+                "resource": {"projectItems": {"nodes": nodes, "pageInfo": page_info}}
+            }
+        }
+    )
 
 
 class SetIssueStatusTest(unittest.TestCase):
-    def run_with(self, nodes, status):
+    def run_with(self, nodes, status, pages=None):
         calls = []
+        pages = iter(pages or [graphql(nodes)])
 
         def run(cmd, **kwargs):
             calls.append(cmd)
-            stdout = graphql(nodes) if cmd[1] == "api" else ""
+            stdout = next(pages) if cmd[1] == "api" else ""
             return subprocess.CompletedProcess(cmd, 0, stdout=stdout)
 
         with mock.patch.object(sis.subprocess, "run", side_effect=run):
@@ -84,6 +92,19 @@ class SetIssueStatusTest(unittest.TestCase):
         )
         self.assertEqual(len(calls), 2)
         self.assertEqual(calls[1][4], "I2")
+
+    def test_follows_pagination(self):
+        lines, calls = self.run_with(
+            None,
+            "Done",
+            pages=[
+                graphql([board("I1", "P1", "Roadmap", ["Done"])], end_cursor="C1"),
+                graphql([board("I2", "P2", "Sprint", ["Done"])]),
+            ],
+        )
+        self.assertEqual(lines, ["Roadmap: Done", "Sprint: Done"])
+        self.assertEqual(calls[0][7:], [])
+        self.assertEqual(calls[1][7:], ["-f", "cursor=C1"])
 
     def test_no_boards(self):
         lines, calls = self.run_with([], "In review")
