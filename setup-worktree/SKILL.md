@@ -8,6 +8,5 @@ description: Create or enter an isolated git worktree for a change. Use as the s
 1. Slugify the title from the args into kebab-case: lowercase, collapse non-alphanumeric runs into a single hyphen, trim leading/trailing hyphens, truncate to 64 chars.
    - Example: "Fix static asset serving" -> `fix-static-asset-serving`
 2. Run `git fetch origin` so the worktree branches from the latest default branch. If it fails, warn that the base may be stale and continue.
-3. Call `EnterWorktree` with `name: <slug>`. If a worktree with that name already exists, enter it with `path` instead.
-4. If the branch is `worktree-<slug>`, rename it from the worktree: `git branch -m <slug>`.
-5. Return the branch and worktree path.
+3. From the repo root, run `git worktree add -b <slug> .claude/worktrees/<slug> origin/<default branch>`, skipping this if that worktree already exists. Then call `EnterWorktree` with `path: <repo root>/.claude/worktrees/<slug>`.
+4. Return the branch and worktree path.
