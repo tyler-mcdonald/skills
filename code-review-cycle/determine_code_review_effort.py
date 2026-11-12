@@ -61,7 +61,7 @@ def determine_code_review_effort(base):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        sys.exit("usage: determine-code-review-effort.py <base>")
+        sys.exit("usage: determine_code_review_effort.py <base>")
     try:
         print(determine_code_review_effort(sys.argv[1]))
     except subprocess.CalledProcessError as error:
