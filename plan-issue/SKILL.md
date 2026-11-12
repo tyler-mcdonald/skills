@@ -7,8 +7,8 @@ description: Plan a GitHub issue and write the plan into it, without implementin
 
 Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent implements it from there.
 
-1. **Get the issue.** If there is one, fetch it (`gh issue view <ref> --json number,title,body,comments`) and confirm its number and title with the user in one line. If there isn't, step 4 creates it.
-2. **Agree on a plan.** If the plan was already agreed in this chat, go to step 3. Otherwise:
+1. **Get the issue.** If there is one, fetch it (`gh issue view <ref> --json number,title,body,comments`) and confirm its number and title with the user in one line. If there isn't, **Write it** creates it.
+2. **Agree on a plan.** If the plan was already agreed in this chat, skip to **Stress-test**. Otherwise:
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan, present it, and invoke `grilling` on it.
@@ -20,7 +20,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 4. **Write it.** With the `write-issue` skill, write the plan into the issue, including every decision and any manual rollout steps (the implementer wasn't in the conversation):
    - Existing issue: `gh issue edit <ref> --body-file <file>`, keeping any existing body text above the plan.
    - No issue: `gh issue create`.
-5. **Mark it ready.** Set every issue written in step 4, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
+5. **Mark it ready.** Set every issue written in **Write it**, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
 6. **Report and stop.** Give the issue URL. Don't implement, branch, commit, or open a PR, even if the plan is small.
 
 If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
