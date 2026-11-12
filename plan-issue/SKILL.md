@@ -15,8 +15,8 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    4. Address each finding: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
 3. **Stress-test.**
    1. Spawn a fresh Haiku subagent with the plan and the code and systems it touches. Ask it to raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
-   2. Check its claims yourself, send it your answers for one more round, then update the plan.
-   3. Look up facts yourself and ask the user only about decisions. If the plan changed in substance, get their approval again.
+   2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round. Then update the plan.
+   3. If the plan changed in substance, get the user's approval again.
 4. **Write it.** With the `write-issue` skill, write the plan into the issue, including every decision and any manual rollout steps (the implementer wasn't in the conversation):
    - Existing issue: `gh issue edit <ref> --body-file <file>`, keeping any existing body text above the plan.
    - No issue: `gh issue create`.
