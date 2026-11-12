@@ -106,6 +106,11 @@ class SetIssueStatusTest(unittest.TestCase):
         self.assertEqual(calls[0][7:], [])
         self.assertEqual(calls[1][7:], ["-f", "cursor=C1"])
 
+    def test_rejects_repeated_cursor(self):
+        page = graphql([board("I1", "P1", "Roadmap", ["Done"])], end_cursor="C1")
+        with self.assertRaises(RuntimeError):
+            self.run_with(None, "Done", pages=[page, page])
+
     def test_no_boards(self):
         lines, calls = self.run_with([], "In review")
         self.assertEqual(lines, [f"{URL} is on no project boards."])

@@ -44,6 +44,8 @@ def project_items(url):
         info = page.get("pageInfo") or {}
         if not info.get("hasNextPage"):
             return items
+        if not info.get("endCursor") or info["endCursor"] == cursor:
+            raise RuntimeError(f"pagination did not advance past cursor {cursor!r}")
         cursor = info["endCursor"]
 
 
@@ -89,6 +91,8 @@ def main(argv):
     except subprocess.CalledProcessError as error:
         sys.stderr.write(error.stderr or "")
         sys.exit(error.returncode or 1)
+    except RuntimeError as error:
+        sys.exit(str(error))
 
 
 if __name__ == "__main__":
