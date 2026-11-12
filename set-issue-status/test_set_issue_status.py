@@ -22,7 +22,9 @@ def board(item_id, project_id, title, options):
             "title": title,
             "field": {
                 "id": f"{project_id}-field",
-                "options": [{"id": f"{project_id}-{name}", "name": name} for name in options],
+                "options": [
+                    {"id": f"{project_id}-{name}", "name": name} for name in options
+                ],
             },
         },
     }
