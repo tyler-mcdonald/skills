@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-FETCH_THREADS = Path(__file__).parent / "../handle-pr-review/fetch-threads.py"
+FETCH_THREADS = Path(__file__).parent / "../handle-pr-review/fetch_threads.py"
 
 
 def fetch_threads(pr, repo):

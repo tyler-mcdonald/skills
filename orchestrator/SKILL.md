@@ -1,6 +1,7 @@
 ---
 name: orchestrator
 description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when asked to run the orchestrator on an issue.
+model: sonnet
 ---
 
 # Orchestrator
@@ -9,9 +10,9 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 
 1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
 
-2. **Implement.** Spawn a dev subagent with the dev message and wait for the PR URL.
+2. **Implement.** Spawn an Opus dev subagent with the dev message and wait for the PR URL.
 
-3. **Simplify.** Spawn a fresh subagent with the simplify message and wait for its reply.
+3. **Simplify.** Spawn a fresh Sonnet subagent with the simplify message and wait for its reply.
 
 4. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 5 — its report is not the end of your run.
 
@@ -41,7 +42,7 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 ## Thread check
 
 ```sh
-<skill dir>/unhandled-bot-threads.py <pr> "<bot login>" <owner>/<repo>
+<skill dir>/unhandled_bot_threads.py <pr> "<bot login>" <owner>/<repo>
 ```
 
 `<skill dir>` is this skill's base directory. Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
@@ -51,7 +52,7 @@ If it exits non-zero or prints anything other than a JSON array, the check faile
 ## Bot wait
 
 ```sh
-<skill dir>/await-bot-review.py <pr> "<bot login>" "<trigger comment>" "<done text>" <owner>/<repo>
+<skill dir>/await_bot_review.py <pr> "<bot login>" "<trigger comment>" "<done text>" <owner>/<repo>
 ```
 
 Takes the trigger comment and the backticked text in "Done when" from the bot's row in `trigger-bot-review/review-bots.md`. Checks the PR's comments once a minute for up to 15 minutes, and prints `done` once a comment the bot posted or edited after the latest trigger comment contains the done text, or `timeout` if none does. Exits non-zero if the first check fails, since a wrong PR, repo, or gh auth won't fix itself; later failed checks are retried. It can outlast a foreground Bash call, so always run it with `run_in_background`.

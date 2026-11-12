@@ -35,7 +35,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
 1. **Set up the run.**
    1. Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch.
-   2. Effort is the one the argument names. If it names none, run `<skill dir>/determine-code-review-effort.py <base>` in the repo (`<skill dir>` is this skill's base directory) and use what it prints (`low`, `medium`, or `high`, from the diff's size). If the script fails, stop before reviewing: `effort_error`, and report its error. The effort stays the same for every round.
+   2. Effort is the one the argument names. If it names none, run `<skill dir>/determine_code_review_effort.py <base>` in the repo (`<skill dir>` is this skill's base directory) and use what it prints (`low`, `medium`, or `high`, from the diff's size). If the script fails, stop before reviewing: `effort_error`, and report its error. The effort stays the same for every round.
    3. Write `run.json` with the Write tool, not a shell redirect.
 
    If the caller makes a ruling in chat, write it into the goal's body yourself: as a requirement if it changes what the change must do, otherwise as a note, editing any bullet it replaces. Write only what the caller approved.

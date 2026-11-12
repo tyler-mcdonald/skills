@@ -1,6 +1,9 @@
 ---
 name: set-issue-status
 description: Set a GitHub issue's Status on every project board it's in (e.g. "In review"). Use when asked to move an issue to a status or lane.
+context: fork
+model: haiku
+background: false
 ---
 
 # Set Issue Status

@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 spec = importlib.util.spec_from_file_location(
-    "determine_code_review_effort", Path(__file__).with_name("determine-code-review-effort.py")
+    "determine_code_review_effort", Path(__file__).with_name("determine_code_review_effort.py")
 )
 pe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pe)

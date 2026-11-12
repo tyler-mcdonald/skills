@@ -1,6 +1,6 @@
 ---
 name: write-issue
-description: Write a short, plain GitHub issue. Use whenever creating a GitHub issue or writing a plan into one.
+description: How to write a GitHub issue's title and body. Use for issue text; to plan, split, or record an agreed plan, use `plan-issue`.
 ---
 
 # Write Issue

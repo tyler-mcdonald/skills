@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 spec = importlib.util.spec_from_file_location(
-    "await_bot_review", Path(__file__).with_name("await-bot-review.py")
+    "await_bot_review", Path(__file__).with_name("await_bot_review.py")
 )
 abr = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(abr)
