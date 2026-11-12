@@ -8,10 +8,12 @@ description: Write a short, plain GitHub issue. Use whenever creating a GitHub i
 Write it for the agent that implements it, in plain language a person can read. Keep it short. Use three parts, in this order:
 
 1. **Overview:** one or two sentences on what this is.
-2. **Requirements:** bullets for the main requirements and the decisions made. One line each.
+2. **Requirements:** bullets for the main requirements, every decision made, and any manual rollout steps. One line each.
 3. **Notes (optional):** anything supporting, such as context, a mocks link, or screenshots. Leave it out if there's nothing to add.
 
 Leave out headings, background, alternatives considered, file-by-file plans, and filler. Use a plain title, such as "Add dark mode".
+
+To write into an existing issue, use `gh issue edit <ref> --body-file <file>`, keeping any existing body text above yours. Otherwise, `gh issue create`.
 
 Example:
 
