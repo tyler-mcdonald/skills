@@ -119,12 +119,15 @@ class SetIssueStatusTest(unittest.TestCase):
     def test_gh_failure_prints_stderr_and_exits_non_zero(self):
         error = subprocess.CalledProcessError(1, ["gh"], stderr="gh: not found\n")
         with (
-            mock.patch.object(sis.subprocess, "run", side_effect=error),
+            mock.patch.object(sis.subprocess, "run", side_effect=error) as run,
             mock.patch.object(sis.sys, "stderr") as stderr,
             self.assertRaises(SystemExit) as raised,
         ):
             sis.main(["set_issue_status.py", URL, "Done"])
         self.assertNotEqual(raised.exception.code, 0)
+        run.assert_called_once_with(
+            mock.ANY, check=True, capture_output=True, text=True
+        )
         stderr.write.assert_called_with("gh: not found\n")
 
 
