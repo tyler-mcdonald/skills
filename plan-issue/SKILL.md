@@ -17,9 +17,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. Spawn a fresh Haiku subagent with the plan and the code and systems it touches. Ask it to raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
    2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round. Then update the plan.
    3. If the plan changed in substance, get the user's approval again.
-4. **Write it.** With the `write-issue` skill, write the plan into the issue, including every decision and any manual rollout steps (the implementer wasn't in the conversation):
-   - Existing issue: `gh issue edit <ref> --body-file <file>`, keeping any existing body text above the plan.
-   - No issue: `gh issue create`.
+4. **Write it.** Write the plan into the issue with the `write-issue` skill.
 5. **Mark it ready.** Set every issue written in **Write it**, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
 6. **Report and stop.** Give the issue URL. Don't implement, branch, commit, or open a PR, even if the plan is small.
 
