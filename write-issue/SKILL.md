@@ -8,7 +8,7 @@ description: How to write a GitHub issue's title and body. Use for issue text; t
 Write it for the agent that implements it, in plain language a person can read. Keep it short. Use three parts, in this order:
 
 1. **Overview:** one or two sentences on what this is.
-2. **Requirements:** bullets for the main requirements, every decision the user made, and any manual rollout steps. One line each, saying what and why, not how. No code, API names, or file paths unless the user chose them.
+2. **Requirements:** bullets for the main behavioral requirements, every decision the user made, and any manual rollout steps. One line each, saying what and why, not how. No code, API names, or file paths unless the user chose them.
 3. **Notes (optional):** anything supporting, such as context, a mocks link, or screenshots. Leave it out if there's nothing to add.
 
 Leave out headings, background, alternatives considered, file-by-file plans, and filler. Use a plain title, such as "Add dark mode".
