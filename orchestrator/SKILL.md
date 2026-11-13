@@ -8,7 +8,7 @@ model: sonnet
 
 ## Steps
 
-1. **Setup.** Invoke `setup-issue` with the issue reference. Stay in that worktree for every step.
+1. **Setup.** Invoke `start-issue` with the issue reference. Stay in that worktree for every step.
 
 2. **Implement.** Spawn an Opus dev subagent with the dev message and wait for the PR URL.
 
