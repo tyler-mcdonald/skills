@@ -21,7 +21,7 @@ model: sonnet
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
-6. **QA.** Invoke `user-qa` in the worktree and wait for it to finish.
+6. **QA.** Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count. Otherwise invoke `user-qa` in the worktree and wait for it to finish.
 
 7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
    1. If it replies `none`, go to step 9.
