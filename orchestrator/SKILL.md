@@ -23,7 +23,7 @@ model: sonnet
 
 6. **QA.** Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count. Otherwise invoke `user-qa` in the worktree and wait for it to finish.
 
-7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
+7. **Bot review.** Commit any QA fixes and `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
    1. If it replies `none`, go to step 9.
    2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here and leave the PR as a draft.
    3. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here and leave the PR as a draft.
