@@ -10,9 +10,9 @@ argument-hint: "[force|skip]"
 
 1. Invoke `run` in the worktree to start the app.
 2. Give the user a short bulleted list of the high-level functionality to test — one line each: what to do and what should happen. End the message with `needs input: QA pass or fail` on its own line, then wait for their pass or fail.
-3. On a fail, spawn a fresh subagent with the fix message, wait for its reply, then go back to 1.
-4. On a pass, stop the servers and reply "QA passed".
-
-## Fix message
-
-> Fix these QA findings: `<findings>`. Work in `<worktree path>`. Run the project's checks (tests, lint) and fix any failures, then commit. Don't push. Reply with one line: the commit you made.
+3. On a fail, make the fixes yourself in this session, not in a subagent. Don't run tests or checks yet. Reload the app if needed, then go back to 2.
+4. On a pass:
+   1. Invoke `simplify` on the changes.
+   2. Run the project's checks (tests, lint) and fix any failures.
+   3. Commit. Don't push.
+   4. Stop the servers and reply "QA passed".
