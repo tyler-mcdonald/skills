@@ -12,7 +12,7 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Renaming a skill: search the other skills for references to the old name and update them too, so names don't drift out of sync.
    - Writing: prefer brevity, simplicity, and readability. Be very concise.
 3. Spawn a fresh Haiku subagent with only the changed skill files and the repo's other skills, for one review pass. Ask for:
-   - Cuts: lines an agent would get right without, and wording to shorten.
+   - Concision: the skill must stay very concise, simple, and direct. Cut lines an agent would get right without, and shorten verbose wording.
    - Existing skills: steps that redo another skill, to replace with invoking it.
    - Plain wording: unnecessary direction to remove, and LLM-sounding wording to make simple and direct. A human should be able to follow what the skill does.
    - Markdown: simpler, more readable, better organized.
