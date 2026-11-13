@@ -1,12 +1,9 @@
 ---
 name: user-qa
 description: Have the user test a UI change by hand and work through user feedback. Use when asked to QA a change with the user, or as the QA step of a workflow.
-argument-hint: "[force|skip]"
 ---
 
 # User QA
-
-`force` always runs QA and `skip` never does. Without an argument, decide whether the change needs hands-on QA: it does only if it changes something a person can see or exercise through the app's UI. Skip it for backend or API-only changes (even ones that change API behavior or responses), docs, config, tests, or internal refactors — tests and review cover those. When skipping, reply "QA skipped" and stop.
 
 QA is a quick loop with the user: make fixes until they say pass, without running tests or checks in between. Once they pass, run the checks once.
 
