@@ -15,5 +15,5 @@ description: Resolve a GitHub issue and create an isolated git worktree named af
    If a blocker is in another repo, has no branch or more than one, or there's more than one open blocker, stop and ask the user what to stack on.
 4. Invoke `setup-worktree` with the issue title.
 5. If there's a blocker branch, `git fetch origin <branch>` and `git merge --no-edit origin/<branch>` (never rebase). That branch is the base; otherwise the base is the default branch. If the fetch or merge fails, stop and surface the exact error.
-6. Invoke `set-issue-status` with the issue URL and `In progress`.
+6. Invoke `set-issue-status` with the issue URL and `In progress`. Then check for a parent with `gh api repos/<owner>/<repo>/issues/<n>/parent` (a 404 means none). If there is one, invoke `set-issue-status` again with the parent's URL.
 7. Return the issue number, title, URL, branch, base branch, and worktree path.
