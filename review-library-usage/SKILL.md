@@ -1,6 +1,6 @@
 ---
 name: review-library-usage
-description: Report code in a branch's changes that rebuilds what its libraries already provide. Use as a `refine-diff` check, or when asked to check a branch leans on its libraries.
+description: Review how a diff uses its libraries, and report code that rebuilds what they provide or skips their best practices. Use when asked to review library usage.
 ---
 
 # Review Library Usage
