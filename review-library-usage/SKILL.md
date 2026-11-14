@@ -9,12 +9,12 @@ description: Review how a diff uses its libraries, and report code that rebuilds
 
 | Library | Detected by |
 |---|---|
-| Mantine | an import from `@mantine/` |
+| Mantine | a `@mantine/` package in a `package.json` |
 
 ## Steps
 
 1. List the files changed in `origin/<base>...HEAD`. Base is the argument, else the default branch.
-2. Match changed files that import a listed library, plus the stylesheets they import, plus changed stylesheets imported by any file that imports one. No matches: reply "none" and stop.
+2. Match the listed libraries the project uses. Each one's files are all the changed source files and stylesheets, whether or not they import it, since new code can rebuild a library API without importing the library. No library or no such files: reply "none" and stop.
 3. Spawn one Sonnet subagent per matched library, in parallel, with the reviewer message.
 4. Reply with every reviewer's findings, unchanged, or "none".
 
