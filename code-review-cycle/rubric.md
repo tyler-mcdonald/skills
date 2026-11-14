@@ -13,7 +13,7 @@ Score 1–5. 5 means ready to merge.
 - **Pre-existing.** Issues in code the branch didn't change, and that it doesn't make worse, are reported separately, not scored.
 - **One root cause, one finding.** Merge findings that share a cause; list each symptom under it. The merged finding takes the most severe symptom's severity.
 - **Nits** — style, naming preference — are reported but not scored.
-- **Duplication** — code the branch adds that duplicates logic, a rule, or a query already elsewhere — always goes in `findings`, as a Nit unless it has a behavioral effect, even when it's otherwise beyond the goal.
+- **Duplication** — code the branch adds that duplicates logic, a rule, or a query already elsewhere, or rebuilds something a dependency already provides — always goes in `findings`, as a Nit unless it has a behavioral effect, even when it's otherwise beyond the goal.
 - **Accepted.** A finding whose root cause matches a user decision is reported as `accepted` with the decision's reason, not scored. If the finding shows something the decision didn't cover, score that part as a new finding.
 - **Goal gaps.** Each acceptance criterion from the goal that the branch doesn't meet is a finding: unmet → **Major**, partly met → **Minor**. Skip the severity questions for these. Judge each criterion by the outcome it states, not the strictest reading of its wording. Items the goal lists as nice-to-have or out of scope aren't graded.
 

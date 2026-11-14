@@ -12,7 +12,8 @@ USAGE_KEYS = (
 ROLES = (
     ("code-review-cycle/reviewer.md", "reviewer"),
     ("code-review-cycle/fixer.md", "fixer"),
-    ("Invoke `simplify`", "simplify"),
+    ("Invoke `refine-diff`", "refine"),
+    ("You're a staff engineer with deep expertise", "library reviewer"),
     ("Implement ", "dev"),
     ("Review target:", "/code-review"),
     ("Fix these QA findings", "QA fixer"),
