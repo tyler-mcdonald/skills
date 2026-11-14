@@ -40,7 +40,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
    If the caller makes a ruling in chat, write it into the goal's body yourself: as a requirement if it changes what the change must do, otherwise as a note, editing any bullet it replaces. Write only what the caller approved.
 
-2. **Review round** (max 3). Round 1's mode is `full`. Each later round's mode is `verify` if the previous round scored 4 or 5, otherwise `full`. Spawn a fresh subagent with the reviewer message. When it returns, read `round-<n>.json`.
+2. **Review round** (max 3). Round 1's mode is `full`. Each later round's mode is `verify` if the previous round scored 4 or 5, otherwise `full`. Spawn a fresh Opus subagent with the reviewer message. When it returns, read `round-<n>.json`.
 
 3. **Stop check**, in order:
    1. Score is 5 and every `fix: true` finding is escalated (or there are none) → stop: `score_5`. A 5 with unescalated duplication goes on to a fix round, so duplication is fixed in the first fix round and that fix is reviewed.
@@ -49,7 +49,7 @@ You also never summarize, reword, or add to anything that passes between agents.
 
    The loop always ends on a review of the latest code, so the final score reflects the last fix.
 
-4. **Fix round.** Spawn a separate fresh subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated. When it returns, read `fix-<n>.json`. If its `commit` is null, the code didn't change, so stop without another review: `needs_decision` if it escalated anything, otherwise `no_changes`. Otherwise go back to step 2.
+4. **Fix round.** Spawn a separate fresh Opus subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated. When it returns, read `fix-<n>.json`. If its `commit` is null, the code didn't change, so stop without another review: `needs_decision` if it escalated anything, otherwise `no_changes`. Otherwise go back to step 2.
 
 5. **Report** to the caller, built from the run files. Keep it brief: goal source, final score, stop reason, a summary table with one row per round (score, commit, what changed), open escalations with the decision needed, accepted findings, beyond-the-goal findings with their follow-ups, and pre-existing issues. Follow-ups are suggestions for the caller's review — never file issues for them or fix them. End with the PR's full URL. Fill in `rounds`, `stop_reason`, and `escalations` from the whole run in the last `round-<n>.json`, but don't include the JSON in the report.
 
