@@ -12,7 +12,7 @@ model: sonnet
 
 2. **Implement.** Spawn an Opus dev subagent with the dev message and wait for the PR URL.
 
-3. **Simplify.** Spawn a fresh Sonnet subagent with the simplify message and wait for its reply.
+3. **Library usage.** Spawn a fresh Opus subagent with the library usage message and wait for its reply.
 
 4. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 5 — its report is not the end of your run.
 
@@ -37,7 +37,7 @@ model: sonnet
 
 9. **Ready.** `gh pr ready <pr>`, then invoke `set-issue-status` with the issue URL and `In review`.
 
-10. **Report.** Brief: where it stopped and why, or the final score, plus the bot outcome, the CI outcome, and the PR's full URL.
+10. **Report.** Brief: where it stopped and why, or the final score, plus the library usage findings applied and rejected, the bot outcome, the CI outcome, and the PR's full URL.
 
 ## Thread check
 
@@ -59,9 +59,9 @@ Takes the trigger comment and the backticked text in "Done when" from the bot's 
 
 ## Spawn messages
 
-Simplify:
+Library usage:
 
-> Invoke `simplify` on this branch's changes against `origin/<target>`, where target is PR `<pr>`'s base branch. Work in `<worktree path>`. If it changed anything, run the project's checks (tests, lint) and fix any failures it caused, then commit and `git push` (never force-push). Reply with one line: the commit you pushed, or "no changes".
+> Invoke `review-library-usage` with base `<target>`, where target is PR `<pr>`'s base branch. Work in `<worktree path>`.
 
 Dev:
 

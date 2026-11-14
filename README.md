@@ -12,8 +12,8 @@ Used to build [Cardcase](https://github.com/tyler-mcdonald/cardcase).
 flowchart TD
     A([GitHub issue]) --> B["`**Dev agent**
 Implements the issue`"]
-    B --> C["`**Refactor agent**
-Simplifies the diff`"]
+    B --> C["`**Library agent**
+Uses what the libraries already provide`"]
     C --> D{"`**Review + fix loop**`"}
     D -->|scores at least 4/5| E["`**QA**
 UI changes only`"]
