@@ -61,7 +61,7 @@ Takes the trigger comment and the backticked text in "Done when" from the bot's 
 
 Refine:
 
-> Invoke `refine-diff` with base `<target>`, where target is PR `<pr>`'s base branch. Work in `<worktree path>`.
+> Invoke `refine-diff` with base `<target>`, where target is PR `<pr>`'s base branch, and goal `<issue url>`. Work in `<worktree path>`.
 
 Dev:
 
