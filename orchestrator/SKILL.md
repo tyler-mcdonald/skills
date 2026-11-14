@@ -23,21 +23,19 @@ model: sonnet
 
 6. **QA.** Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count. Otherwise invoke `user-qa` in the worktree and wait for it to finish.
 
-7. **Bot review.** `git push` (never force-push), then invoke `trigger-bot-review` with the PR number.
-   1. If it replies `none`, go to step 9.
-   2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here and leave the PR as a draft.
-   3. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here and leave the PR as a draft.
+7. **Bot review.** `git push` (never force-push), invoke `trigger-bot-review` with the PR number, then `gh pr ready <pr>` and invoke `set-issue-status` with the issue URL and `In review`.
+   1. If `trigger-bot-review` replied `none`, go to step 9.
+   2. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
+   3. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
 8. **Hand off to CI.** One pass only — don't re-trigger the bot or CI.
    1. Run the thread check. If it prints `[]`, go to step 9.
-   2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here, leave the PR as a draft, and report that the bot's threads need handling by hand.
+   2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here and report that the bot's threads need handling by hand.
    3. `gh pr comment <pr> --body "@claude"`.
-   4. Rerun the thread check once a minute for up to 35 minutes, until it prints `[]`. If it never does, stop here and leave the PR as a draft.
+   4. Rerun the thread check once a minute for up to 35 minutes, until it prints `[]`. If it never does, stop here.
    5. `git pull` so the worktree matches the PR.
 
-9. **Ready.** `gh pr ready <pr>`, then invoke `set-issue-status` with the issue URL and `In review`.
-
-10. **Report.** Brief: where it stopped and why, or the final score, plus the refine findings applied and rejected, the bot outcome, the CI outcome, and the PR's full URL.
+9. **Report.** Brief: where it stopped and why, or the final score, plus the refine findings applied and rejected, the bot outcome, the CI outcome, and the PR's full URL.
 
 ## Thread check
 
@@ -47,7 +45,7 @@ model: sonnet
 
 `<skill dir>` is this skill's base directory. Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
 
-If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there and leave the PR as a draft.
+If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there.
 
 ## Bot wait
 
