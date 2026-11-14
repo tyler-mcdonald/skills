@@ -12,8 +12,8 @@ description: Start work on a GitHub issue by creating a worktree for it and sett
    2. A branch linked to it (`gh issue develop --list <n>`).
    3. A branch named after its title.
 
-   If a blocker is in another repo, has no branch or more than one, or there's more than one open blocker, stop and ask the user what to stack on.
+   Skip blockers with no branch yet. If one blocker branch contains all the others (or it's the only one), stack on it. Stop and ask the user what to stack on only if a blocker is in another repo, a blocker has more than one branch, or the blocker branches diverge.
 4. Invoke `setup-worktree` with the issue title.
-5. If there's a blocker branch, `git fetch origin <branch>` and `git merge --no-edit origin/<branch>` (never rebase). That branch is the base; otherwise the base is the default branch. If the fetch or merge fails, stop and surface the exact error.
+5. If there's a branch to stack on, `git fetch origin <branch>` and `git merge --no-edit origin/<branch>` (never rebase). That branch is the base; otherwise the base is the default branch. If the fetch or merge fails, stop and surface the exact error.
 6. Invoke `set-issue-status` with the issue URL and `In progress`. Then check for a parent with `gh api repos/<owner>/<repo>/issues/<n>/parent` (a 404 means none). If there is one, invoke `set-issue-status` again with the parent's URL.
 7. Return the issue number, title, URL, branch, base branch, and worktree path.
