@@ -1,6 +1,6 @@
 ---
 name: refine-diff
-description: Run a set of checks on a branch's changes and apply the findings worth making. Use as the orchestrator's refine step, or when asked to refine a branch.
+description: Run a set of checks on a diff and apply the findings worth making. Use when asked to refine a diff.
 ---
 
 # Refine Diff
