@@ -12,16 +12,16 @@ model: sonnet
 
 2. **Implement.** Spawn an Opus dev subagent with the dev message and wait for the PR URL.
 
-3. **Refine.** Spawn a fresh Opus subagent with the refine message and wait for its reply.
+3. **QA.** Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count. Otherwise invoke `user-qa` in the worktree and wait for it to finish, then commit and `git push` any fixes.
 
-4. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 5 — its report is not the end of your run.
+4. **Refine.** Spawn a fresh Opus subagent with the refine message and wait for its reply.
 
-5. **Sync.**
+5. **Review.** Invoke `code-review-cycle` with the PR number. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft. Otherwise continue to step 6 — its report is not the end of your run.
+
+6. **Sync.**
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
    3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
-
-6. **QA.** Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count. Otherwise invoke `user-qa` in the worktree and wait for it to finish.
 
 7. **Bot review.** `git push` (never force-push), invoke `trigger-bot-review` with the PR number, then `gh pr ready <pr>` and invoke `set-issue-status` with the issue URL and `In review`.
    1. If `trigger-bot-review` replied `none`, go to step 9.
