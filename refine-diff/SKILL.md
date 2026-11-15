@@ -1,6 +1,6 @@
 ---
 name: refine-diff
-description: Run a set of checks on a diff and apply the findings worth making. Use when asked to refine a diff.
+description: Run a set of checks on a diff and apply the findings worth making. Use when asked to refine a diff or a PR.
 ---
 
 # Refine Diff
@@ -18,8 +18,11 @@ To add a check, add a skill that reports findings with citations, and list it he
 
 ## Steps
 
-1. Fetch `origin`. Base is the argument, else the default branch.
-2. Invoke each check with the base.
-3. For each finding, check its citation and decide: apply it, or reject it with a reason. Reject findings that conflict with the goal (the issue or request you were given) or with another finding.
-4. If you applied any, run the project's checks, fix failures you caused, commit, and `git push -u origin HEAD` (never force-push).
-5. Reply with the commit you pushed, or "no changes", then one line per finding: applied, or rejected and why.
+1. Fetch `origin`, then set the base and goal:
+   - PR argument: work on its branch, in the worktree that already has it, else invoke `setup-worktree` and run `gh pr checkout <pr>`. The base is the PR's base branch. The goal is its linked issue (`closingIssuesReferences`), else its description.
+   - Otherwise: the base is the argument, else the default branch. The goal is the issue or request you were given.
+2. Read the goal, including an issue's comments.
+3. Invoke each check with the base.
+4. For each finding, check its citation and decide: apply it, or reject it with a reason. Reject findings that conflict with the goal or with another finding.
+5. If you applied any, run the project's checks, fix failures you caused, commit, and `git push -u origin HEAD` (never force-push).
+6. Reply with the commit you pushed, or "no changes", then one line per finding: applied, or rejected and why.
