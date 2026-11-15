@@ -1,6 +1,6 @@
 ---
 name: review-clean-code
-description: Review a diff for readability and maintainability against general, TypeScript, and React clean code rules. Use when asked to review clean code.
+description: Review a diff for readability and maintainability against general clean code rules and the project's conventions. Use when asked to review clean code.
 ---
 
 # Review Clean Code
@@ -23,12 +23,7 @@ description: Review a diff for readability and maintainability against general, 
 > - No abstraction, wrapper, or helper with a single trivial use.
 > - Prefer built-in standard library helpers over hand-written loops or utilities, if the project's language version supports them.
 >
-> **TypeScript**
-> - Prefer `prop?: string` to `prop: string | undefined`.
-> - Derive types from existing ones (`Pick`, `Omit`, `ReturnType`, indexed access) instead of redeclaring them.
->
-> **React**
-> - Compute derived values during render instead of syncing them into state with an effect ([You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)).
-> - Move non-trivial logic out of a component's body into a custom hook or plain function ([Reusing Logic with Custom Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks)).
+> **Project**
+> - The coding conventions in the project's CLAUDE.md files, including those in the changed files' directories.
 >
 > Don't edit files. For each finding, reply with the file and line, what to change, and the rule it breaks. If there's nothing to change, reply "none".
