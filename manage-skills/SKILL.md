@@ -12,7 +12,13 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Renaming a skill: search the other skills for references to the old name and update them too, so names don't drift out of sync.
    - Writing: prefer brevity, simplicity, and readability. Be very concise.
    - Scope: add only what the user asked for. No extra steps, lists, caveats, or constraints.
-   - Markdown: `##` headings with unique names; nested items use `-` bullets (or `1.` for ordered sub-steps), never lettered items like `a.`; lists over tables unless the data is two-dimensional; fenced code blocks with a language; backticks for commands, paths, and names; no HTML.
+   - Markdown:
+     - `##` headings with unique names.
+     - Nested items use `-` bullets (or `1.` for ordered sub-steps), never lettered items like `a.`.
+     - Lists over tables unless the data is two-dimensional.
+     - Fenced code blocks with a language.
+     - Backticks for commands, paths, and names.
+     - No HTML.
 3. Spawn a fresh Haiku subagent with only the changed skill files and the repo's other skills, for one review pass on the changed lines. Ask for:
    - Description: it says what the skill is for and when to use it, matches what the body does, and doesn't name the skills that call it.
    - Scope: cut anything added that the user didn't ask for.
