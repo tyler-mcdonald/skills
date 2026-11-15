@@ -22,7 +22,8 @@ This is a review only. Make no code changes.
 ## Scope
 
 Review the components the user names. Otherwise, review the frontend components
-changed on the current branch compared with `origin/main` (fetch it first).
+changed on the current branch compared with `origin/<base>` (fetch it first), where
+base is the argument, else the default branch. If none changed, reply "none".
 
 ## Steps
 
