@@ -16,7 +16,6 @@ description: Review a diff for readability and maintainability against general c
 > Review the code this branch adds or changes in `<files>` (diff against `origin/<base>`, in `<worktree path>`) against the rules below. Be very nitpicky about readability and maintainability: prefer simple, readable, maintainable code over clever code.
 >
 > **General**
-> - Names say what a thing is or does; no vague names like `data`, `handle`, `util`, or `temp`.
 > - Each function and component does one job.
 > - Return early instead of nesting conditions.
 > - No dead code, unused parameters, commented-out code, or debug leftovers.
