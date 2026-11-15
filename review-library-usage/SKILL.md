@@ -5,18 +5,13 @@ description: Review how a diff uses its libraries, and report code that rebuilds
 
 # Review Library Usage
 
-## Libraries
-
-| Library | Detected by |
-|---|---|
-| Mantine | a `@mantine/` package in a `package.json` |
-
 ## Steps
 
-1. List the files changed in `origin/<base>...HEAD`. Base is the argument, else the default branch.
-2. Match the listed libraries the project uses. Each one's files are all the changed source files and stylesheets, whether or not they import it, since new code can rebuild a library API without importing the library. No library or no such files: reply "none" and stop.
-3. Spawn one Sonnet subagent per matched library, in parallel, with the reviewer message.
-4. Reply with every reviewer's findings, unchanged, or "none".
+1. List the source files and stylesheets changed in `origin/<base>...HEAD`. Base is the argument, else the default branch.
+2. For each changed file, find its nearest package manifest (e.g. `package.json`, `pyproject.toml`). From each manifest's dependencies, pick the libraries the changed code uses or rebuilds. A library's files are the changed files under that manifest. No libraries: reply "none" and stop.
+3. If a manifest's dependencies aren't installed in the worktree, install them from its lockfile (e.g. `npm ci`, `uv sync`).
+4. Spawn one Sonnet subagent per library, in parallel, with the reviewer message.
+5. Reply with every reviewer's findings, unchanged, or "none".
 
 ## Reviewer message
 
