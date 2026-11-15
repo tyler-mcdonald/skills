@@ -9,6 +9,9 @@ Checks only report. You decide on every finding and make the changes.
 
 ## Checks
 
+- `review-clean-code`
+- `review-component-state`
+- `review-duplication`
 - `review-library-usage`
 
 To add a check, add a skill that reports findings with citations, and list it here.
