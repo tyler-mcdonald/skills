@@ -7,11 +7,11 @@ description: Route a new chat's first message to the right workflow. Use on the 
 
 Pick one route from the first message, say it in one line, then follow it:
 
-- **Plan an issue** — invoke `plan-issue`.
+- **Plan an issue** — a new bug report, bug fix, idea, or proposal, or a request to plan an issue: invoke `plan-issue`. Don't write the issue until the user approves it.
 - **Implement an issue** — the change has a GitHub issue: invoke `orchestrator`.
 - **Dependency update** — bump a dependency or fix an audit (pip-audit, npm audit, an advisory): invoke `manage-dependencies`.
 - **Direct change** — a code change with no GitHub issue: follow [Direct change](#direct-change).
-- **Question or chat** — just answer.
+- **Question or chat** — a one-off question: just answer.
 
 ## Resolve the repo
 
