@@ -11,8 +11,9 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 2. **Agree on a plan.** If the plan was already agreed in this chat, skip to **Write it**. Otherwise:
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
-   3. Draft a concrete plan, present it, and invoke `grilling` on it.
-   4. Address each finding: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
+   3. Draft a concrete plan and present it.
+   4. Spawn three Haiku subagents in parallel, each given the plan and the repo path. Each raises specific questions on one concern: scalability, maintainability, or simplicity of design. Engineering quality only, not scope.
+   5. Answer each question: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
 3. **Write it.** Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 4. **Stress-test.**
    1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
