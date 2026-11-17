@@ -10,6 +10,7 @@ model: sonnet
 
 1. Setup
    - Invoke `start-issue` with the issue reference.
+   - If it reports a blocker that's still in progress, stop here and raise it to the user.
    - Stay in that worktree for every step.
 
 2. Implement
