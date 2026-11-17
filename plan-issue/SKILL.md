@@ -26,14 +26,14 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    6. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
-   1. Spawn a fresh Haiku subagent with the agreed plan to decide whether it should be one issue or split into several.
-   2. Present its recommendation for the user's approval.
+   1. Decide whether the agreed plan should be one issue or split into several.
+   2. Present your recommendation for the user's approval.
 
 4. Write it
    - Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 
 5. Stress-test
-   1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
+   1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps that would change the requirements or need the user's decision. Skip implementation details. It doesn't need to suggest answers.
    2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round.
    3. If the plan changed, rewrite it in the issue with the `write-issue` skill, replacing the version from **Write it**. If it changed in substance, get the user's approval first.
 
