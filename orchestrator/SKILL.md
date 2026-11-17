@@ -21,7 +21,7 @@ model: sonnet
    2. Otherwise invoke `user-qa` in the worktree and wait for it to finish, then commit and `git push` any fixes.
 
 4. Refine
-   1. Spawn a fresh Opus subagent with the refine message.
+   1. Spawn a fresh Sonnet subagent with the refine message.
    2. Wait for its reply.
 
 5. Review
@@ -32,16 +32,16 @@ model: sonnet
 6. Sync
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
-   3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
 7. Bot review
    1. `git push` (never force-push).
-   2. Invoke `trigger-bot-review` with the PR number.
-   3. `gh pr ready <pr>`.
-   4. Invoke `set-issue-status` with the issue URL and `In review`.
-   5. If `trigger-bot-review` replied `none`, go to step 9.
-   6. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
-   7. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
+   2. Run `sleep 20; gh pr checks <pr> --watch --fail-fast` in the background (CI runs the full suite) and wait for it to exit. If it fails, stop here and leave the PR as a draft.
+   3. Invoke `trigger-bot-review` with the PR number.
+   4. `gh pr ready <pr>`.
+   5. Invoke `set-issue-status` with the issue URL and `In review`.
+   6. If `trigger-bot-review` replied `none`, go to step 9.
+   7. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
+   8. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
 8. Hand off to CI
 
@@ -82,4 +82,4 @@ Refine:
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When done, commit, `git push -u origin <branch>`, and open the PR against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Run lint, typecheck, and tests for changed files only (CI runs the full suite). Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When done, commit, `git push -u origin <branch>`, and open the PR against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
