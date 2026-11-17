@@ -18,11 +18,11 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan and present it.
-   4. Spawn three Haiku subagents in parallel, each given the plan and the repo path. Each raises specific questions on one concern, engineering quality only, not scope:
+   4. Spawn a Sonnet subagent given the plan and the repo path. It raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies; no questions is a valid answer:
       - Scalability
       - Maintainability
       - Simplicity of design
-   5. Answer each question: revise the plan or push back with reasoning.
+   5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning.
    6. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
