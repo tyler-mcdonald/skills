@@ -14,6 +14,7 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Scope: add only what the user asked for. No extra steps, lists, caveats, or constraints.
    - Markdown:
      - `##` headings with unique names.
+     - Steps start with a short plain-text name on its own line (e.g. `3. Scope it`, not bold), with one action per sub-item under it.
      - Nested items use `-` bullets (or `1.` for ordered sub-steps), never lettered items like `a.`.
      - Lists over tables unless the data is two-dimensional.
      - Fenced code blocks with a language.
