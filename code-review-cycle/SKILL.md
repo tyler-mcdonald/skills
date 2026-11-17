@@ -58,7 +58,7 @@ You also never summarize, reword, or add to anything that passes between agents.
    The loop always ends on a review of the latest code, so the final score reflects the last fix.
 
 4. Fix round
-   1. Spawn a separate fresh Sonnet subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated.
+   1. Spawn a separate fresh Opus subagent with the fixer message, passing the ids of `fix: true` findings that aren't escalated.
    2. When it returns, read `fix-<n>.json`.
    3. If its `commit` is null, the code didn't change, so stop without another review: `needs_decision` if it escalated anything, otherwise `no_changes`.
    4. Otherwise go back to step 2.
