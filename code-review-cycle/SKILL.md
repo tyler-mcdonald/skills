@@ -31,15 +31,13 @@ You also never summarize, reword, or add to anything that passes between agents.
       2. If there's no linked issue, a PR description that states the goal and what "done" means.
    2. Record it as `goal_source` (`"#142"`, or `"PR #141 description"`).
    3. If neither exists, stop before reviewing: `needs_grounding`. Report what you checked and ask the caller to link an issue or describe the goal. Never derive the goal from the diff or commit messages.
-
-   If the caller asks you to draft the issue, state acceptance criteria as outcomes ("prod can't boot local settings"), not mechanisms ("every error names the variable"), list anything extra under out of scope, and get the caller's approval before creating it.
+   4. If the caller asks you to draft the issue, state acceptance criteria as outcomes ("prod can't boot local settings"), not mechanisms ("every error names the variable"), list anything extra under out of scope, and get the caller's approval before creating it.
 
 1. Set up the run
    1. Target is the argument (PR number or branch) if given, otherwise the current branch; base is the default branch.
    2. Effort is the one the argument names. If it names none, run `<skill dir>/determine_code_review_effort.py <base>` in the repo (`<skill dir>` is this skill's base directory) and use what it prints (`low`, `medium`, or `high`, from the diff's size). If the script fails, stop before reviewing: `effort_error`, and report its error. The effort stays the same for every round.
    3. Write `run.json` with the Write tool, not a shell redirect.
-
-   If the caller makes a ruling in chat, write it into the goal's body yourself: as a requirement if it changes what the change must do, otherwise as a note, editing any bullet it replaces. Write only what the caller approved.
+   4. If the caller makes a ruling in chat, write it into the goal's body yourself: as a requirement if it changes what the change must do, otherwise as a note, editing any bullet it replaces. Write only what the caller approved.
 
 2. Review round
 
