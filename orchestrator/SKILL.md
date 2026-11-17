@@ -70,10 +70,10 @@ If it exits non-zero or prints anything other than a JSON array, the check faile
 ## Bot wait
 
 ```sh
-<skill dir>/await_bot_review.py <pr> "<bot login>" "<trigger comment>" "<done text>" <owner>/<repo>
+<skill dir>/await_bot_review.py <pr> "<bot login>" "<trigger comment>" "<done text>" "<blocked text>" <owner>/<repo>
 ```
 
-Takes the trigger comment and the backticked text in "Done when" from the bot's row in `trigger-bot-review/review-bots.md`. Checks the PR's comments once a minute for up to 15 minutes, and prints `done` once a comment the bot posted or edited after the latest trigger comment contains the done text, or `timeout` if none does. Exits non-zero if the first check fails, since a wrong PR, repo, or gh auth won't fix itself; later failed checks are retried. It can outlast a foreground Bash call, so always run it with `run_in_background`.
+Takes the trigger comment and the backticked texts in "Done when" and "Blocked when" from the bot's row in `trigger-bot-review/review-bots.md`; pass `""` as the blocked text when it's `Unknown`. Checks the PR's comments once a minute for up to 15 minutes, and prints `done` or `blocked` once a comment the bot posted or edited after the latest trigger comment contains the done or blocked text, or `timeout` if none does. Exits non-zero if the first check fails, since a wrong PR, repo, or gh auth won't fix itself; later failed checks are retried. It can outlast a foreground Bash call, so always run it with `run_in_background`.
 
 ## Spawn messages
 

@@ -37,7 +37,11 @@ def is_done(comments, bot, trigger, done_text):
     )
 
 
-def await_bot_review(pr, bot, trigger, done_text, repo):
+def is_blocked(comments, bot, trigger, blocked_text):
+    return bool(blocked_text) and is_done(comments, bot, trigger, blocked_text)
+
+
+def await_bot_review(pr, bot, trigger, done_text, blocked_text, repo):
     deadline = time.monotonic() + TIMEOUT_SECONDS
     fetched = False
     while True:
@@ -51,6 +55,8 @@ def await_bot_review(pr, bot, trigger, done_text, repo):
             fetched = True
             if is_done(comments, bot, trigger, done_text):
                 return "done"
+            if is_blocked(comments, bot, trigger, blocked_text):
+                return "blocked"
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             return "timeout"
@@ -58,6 +64,7 @@ def await_bot_review(pr, bot, trigger, done_text, repo):
 
 
 if __name__ == "__main__":
-    pr, bot, trigger, done_text = sys.argv[1:5]
-    repo = sys.argv[5] if len(sys.argv) > 5 else ""
-    print(await_bot_review(pr, bot.removesuffix("[bot]"), trigger, done_text, repo))
+    pr, bot, trigger, done_text, blocked_text = sys.argv[1:6]
+    repo = sys.argv[6] if len(sys.argv) > 6 else ""
+    bot = bot.removesuffix("[bot]")
+    print(await_bot_review(pr, bot, trigger, done_text, blocked_text, repo))
