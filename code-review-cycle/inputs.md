@@ -5,3 +5,5 @@ Shared by the reviewer and the fixer. Read these yourself — don't rely on anyo
 - `<run_dir>/run.json` — `repo_dir`, `target`, `base`, `pr`, `effort`, `goal_source`. Work in `repo_dir`.
 - The goal: if `goal_source` is an issue, `gh issue view <n> --json title,body,comments`; if it's a PR description, `gh pr view <target>`.
 - The user's decisions: the requirements and notes in the goal's body (the issue body, or the PR description when the goal has no issue).
+
+The checks: lint, typecheck, and tests for changed files only (CI runs the full suite), using the commands the repo's CI, Makefile, package scripts, or CLAUDE.md define.
