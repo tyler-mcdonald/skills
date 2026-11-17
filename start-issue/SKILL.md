@@ -1,6 +1,6 @@
 ---
 name: start-issue
-description: Start work on a GitHub issue by creating and pushing a worktree branch for it and setting it to In progress. Use before working on an issue, or when asked to start one or set up its worktree.
+description: Set up a GitHub issue for work and mark it In progress. Use before working on an issue, or when asked to start one or set up its worktree.
 ---
 
 # Start Issue
