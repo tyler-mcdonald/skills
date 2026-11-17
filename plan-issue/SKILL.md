@@ -12,7 +12,10 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan and present it.
-   4. Spawn three Haiku subagents in parallel, each given the plan and the repo path. Each raises specific questions on one concern: scalability, maintainability, or simplicity of design. Engineering quality only, not scope.
+   4. Spawn three Haiku subagents in parallel, each given the plan and the repo path. Each raises specific questions on one concern, engineering quality only, not scope:
+      - Scalability
+      - Maintainability
+      - Simplicity of design
    5. Answer each question: revise the plan or push back with reasoning. Then present the final plan and wait for the user's explicit approval.
 3. **Scope it.** Spawn a fresh Haiku subagent with the agreed plan to decide whether it should be one issue or split into several. Present its recommendation for the user's approval.
 4. **Write it.** Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
