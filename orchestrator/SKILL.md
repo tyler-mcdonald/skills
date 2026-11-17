@@ -18,8 +18,7 @@ model: sonnet
 
 3. QA
    1. Skip this unless the change affects something a person can see or use in the app's UI. Backend or API-only changes (even ones that change API behavior), docs, config, tests, and internal refactors don't count.
-   2. Otherwise invoke `user-qa` in the worktree and wait for it to finish.
-   3. Commit and `git push` any fixes.
+   2. Otherwise invoke `user-qa` in the worktree and wait for it to finish, then commit and `git push` any fixes.
 
 4. Refine
    1. Spawn a fresh Opus subagent with the refine message.
