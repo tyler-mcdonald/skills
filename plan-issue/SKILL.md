@@ -7,6 +7,8 @@ description: Plan a GitHub issue and write the plan into it, without implementin
 
 Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent implements it from there.
 
+## Steps
+
 1. Get the issue
    - If there is one, fetch it (`gh issue view <ref> --json number,title,body,comments`) and confirm its number and title with the user in one line.
    - If there isn't, **Write it** creates it.
@@ -18,13 +20,8 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan and present it.
-   4. In parallel, spawn two subagents given the plan and the repo path:
-      - Sonnet: raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies; no questions is a valid answer:
-        - Scalability
-        - Maintainability
-        - Simplicity of design
-      - Haiku, fresh, given only the plan and the repo path: reads the code and systems the plan touches, then raises questions about the plan's assumptions and gaps that would change the requirements or need the user's decision. Skip implementation details.
-   5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning. If the Haiku subagent's questions are still open, send them back to it for another round.
+   4. In parallel, spawn the **Engineering review** subagent and a fresh **Stress test** subagent, each given only the plan and the repo path.
+   5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning. If the **Stress test** subagent's questions are still open, send them back to it for another round.
    6. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
@@ -41,4 +38,24 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    - Give the issue URL.
    - Don't implement, branch, commit, or open a PR, even if the plan is small.
 
-If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
+## Subagents
+
+### Engineering review
+
+- Model: Sonnet.
+- Raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies:
+  - Scalability
+  - Maintainability
+  - Simplicity of design
+- No questions is a valid answer.
+
+### Stress test
+
+- Model: Haiku.
+- Reads the code and systems the plan touches.
+- Raises questions about the plan's assumptions and gaps that would change the requirements or need the user's decision.
+- Skips implementation details.
+
+## Rules
+
+- If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
