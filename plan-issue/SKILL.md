@@ -17,19 +17,23 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
-   3. Draft a concrete plan, present it, and invoke `grilling` on it.
-   4. Address each finding: revise the plan or push back with reasoning.
-   5. Present the final plan and wait for the user's explicit approval.
+   3. Draft a concrete plan and present it.
+   4. Spawn a Sonnet subagent given the plan and the repo path. It raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies; no questions is a valid answer:
+      - Scalability
+      - Maintainability
+      - Simplicity of design
+   5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning.
+   6. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
-   1. Spawn a fresh Haiku subagent with the agreed plan to decide whether it should be one issue or split into several.
-   2. Present its recommendation for the user's approval.
+   1. Split the plan into one issue per part that can ship on its own (e.g. a backend config change and a frontend behavior change). Keep parts together only when one can't work without the other.
+   2. Present your recommendation for the user's approval.
 
 4. Write it
    - Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 
 5. Stress-test
-   1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps. It doesn't need to suggest answers.
+   1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps that would change the requirements or need the user's decision. Skip implementation details. It doesn't need to suggest answers.
    2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round.
    3. If the plan changed, rewrite it in the issue with the `write-issue` skill, replacing the version from **Write it**. If it changed in substance, get the user's approval first.
 
