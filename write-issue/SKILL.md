@@ -30,7 +30,8 @@ Leave out headings, background, alternatives considered, file-by-file plans, and
 
 2. Post it
    - For an existing issue, use `gh issue edit <ref> --body-file <file>`, keeping any existing body text above yours.
-   - Otherwise, `gh issue create`, then add it to the project board with `gh project item-add 1 --owner tyler-mcdonald --url <issue url>`.
+   - Otherwise, `gh issue create`.
+   - Add a new issue to the project board with `gh project item-add 1 --owner tyler-mcdonald --url <issue url>`.
 
 ## Example
 
