@@ -7,6 +7,8 @@ description: Plan a GitHub issue and write the plan into it, without implementin
 
 Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent implements it from there.
 
+## Steps
+
 1. Get the issue
    - If there is one, fetch it (`gh issue view <ref> --json number,title,body,comments`) and confirm its number and title with the user in one line.
    - If there isn't, **Write it** creates it.
@@ -18,10 +20,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan and present it.
-   4. Spawn a Sonnet subagent given the plan and the repo path. It raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies; no questions is a valid answer:
-      - Scalability
-      - Maintainability
-      - Simplicity of design
+   4. Spawn the **Engineering review** subagent given the plan and the repo path.
    5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning.
    6. Present the final plan and wait for the user's explicit approval.
 
@@ -33,7 +32,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    - Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 
 5. Stress-test
-   1. Spawn a fresh Haiku subagent given only the issue references, including any sub-issues. Ask it to read the issues and the code and systems the plan touches, then raise questions about the plan's assumptions and gaps that would change the requirements or need the user's decision. Skip implementation details. It doesn't need to suggest answers.
+   1. Spawn a fresh **Stress test** subagent given only the issue references, including any sub-issues.
    2. Answer its questions: look up facts yourself and ask the user only about decisions. If your answers leave open questions, send them back for another round.
    3. If the plan changed, rewrite it in the issue with the `write-issue` skill, replacing the version from **Write it**. If it changed in substance, get the user's approval first.
 
@@ -44,4 +43,25 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    - Give the issue URL.
    - Don't implement, branch, commit, or open a PR, even if the plan is small.
 
-If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
+## Subagents
+
+### Engineering review
+
+- Model: Sonnet.
+- Raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies:
+  - Scalability
+  - Maintainability
+  - Simplicity of design
+- No questions is a valid answer.
+
+### Stress test
+
+- Model: Haiku.
+- Reads the issues and the code and systems the plan touches.
+- Raises questions about the plan's assumptions and gaps that would change the requirements or need the user's decision.
+- Skips implementation details.
+- Doesn't need to suggest answers.
+
+## Rules
+
+- If a `gh` command fails, show the exact error instead of retrying blindly or guessing a workaround.
