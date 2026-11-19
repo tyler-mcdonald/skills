@@ -15,7 +15,7 @@ Leave out headings, background, alternatives considered, file-by-file plans, and
 
 Before posting, spawn a fresh Haiku subagent with the draft. Ask it to flag anything that isn't a behavioral requirement and suggest changes, treating details the user chose as requirements. Apply them.
 
-To write into an existing issue, use `gh issue edit <ref> --body-file <file>`, keeping any existing body text above yours. Otherwise, `gh issue create`.
+To write into an existing issue, use `gh issue edit <ref> --body-file <file>`, keeping any existing body text above yours. Otherwise, `gh issue create`, then add it to the project board with `gh project item-add 1 --owner tyler-mcdonald --url <issue url>`.
 
 Example:
 
