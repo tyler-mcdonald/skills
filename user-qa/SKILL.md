@@ -12,6 +12,7 @@ QA is a quick loop with the user: make fixes until they say pass, without runnin
 3. On a fail, make the fixes yourself, then go back to 2.
 4. On a pass, run the project's checks (tests, lint) and fix any failures, then stop the servers and reply "QA passed".
 5. Update the issue
-   - Draft the issue body changes for the decisions the user made during QA.
-   - Show only the added and removed lines in a fenced `diff` block (e.g. `+ - <new bullet>`), not the whole body, and ask for approval.
+   - Invoke `write-issue` to draft the issue body changes for the decisions the user made during QA.
+   - Show only the added and removed lines in a fenced `diff` block (e.g. `+ - <new bullet>`), not the whole body.
+   - End the message with `needs input: approve issue update` on its own line.
    - Once the user approves, update the issue body.
