@@ -1,6 +1,6 @@
 ---
 name: run-checks
-description: Run lint, typecheck, and the changed files' tests locally, leaving the full test suite to CI. Use before committing or pushing a change.
+description: Run lint, typecheck, and the changed files' tests locally, leaving the full test suite to CI. Use only when a skill's step tells you to invoke it.
 ---
 
 # Run Checks
