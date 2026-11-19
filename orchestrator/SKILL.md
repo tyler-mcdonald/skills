@@ -37,9 +37,7 @@ model: sonnet
 
 7. Bot review
    1. `git push` (never force-push).
-   2. Wait for CI: run `gh pr checks <pr> --watch --fail-fast` in the background. If it reports no checks, carry on.
-      - If a check fails because of this branch, read its log (`gh run view <run> --log-failed`), fix it, commit, `git push`, and wait again. After 2 fix rounds, stop here and leave the PR as a draft.
-      - If it fails for a reason the branch didn't cause, stop here and leave the PR as a draft.
+   2. Run `gh pr checks <pr> --watch --fail-fast` in the background. If CI fails, fix it and push until it passes.
    3. Invoke `trigger-bot-review` with the PR number.
    4. `gh pr ready <pr>`.
    5. Invoke `set-issue-status` with the issue URL and `In review`.
