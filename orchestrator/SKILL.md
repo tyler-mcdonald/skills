@@ -22,7 +22,7 @@ model: sonnet
    2. Otherwise invoke `user-qa` in the worktree and wait for it to finish, then commit and `git push` any fixes.
 
 4. Refine
-   1. Spawn a fresh Sonnet subagent with the refine message.
+   1. Spawn a fresh Opus subagent with the refine message.
    2. Wait for its reply.
 
 5. Review
