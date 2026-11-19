@@ -20,9 +20,11 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
    3. Draft a concrete plan and present it.
-   4. In parallel, spawn the **Engineering review** subagent and a fresh **Stress test** subagent, each given only the plan and the repo path.
-   5. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning. If the **Stress test** subagent's questions are still open, send them back to it for another round.
-   6. Present the final plan and wait for the user's explicit approval.
+   4. Spawn a fresh **Stress test** subagent given only the plan and the repo path.
+   5. Answer its questions: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning. If its questions are still open, send them back to it for another round.
+   6. Spawn the **Engineering review** subagent given the revised plan and the repo path.
+   7. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning.
+   8. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
    1. Split the plan into one issue per part that can ship on its own (e.g. a backend config change and a frontend behavior change). Keep parts together only when one can't work without the other.
