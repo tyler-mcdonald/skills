@@ -26,7 +26,8 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
    - Concision: the skill must stay very concise, simple, and direct. Cut lines an agent would get right without, and shorten verbose wording.
    - Existing skills: steps that redo another skill, to replace with invoking it.
    - Plain wording: unnecessary direction to remove, and LLM-sounding wording to make simple and direct. A human should be able to follow what the skill does.
-   - Markdown: follows the rules in step 2, and is simpler, more readable, and better organized.
+   - Markdown: follows the Markdown rules above, and is simpler, more readable, and better organized.
+   - Step references: refer to steps by name (e.g. "go to Report"), not number.
 
    Apply them, except any that drop something the user asked for.
 4. Commit with a short, single-line message.
