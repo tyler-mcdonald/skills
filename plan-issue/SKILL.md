@@ -26,7 +26,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    6. Present the final plan and wait for the user's explicit approval.
 
 3. Scope it
-   1. Decide whether the agreed plan should be one issue or split into several.
+   1. Split the plan into one issue per part that can ship on its own (e.g. a backend config change and a frontend behavior change). Keep parts together only when one can't work without the other.
    2. Present your recommendation for the user's approval.
 
 4. Write it
