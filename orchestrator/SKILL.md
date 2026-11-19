@@ -33,7 +33,6 @@ model: sonnet
 6. Sync
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
-   3. If HEAD is still the final review round's `head_sha` (in its `round-<n>.json`), the merge changed nothing and the reviewer already ran the checks there — skip this. Otherwise run the project's checks (tests, lint). If they fail, stop and leave the PR as a draft.
 
 7. Bot review
    1. `git push` (never force-push).
@@ -84,4 +83,4 @@ Refine:
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When done, commit, `git push -u origin <branch>`, and open the PR against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When all the code is written, run lint, typecheck, and only the tests for your changes (CI runs the full suite), then commit, `git push -u origin <branch>`, and open the PR against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
