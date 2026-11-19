@@ -24,5 +24,5 @@ To add a check, add a skill that reports findings with citations, and list it he
 2. Read the goal, including an issue's comments.
 3. Invoke each check with the base.
 4. For each finding, check its citation and decide: apply it, or reject it with a reason. Reject findings that conflict with the goal or with another finding.
-5. If you applied any, run lint, typecheck, and only the tests that cover the changed files (CI runs the full suite); fix failures you caused, commit, and `git push -u origin HEAD` (never force-push).
+5. If you applied any, run lint, typecheck, and only the tests for the files you changed, by passing them to the repo's test command (e.g. `vitest related <files>`). Never run the full test suite; CI runs it. Fix failures you caused, commit, and `git push -u origin HEAD` (never force-push).
 6. Reply with the commit you pushed, or "no changes", then one line per finding: applied, or rejected and why.
