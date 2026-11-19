@@ -45,7 +45,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 ### Engineering review
 
 - Model: Sonnet.
-- Raises specific questions on these concerns, engineering quality only, and only where a concern applies:
+- Raises specific questions regarding engineering quality, where a concern applies:
   - Scalability
   - Maintainability
   - Simplicity of design
