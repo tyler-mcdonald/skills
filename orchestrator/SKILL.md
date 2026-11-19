@@ -37,12 +37,13 @@ model: sonnet
 
 7. Bot review
    1. `git push` (never force-push).
-   2. Invoke `trigger-bot-review` with the PR number.
-   3. `gh pr ready <pr>`.
-   4. Invoke `set-issue-status` with the issue URL and `In review`.
-   5. If `trigger-bot-review` replied `none`, go to step 9.
-   6. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
-   7. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
+   2. Run the CI wait in the background and wait for it to exit. If it prints anything other than `pass` or `none`, stop here and leave the PR as a draft.
+   3. Invoke `trigger-bot-review` with the PR number.
+   4. `gh pr ready <pr>`.
+   5. Invoke `set-issue-status` with the issue URL and `In review`.
+   6. If `trigger-bot-review` replied `none`, go to step 9.
+   7. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
+   8. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
 8. Hand off to CI
 
@@ -66,6 +67,14 @@ model: sonnet
 `<skill dir>` is this skill's base directory. Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
 
 If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there.
+
+## CI wait
+
+```sh
+<skill dir>/await_ci.py <pr> <owner>/<repo>
+```
+
+Polls the PR's checks every 15 seconds for up to 30 minutes. Prints `pass` once every check has passed or been skipped, `fail` as soon as one fails or is cancelled, `none` if no checks register within 2 minutes (the repo has no CI), or `timeout`. Exits non-zero if the first check fails, since a wrong PR, repo, or gh auth won't fix itself; later failed checks are retried. Always run it with `run_in_background`.
 
 ## Bot wait
 
