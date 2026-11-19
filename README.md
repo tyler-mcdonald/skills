@@ -12,13 +12,13 @@ Used to build [Cardcase](https://github.com/tyler-mcdonald/cardcase).
 flowchart TD
     A([GitHub issue]) --> B["`**Dev agent**
 Implements the issue`"]
-    B --> C["`**Refine agent**
-Runs checks on the diff, like library usage`"]
-    C --> D{"`**Review + fix loop**`"}
+    B --> D{"`**Review + fix loop**`"}
     D -->|scores at least 4/5| E["`**QA**
 UI changes only`"]
     D -.->|fails| X([Draft PR + notify user])
-    E --> F["`**External AI review**
+    E --> C["`**Refine agent**
+Runs checks on the diff, like library usage`"]
+    C --> F["`**External AI review**
 CodeRabbit, Greptile, etc.`"]
     F --> G["`**CI agent**
 Fixes issues flagged by external AI reviewer`"]
