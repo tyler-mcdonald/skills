@@ -45,11 +45,22 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 
 ## Subagents
 
-- **Engineering review** (Sonnet): raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies; no questions is a valid answer:
+### Engineering review
+
+- Model: Sonnet.
+- Raises specific questions on these concerns, engineering quality only, not scope, and only where a concern applies:
   - Scalability
   - Maintainability
   - Simplicity of design
-- **Stress test** (Haiku): reads the issues and the code and systems the plan touches, then raises questions about the plan's assumptions and gaps that would change the requirements or need the user's decision. Skip implementation details. It doesn't need to suggest answers.
+- No questions is a valid answer.
+
+### Stress test
+
+- Model: Haiku.
+- Reads the issues and the code and systems the plan touches.
+- Raises questions about the plan's assumptions and gaps that would change the requirements or need the user's decision.
+- Skips implementation details.
+- Doesn't need to suggest answers.
 
 ## Rules
 
