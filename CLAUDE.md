@@ -1,0 +1,1 @@
+- Open PRs as ready for review, not drafts.
