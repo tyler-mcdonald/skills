@@ -36,13 +36,14 @@ model: sonnet
 
 7. Bot review
    1. `git push` (never force-push).
-   2. Run `gh pr checks <pr> --watch --fail-fast` in the background. If CI fails, fix it and push until it passes.
-   3. Invoke `trigger-bot-review` with the PR number.
-   4. `gh pr ready <pr>`.
-   5. Invoke `set-issue-status` with the issue URL and `In review`.
-   6. If `trigger-bot-review` replied `none`, go to step 9.
-   7. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
-   8. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
+   2. Run `gh pr checks <pr> --watch --fail-fast` in the background.
+   3. If CI fails, fix it and push until it passes.
+   4. Invoke `trigger-bot-review` with the PR number.
+   5. `gh pr ready <pr>`.
+   6. Invoke `set-issue-status` with the issue URL and `In review`.
+   7. If `trigger-bot-review` replied `none`, go to step 9 (Report).
+   8. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
+   9. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
 8. Hand off to CI
 
