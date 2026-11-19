@@ -15,7 +15,7 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
 
 2. Agree on a plan
 
-   If the plan was already agreed in this chat, use it as the draft and start at the subagent reviews.
+   If the user explicitly approved a plan in this chat, use it as the draft and start at the subagent reviews. Loose agreement (e.g. "sounds good") isn't approval: ask the user to explicitly approve it first.
 
    1. If there's an issue, set its Status to "Planning" with the `set-issue-status` skill.
    2. Explore the repo's local checkout, read-only (no worktree, no file changes), enough to see how this area is built: relevant files, patterns, conventions.
