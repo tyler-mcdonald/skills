@@ -22,10 +22,10 @@ To add a check, add a skill that reports findings with citations, and list it he
    - PR argument: work on its branch, in the worktree that already has it, else invoke `setup-worktree` and run `gh pr checkout <pr>`. The base is the PR's base branch. The goal is its linked issue (`closingIssuesReferences`), else its description.
    - Otherwise: the base is the argument, else the default branch. The goal is the issue or request you were given.
 2. Read the goal, including an issue's comments.
-3. Invoke each check with the base.
+3. Invoke each check under `Checks` with the `Skill` tool, passing the base. Never review the diff yourself instead.
 4. For each finding, check its citation and decide: apply it, or reject it with a reason. Reject findings that conflict with the goal or with another finding.
 5. If you applied any:
    1. Invoke `run-checks`.
    2. Fix failures you caused.
    3. Commit, then `git push -u origin HEAD` (never force-push).
-6. Reply with the commit you pushed, or "no changes", then one line per finding: applied, or rejected and why.
+6. Reply with each check and whether it ran, the commit you pushed or "no changes", then one line per finding: applied, or rejected and why.
