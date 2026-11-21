@@ -14,5 +14,5 @@ QA is a quick loop with the user: make fixes until they say pass, without runnin
 5. Update the issue
    - Invoke `write-issue` to draft the issue body changes for the decisions the user made during QA.
    - Show only the added and removed lines in a fenced `diff` block (e.g. `+ - <new bullet>`), not the whole body.
-   - End the message with `needs input: approve issue update` on its own line.
+   - Ask the user to approve the update with the `AskUserQuestion` tool.
    - Once the user approves, update the issue body.
