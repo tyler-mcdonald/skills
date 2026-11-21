@@ -17,7 +17,7 @@ Read the inputs in `inputs.md`, next to this file. The goal's acceptance criteri
 ## Steps
 
 1. Run the checks and record pass/fail per check.
-   - In round 1, if `run.json`'s `skip_checks` is `true`, skip the checks; the caller already ran them at this HEAD.
+   - In round 1, skip the checks; they run right before the review.
    - From round 2 on, if HEAD is `fix-<n-1>.json`'s `commit` and every check there passed, record those results instead of re-running them.
 2. Run `git fetch origin`, then invoke the `code-review` skill (no `--fix`, no `--comment`). Wait for its completion notification; don't sleep or poll for it. If it reports via a findings tool, also include every finding in your reply.
    - `full`: args `<effort> origin/<base>...HEAD` — never a local base branch, which may be stale.

@@ -22,7 +22,7 @@ model: sonnet
    2. Otherwise invoke `user-qa` in the worktree and wait for it to finish, then commit and `git push` any fixes.
 
 4. Review
-   1. Invoke `code-review-cycle` with the PR number. If QA made no commits, add that the checks already passed at HEAD.
+   1. Invoke `code-review-cycle` with the PR number.
    2. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft.
    3. Otherwise continue to step 5 — its report is not the end of your run.
 
