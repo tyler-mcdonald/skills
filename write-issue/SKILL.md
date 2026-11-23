@@ -17,7 +17,7 @@ Use these parts, in this order, separated by a blank line:
 
 1. Overview: one or two sentences that show at a glance what the issue is for. Start with why, the problem or goal, then optionally what changes. Don't repeat a requirement.
 2. `Requirements:` bullets for the behavioral requirements. Each bullet is one short requirement that can be checked pass or fail; split a bullet that holds two. Say what, not how. No code, API names, or file paths unless the user chose them.
-3. `Out of scope:` (optional) bullets for real boundaries only: things an agent would plausibly do otherwise, and exclusions the user chose.
+3. `Out of scope:` usually left out. Add it only for exclusions the user chose, or things an agent would very likely do otherwise.
 4. `Notes:` (optional) bullets for anything supporting, such as context, a mocks link, screenshots, docs or tests to update, and manual rollout steps.
 
 Leave out a section with nothing in it. Use only these plain-text labels, no headings. Leave out background, alternatives considered, file-by-file plans, and filler.
