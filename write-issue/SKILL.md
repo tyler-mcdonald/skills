@@ -15,7 +15,7 @@ Write it for the agent that implements it, in plain language a person can read. 
 
 Use these parts, in this order, separated by a blank line:
 
-1. Overview: one sentence on why, the problem or goal. Optionally, one more on what changes. Don't repeat a requirement.
+1. Overview: one or two sentences that show at a glance what the issue is for. Start with why, the problem or goal, then optionally what changes. Don't repeat a requirement.
 2. `Requirements:` bullets for the behavioral requirements and every decision the user made. Each bullet is one short requirement that can be checked pass or fail; split a bullet that holds two. Say what, not how. No code, API names, or file paths unless the user chose them.
 3. `Out of scope:` (optional) bullets for real boundaries only: things an agent would plausibly do otherwise, and exclusions the user chose.
 4. `Notes:` (optional) bullets for anything supporting, such as context, a mocks link, screenshots, docs or tests to update, and manual rollout steps.
