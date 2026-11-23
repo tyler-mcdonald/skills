@@ -24,14 +24,16 @@ Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent i
    5. Answer its questions: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning. If its questions are still open, send them back to it for another round.
    6. Spawn the **Engineering review** subagent given the revised plan and the repo path.
    7. Answer each question: look up facts yourself and ask the user only about decisions. Revise the plan or push back with reasoning.
-   8. Present the final plan and ask the user to approve it with the `AskUserQuestion` tool.
+   8. Draft the issue's title and body with the `write-issue` skill, through its review but without posting.
+   9. Show the draft in a quote block in a plain message and ask for approval there. `AskUserQuestion` hides the message.
+   10. After each revision, show a diff against the previous draft in the same way and ask again.
 
 3. Scope it
    1. Split the plan into one issue per part that can ship on its own (e.g. a backend config change and a frontend behavior change). Keep parts together only when one can't work without the other.
    2. Present your recommendation for the user's approval.
 
 4. Write it
-   - Write the plan into the issue with the `write-issue` skill. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
+   - Post the approved title and body with the `write-issue` skill's Post it step. When splitting, move the requirements into the sub-issues and leave the parent with only the overview and shared context.
 
 5. Mark it ready
    - Set every issue written in **Write it**, including new sub-issues, to "Ready to work" with the `set-issue-status` skill.
