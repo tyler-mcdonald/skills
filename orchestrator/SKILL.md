@@ -38,7 +38,10 @@ model: sonnet
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
    2. Resolve any conflicts, keeping the intent of both sides, then `git commit --no-edit`.
 
-4. Bot review
+4. Split
+   1. Invoke `split-pr` with the PR number.
+
+5. Bot review
    1. `git push` (never force-push).
    2. Run `gh pr checks <pr> --watch --fail-fast` in the background.
    3. If CI fails, fix it and push until it passes.
@@ -49,7 +52,7 @@ model: sonnet
    8. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
    9. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
-5. Hand off to CI
+6. Hand off to CI
 
    One pass only — don't re-trigger the bot or CI.
 
@@ -59,8 +62,8 @@ model: sonnet
    4. Run the thread wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
    5. `git pull` so the worktree matches the PR.
 
-6. Report
-   - Keep it brief: where it stopped and why, or the final score, plus the refine findings applied and rejected, the bot outcome, the CI outcome, and the PR's full URL.
+7. Report
+   - Keep it brief: where it stopped and why, or the final score, plus the refine findings applied and rejected, any split PRs' full URLs, the bot outcome, the CI outcome, and the PR's full URL.
 
 ## Thread check
 
@@ -100,4 +103,4 @@ Refine:
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When all the code is written, invoke `run-checks`, then commit, `git push -u origin <branch>`, and open the PR as a draft against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. Commit preparatory refactors as separate commits before the feature commits. When all the code is written, invoke `run-checks`, then commit, `git push -u origin <branch>`, and open the PR as a draft against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
