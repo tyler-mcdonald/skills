@@ -3,6 +3,8 @@ name: split-pr
 description: Split a PR's behavior-preserving refactors and unrelated changes into stacked PRs, without changing its code. Use when asked to split a PR.
 ---
 
+The goal is to let the reviewer read the prep work first and the feature last, each as a smaller diff, without the PR's code changing.
+
 ## Steps
 
 1. Pick splits
