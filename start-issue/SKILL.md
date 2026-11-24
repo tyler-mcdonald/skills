@@ -3,8 +3,6 @@ name: start-issue
 description: Set up a GitHub issue for work and mark it In progress. Use before working on an issue, or when asked to start one or set up its worktree.
 ---
 
-# Start Issue
-
 1. Parse the issue reference from the args (bare number, full URL, or `owner/repo#N`).
 2. Fetch it: `gh issue view <ref> --json number,title,body,url`. If `gh` fails or the issue doesn't exist, stop and surface the exact error.
 3. Find its open blockers: `gh api repos/<owner>/<repo>/issues/<n>/dependencies/blocked_by`, keeping only open ones. For each, find its branch on origin, in order:

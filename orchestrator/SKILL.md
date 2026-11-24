@@ -4,8 +4,6 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 model: sonnet
 ---
 
-# Orchestrator
-
 ## Steps
 
 1. Setup

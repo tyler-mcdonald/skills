@@ -3,8 +3,6 @@ name: plan-issue
 description: Plan a GitHub issue and write the plan into it, without implementing it. Use when an issue needs planning (asked for, labeled unplanned, or no requirements), to put a plan agreed in chat into an issue, or to split an issue into sub-issues.
 ---
 
-# Plan Issue
-
 Takes a GitHub issue to an agreed plan recorded on the issue. A separate agent implements it from there.
 
 ## Steps

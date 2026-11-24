@@ -3,8 +3,6 @@ name: router
 description: Route a new chat's first message to the right workflow. Use on the first message of every chat.
 ---
 
-# Router
-
 Pick one route from the first message, say it in one line, then follow it:
 
 - **Plan an issue** — a new bug report, bug fix, idea, or proposal, or a request to plan an issue: invoke `plan-issue`. Don't write the issue until the user approves it.
