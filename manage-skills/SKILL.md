@@ -6,7 +6,6 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
 1. From `~/Projects/skills`, invoke `setup-worktree` with a short title for the change (e.g. "Add update-skill"). Stay in that worktree for every step.
 2. Make the changes. Each skill lives in `<skill-name>/SKILL.md` with `name` and `description` frontmatter; match the style of the existing skills. Use the simplest solution that works (e.g. don't default to a script when a setting alone will do).
    - Description: a short, high-level summary of what the skill is for, then when to use it. It's what agents read to pick the skill, so leave the steps and internals to the body.
-   - Body: no `#` title heading; the frontmatter already names the skill.
    - Renaming a skill: search the other skills for references to the old name and update them too, so names don't drift out of sync.
    - Writing: prefer brevity, simplicity, and readability. Be very concise.
    - Scope: add only what the user asked for. No extra steps, lists, caveats, or constraints.
