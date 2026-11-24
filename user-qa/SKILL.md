@@ -3,8 +3,6 @@ name: user-qa
 description: Have the user test a UI change by hand and work through user feedback. Use when asked to QA a change with the user, or as the QA step of a workflow.
 ---
 
-# User QA
-
 QA is a quick loop with the user: make fixes until they say pass, without running tests or checks in between. Once they pass, run the checks once.
 
 1. Invoke `run` in the worktree to start the app.

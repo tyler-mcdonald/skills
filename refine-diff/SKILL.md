@@ -3,8 +3,6 @@ name: refine-diff
 description: Run a set of checks on a diff and apply the findings worth making. Use when asked to refine a diff or a PR.
 ---
 
-# Refine Diff
-
 Checks only report. You decide on every finding and make the changes.
 
 ## Checks

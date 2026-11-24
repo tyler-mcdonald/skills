@@ -3,8 +3,6 @@ name: review-library-usage
 description: Review how a diff uses its libraries, and report code that rebuilds what they provide or skips their best practices. Use when asked to review library usage.
 ---
 
-# Review Library Usage
-
 ## Steps
 
 1. List the source files and stylesheets changed in `origin/<base>...HEAD`. Base is the argument, else the default branch.

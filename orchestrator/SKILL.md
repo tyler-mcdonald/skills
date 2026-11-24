@@ -4,8 +4,6 @@ description: Take a GitHub issue to a ready-for-review PR, hands-off. Use when a
 model: sonnet
 ---
 
-# Orchestrator
-
 ## Steps
 
 1. Setup
@@ -27,14 +25,14 @@ model: sonnet
 
 ## Finish steps
 
-1. Review
-   1. Invoke `code-review-cycle` with the PR number.
-   2. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft.
-   3. Otherwise continue to Refine — its report is not the end of your run.
-
-2. Refine
+1. Refine
    1. Spawn a fresh Sonnet subagent with the refine message.
    2. Wait for its reply.
+
+2. Review
+   1. Invoke `code-review-cycle` with the PR number.
+   2. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft.
+   3. Otherwise continue to Sync — its report is not the end of your run.
 
 3. Sync
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
@@ -102,4 +100,4 @@ Refine:
 
 Dev:
 
-> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When all the code is written, invoke `run-checks`, then commit, `git push -u origin <branch>`, and open the PR against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
+> Implement `<issue url>`. Read the issue and its comments (`gh issue view <url> --json title,body,comments`), plus any linked or parent issues — together with any docs they link, they are the plan. Work in `<worktree path>`. Never force-push; to pick up changes from the base branch, merge it instead of rebasing. When all the code is written, invoke `run-checks`, then commit, `git push -u origin <branch>`, and open the PR as a draft against `<base branch>` with the `open-pr` skill, linked to the issue. Reply with the PR URL.
