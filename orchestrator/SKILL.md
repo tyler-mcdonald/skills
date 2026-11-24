@@ -27,14 +27,14 @@ model: sonnet
 
 ## Finish steps
 
-1. Review
-   1. Invoke `code-review-cycle` with the PR number.
-   2. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft.
-   3. Otherwise continue to Refine — its report is not the end of your run.
-
-2. Refine
+1. Refine
    1. Spawn a fresh Sonnet subagent with the refine message.
    2. Wait for its reply.
+
+2. Review
+   1. Invoke `code-review-cycle` with the PR number.
+   2. If it stops without a final score of 4 or 5, stop here and leave the PR as a draft.
+   3. Otherwise continue to Sync — its report is not the end of your run.
 
 3. Sync
    1. `git fetch origin && git merge --no-edit origin/<target>`, where target is the PR's base branch.
