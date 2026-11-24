@@ -21,7 +21,7 @@ description: Add, edit, or remove a skill. Use whenever the user wants to add, e
      - Backticks for commands, paths, and names.
      - No HTML.
 3. Spawn a fresh Haiku subagent with only the changed skill files and the repo's other skills, for one review pass on the changed lines. Ask for:
-   - Description: it says what the skill is for and when to use it, matches what the body does, and doesn't name the skills that call it.
+   - Description: it says what the skill is for and when to use it, matches what the body does, doesn't name the skills that call it, and doesn't list its arguments, which go in `argument-hint`.
    - Scope: cut anything added that the user didn't ask for.
    - Concision: the skill must stay very concise, simple, and direct. Cut lines an agent would get right without, and shorten verbose wording.
    - Existing skills: steps that redo another skill, to replace with invoking it.
