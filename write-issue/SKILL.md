@@ -3,8 +3,6 @@ name: write-issue
 description: How to write a GitHub issue's title and body. Use for issue text; to plan, split, or record an agreed plan, use `plan-issue`.
 ---
 
-# Write Issue
-
 Write it for the agent that implements it, in plain language a person can read. Keep it short.
 
 ## Title

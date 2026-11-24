@@ -3,8 +3,6 @@ name: open-pr
 description: Open a pull request. Use whenever opening a PR.
 ---
 
-# Open PR
-
 - Always open PRs as drafts (`gh pr create --draft`). Never mark a PR as ready for review.
 - If the branch is stacked on another PR's branch, pass `--base <that branch>`.
 - After this skill's rules, apply any PR conventions in the repo's CLAUDE.md (e.g. allowed scopes). They take precedence where they're more specific.

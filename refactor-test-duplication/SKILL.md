@@ -4,8 +4,6 @@ description: Refactor duplicated steps in the current diff's tests into readable
 disable-model-invocation: true
 ---
 
-# Refactor Test Duplication
-
 The goal is readability, understandability, and maintainability — not fewer lines. Tests
 should be DAMP (Descriptive And Meaningful Phrases), not DRY: a reader should understand
 each test top to bottom without jumping to its helpers. See "Tests and Code Sharing:

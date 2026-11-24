@@ -3,8 +3,6 @@ name: review-duplication
 description: Review a diff for code that duplicates itself or code already in the repo. Use when asked to review duplication.
 ---
 
-# Review Duplication
-
 ## Steps
 
 1. List the source files changed in `origin/<base>...HEAD`. Base is the argument, else the default branch. None: reply "none" and stop.

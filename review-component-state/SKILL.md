@@ -3,8 +3,6 @@ name: review-component-state
 description: Review frontend components for state held at the wrong altitude and components that should be presentational. Use when the user asks to review component state or data flow.
 ---
 
-# Review Component State
-
 ## Steps
 
 1. Pick the components the user names. Otherwise, pick the frontend components
