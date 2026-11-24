@@ -3,8 +3,6 @@ name: review-clean-code
 description: Review a diff for readability and maintainability against general clean code rules and the project's conventions. Use when asked to review clean code.
 ---
 
-# Review Clean Code
-
 ## Steps
 
 1. List the source files changed in `origin/<base>...HEAD`. Base is the argument, else the default branch. None: reply "none" and stop.

@@ -4,8 +4,6 @@ description: Merge the base branch into the current branch, resolve conflicts, a
 model: sonnet
 ---
 
-# Sync Branch
-
 The argument is the base branch (e.g. `main`). With none, use the PR's base (`gh pr view --json baseRefName`), else the repo's default branch.
 
 1. `git fetch origin`, then `git merge origin/<base>`. If nothing changed, report `Up To Date` and stop. If it merged cleanly, skip to step 4.

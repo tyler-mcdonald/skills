@@ -4,8 +4,6 @@ description: Measure where a skill's tokens go across its recent runs. Use when 
 disable-model-invocation: true
 ---
 
-# Skill Cost
-
 Args: `<skill> [N]`. N defaults to 3. Read-only — never edit the measured skill.
 
 1. Find runs

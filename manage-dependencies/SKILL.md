@@ -4,8 +4,6 @@ description: Bump a dependency or fix an audit in a separate PR off the default 
 model: sonnet
 ---
 
-# Manage Dependencies
-
 Dependency changes always get their own PR off the default branch. Never commit them onto a feature branch, even when that branch's audit check is what failed.
 
 1. Invoke `setup-worktree` with a short title (e.g. "Bump certifi for GHSA-xxxx"). Stay in that worktree for every step.
