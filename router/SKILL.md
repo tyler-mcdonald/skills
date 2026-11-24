@@ -3,9 +3,11 @@ name: router
 description: Route a new chat's first message to the right workflow. Use on the first message of every chat.
 ---
 
-Pick one route from the first message, say it in one line, then follow it:
+## Routes
 
-- **Plan an issue** — a new bug report, bug fix, idea, or proposal, or a request to plan an issue: invoke `plan-issue`. Don't write the issue until the user approves it.
+[Resolve the repo](#resolve-the-repo), pick one route from the first message, say it in one line, then follow it:
+
+- **Plan an issue** — a new bug report, bug fix, idea, or proposal, or a request to plan an issue: invoke `plan-issue`.
 - **Implement an issue** — the change has a GitHub issue: invoke `orchestrator`.
 - **Run a PR** — "run" with a PR URL: invoke `run` to run the app locally from that PR's branch.
 - **Dependency update** — bump a dependency or fix an audit (pip-audit, npm audit, an advisory): invoke `manage-dependencies`.
@@ -24,7 +26,15 @@ If none match, ask which repo. Work from that repo's local checkout.
 
 ## Direct change
 
-1. Invoke `setup-worktree` with a short title for the change. Stay in that worktree for every step.
-2. Make the change and run the project's checks (tests, lint).
-3. Commit, `git push -u origin HEAD`, and open the PR with the `open-pr` skill.
-4. Return the PR URL.
+1. Setup
+   - Invoke `setup-worktree` with a short title for the change.
+   - Stay in that worktree for every step.
+
+2. Change
+   - Make the change.
+   - Run the project's checks (tests, lint).
+
+3. Ship
+   - Commit and `git push -u origin HEAD`.
+   - Open the PR with the `open-pr` skill.
+   - Return the PR URL.
