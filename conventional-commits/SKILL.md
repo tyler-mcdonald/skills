@@ -12,12 +12,13 @@ Reference: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
 * `feat: new feature`
 * `fix(scope): bug in scope`
 * `feat!: breaking change` / `feat(scope)!: rework API`
-* `chore(deps): update dependencies`
+* `build(deps): update dependencies`
+* `build(docker): rebuild images only on dep changes`
 
 ## Commit types
-* `build`: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+* `build`: Changes that affect the build system or external dependencies, including Docker, compose and Makefiles (example scopes: docker, deps, npm)
 * `ci`: Changes to CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
-* **`chore`: Changes which doesn't change source code or tests e.g. changes to the build process, auxiliary tools, libraries**
+* `chore`: Changes which doesn't change source code or tests e.g. auxiliary tools, libraries
 * `docs`: Documentation only changes
 * **`feat`: A new feature**
 * **`fix`: A bug fix**
