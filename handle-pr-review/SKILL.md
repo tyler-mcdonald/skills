@@ -4,7 +4,7 @@ description: Address and reply to PR review comments, from people or review bots
 context: fork
 ---
 
-1. Find the PR: use the argument (number or URL) if given, otherwise the current branch's PR (`gh pr view`). Note its number `<n>` and `<owner>/<repo>` from its URL. Pull the branch so the code matches what was reviewed.
+1. Find the PR: use the argument (number or URL) if given, otherwise the current branch's PR (`gh pr view`). Note its number `<n>` and `<owner>/<repo>` from its URL. Pull the branch, then invoke `sync-branch`. If it reports `Needs Decision`, keep going and mention it in the report.
 
 2. Fetch the threads that need handling — unresolved, and not last replied to by Claude:
 
