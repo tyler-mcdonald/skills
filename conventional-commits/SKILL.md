@@ -18,7 +18,7 @@ Reference: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
 ## Commit types
 * **`build`: Changes that affect the build system or external dependencies, including Docker, compose and Makefiles (example scopes: docker, deps, npm)**
 * `ci`: Changes to CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
-* `chore`: Last resort for changes no other type fits
+* **`chore`: Changes which doesn't change source code or tests e.g. auxiliary tools, libraries**
 * `docs`: Documentation only changes
 * **`feat`: A new feature**
 * **`fix`: A bug fix**
@@ -29,6 +29,5 @@ Reference: https://gist.github.com/Zekfad/f51cb06ac76e2457f11c80ed705c95a3
 * `test`: Adding missing tests or correcting existing tests
 
 ## Reminders
-* Scope names the part of the codebase or tool changed (`web`, `backend`, `docker`), not the audience
 * Put newline before extended commit body
 * More details at **[conventionalcommits.org](https://www.conventionalcommits.org/)**
