@@ -36,7 +36,7 @@ Leave out a section with nothing in it. Use only these plain-text labels, no hea
 
 2. Get approval
    - Show the title and body as a `diff` code block against the current issue text (all additions for a new issue), and ask for approval in the same message.
-   - After each revision, show a diff against the previous draft and ask again.
+   - After each revision, show the full diff against the current issue text and ask again.
 
 3. Post it
    - For an existing issue, use `gh issue edit <ref> --body-file <file>`, keeping any existing body text above yours.
