@@ -52,15 +52,12 @@ model: sonnet
    8. Read the triggered bot's row in `trigger-bot-review/review-bots.md`. If its "Done when" is `Unknown`, stop here.
    9. Run the bot wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
 
-6. Hand off to CI
+6. Handle bot review
 
    One pass only — don't re-trigger the bot or CI.
 
    1. Run the thread check. If it prints `[]`, go to Report.
-   2. If no file in `.github/workflows/` calls `tyler-mcdonald/agent-workflows/.github/workflows/handle-review.yml`, stop here and report that the bot's threads need handling by hand.
-   3. `gh pr comment <pr> --body "@claude"`.
-   4. Run the thread wait in the background and wait for it to exit. If it prints anything other than `done`, stop here.
-   5. `git pull` so the worktree matches the PR.
+   2. Invoke `handle-pr-review` with the PR number, handling only `<bot login>`'s threads.
 
 7. Report
    - Keep it brief: where it stopped and why, or the final score, plus the refine findings applied and rejected, any split PRs' full URLs, the bot outcome, the CI outcome, and the PR's full URL.
@@ -74,14 +71,6 @@ model: sonnet
 `<skill dir>` is this skill's base directory. Prints a JSON array of the unresolved review threads the bot opened that have no reply from Claude; `[]` means there are none. `<bot login>` is the login `trigger-bot-review` replied with.
 
 If it exits non-zero or prints anything other than a JSON array, the check failed, which is not an empty result: stop there.
-
-## Thread wait
-
-```sh
-<skill dir>/await_threads_handled.py <pr> "<bot login>" <owner>/<repo>
-```
-
-Reruns the thread check once a minute for up to 35 minutes, and prints `done` once it finds no unhandled threads, or `timeout` if it never does. Exits non-zero if the first check fails. Always run it with `run_in_background`.
 
 ## Bot wait
 
