@@ -26,6 +26,7 @@ context: fork
 3. Handle threads
    - Check each comment against the actual code.
    - Make the change, or answer the question or push back with the reason, leaving the code alone.
+   - A follow-up may or may not need a code change.
    - If you're unsure what the reviewer wants, reply with a clarifying question and leave the code alone.
 
 4. Commit and push
